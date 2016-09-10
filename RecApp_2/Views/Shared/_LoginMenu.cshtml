@@ -1,0 +1,94 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "container" }))
+    {
+        
+        <br />
+        @Html.AntiForgeryToken()
+        <div class="container">
+            <div class="row">
+
+                <div class="col-xs-18 col-sm-4 col-md-3">
+                    <div class="productbox">
+                        <div class="imgthumb img-responsive">
+                            <img id="records" alt="Logo" src="~/Images/calendario.jpeg" />
+                        </div>
+                        <div class="caption">
+                            <a href="@Url.Action("Index","Calendar")" class="btn btn-primary" style="width:100%;"> <h4>Citas</h4></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-18 col-sm-4 col-md-3">
+                    <div class="productbox">
+                        <div class="imgthumb img-responsive">
+                            <img id="records" alt="Logo" src="~/Images/expedientes.jpg" />
+                        </div>
+                        <div class="caption">
+
+                            <a href="@Url.Action("Index","Calendar")" class="btn btn-primary" style="width:100%;"> <h4>Expedientes</h4></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-18 col-sm-4 col-md-3">
+                    <div class="productbox">
+                        <div class="imgthumb img-responsive">
+                            <img id="records" alt="Logo" src="~/Images/cobros.jpg" />
+                        </div>
+                        <div class="caption">
+
+                            <a href="@Url.Action("Index","Calendar")" class="btn btn-primary" style="width:100%;"> <h4>Cobros</h4></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xs-18 col-sm-4 col-md-3">
+                    <div class="productbox">
+                        <div class="imgthumb img-responsive">
+                            <img id="records" alt="Logo" src="~/Images/mantenimiento.jpg" />
+                        </div>
+                        <div class="caption">
+
+                            <a href="@Url.Action("Index","Calendar")" class="btn btn-primary" style="width:100%;"> <h4>Mantenimientos</h4></a>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+    }
+}
+else
+{
+
+    <div class="jumbotron">
+        <img src="@Url.Content("~/Images/Logo_Hilda-Vilchez.png")" style="width:50%; height:50%;" alt="IMAGES" />
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="col-md-4">
+                <h2>Bienvenido</h2>
+                <p>
+                    El sistema RecApp está diseñado para facilitar el control y la productividad de sus expedientes y citas mediante la unificación
+                    de procesos, de forma eficiente y eficaz.
+                </p>
+                <p>
+                    <a class="btn btn-info" href="@Url.Action("Login","Account")">Inicie sesión</a>
+                    <a class="btn btn-info" href="@Url.Action("Register","Account")">Regístrese</a>
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+}
+

@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title RecApp</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/scripts")
+    @using MvcSiteMapProvider.Web.Html
+
+    @*<link href="~/Content/fullcalendar.css" rel="stylesheet" />
+        @*<link href="~/Content/fullcalendar.min.css" rel="stylesheet" />*@
+    @*<script src="~/Scripts/fullcalendar.js"></script>*@
+
+    @*<link href="~/Content/fullcalendar.css" rel="stylesheet" />
+        <script src="~/Scripts/moment.min.js"></script>
+        <script src="~/Scripts/fullcalendar.js"></script>
+        <script src="~/Scripts/lang-all.js"></script>*@
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand img img-rounded" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
+                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+
+        </div>
+    </div>
+    <div class="container body-content ">
+
+        <div class="col-md-12">
+            @if (Request.IsAuthenticated)
+            {
+                <div class="breadcrumb">
+                    <strong> Usted se encuentra aquí: <u>@Html.MvcSiteMap().SiteMapPath()</u> </strong>
+                </div>
+            }
+           
+            @RenderBody()
+
+        </div>
+
+        <footer class="nav navbar-fixed-bottom text-right" style="margin-right:15px;">
+            <hr />
+            <p>&copy; @DateTime.Now.Year - RecApp Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+
+
+    @*@Scripts.Render("~/bundles/modernizr")*@
+    @*@Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @Scripts.Render("~/bundles/fullcalendar")
+        @RenderSection("scripts", required: false)*@
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

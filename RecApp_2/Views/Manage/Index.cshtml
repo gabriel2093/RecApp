@@ -1,0 +1,87 @@
+﻿@model RecApp_2.Models.IndexViewModel
+@{
+    ViewBag.Title = "Gestionar datos de mi cuenta";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+
+    <hr />
+    <table class="table table-responsive table-bordered">
+        <tr>
+            <td style="width:200px;">Contraseña</td>
+            <td></td>
+            <td>
+
+                @if (Model.HasPassword)
+            {
+                    @Html.ActionLink("Cambiar", "ChangePassword", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+                }
+                else
+                {
+                    @Html.ActionLink("Crear", "SetPassword", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+
+                }
+
+            </td>
+        </tr>
+        <tr>
+            <td>Inicios de sesión externos</td>
+            <td>@Model.Logins.Count</td>
+            <td>
+                
+                @Html.ActionLink("Administrar", "ManageLogins", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+
+            </td>
+
+        </tr>
+        <tr>
+            <td>Número de teléfono</td>
+            <td>
+                @(Model.PhoneNumber ?? "Ninguno")
+            </td>
+            <td>
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Cambiar", "AddPhoneNumber", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Quitar", "RemovePhoneNumber", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+                }
+                else
+                {
+                    @Html.ActionLink("Agregar", "AddPhoneNumber", null, new { @class = "btn btn-info glyphicon glyphicon-edit" })
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>Autenticación de dos factores</td>
+            <td></td>
+            <td>
+
+                @if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Habilitado
+                            <input type="submit" value="Deshabilitar" class="btn btn-info" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Deshabilitado
+                            <input type="submit" value="Habilitar" class="btn btn-info" />
+                        </text>
+                    }
+                }
+            </td>
+        </tr>
+    </table>
+
+</div>

@@ -1,0 +1,426 @@
+﻿@{
+    ViewBag.Title = "Calendario de Citas RecApp";
+}
+
+@Styles.Render("~/Content/fullcalendar.min.css")
+<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+<br /><br />
+<div class="container">
+
+    <label id="Mensajes"></label>
+    <br />
+    <div id="calendar" style="width:100%"></div>
+    <script type="text/javascript">
+        //Configuración de los parametros del calendario de citas
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
+                },
+                allDaySlot: false,
+                editable: true,
+                weekends: true,
+                minTime: '08:00:00',
+                maxTime: '18:00:00',
+                slotEventOverlap: false,
+                fixedWeekCount: false,
+                weekNumbers: true,
+                axisFormat: 'HH:mm',
+                nowIndicator: true,
+                selectOverlap: true,
+                timeFormat: {
+                    agenda: 'HH:mm'
+                },
+                businessHours: [
+                 {
+                     dow: [1, 2, 3, 4, 5],
+                     start: '08:00',
+                     end: '18:00'
+                 },
+                 {
+                     dow: [6],
+                     start: '08:00',
+                     end: '14:00'
+                 }
+                ],
+                selectConstraint: true,
+                height: 500,
+                eventLimit: true,
+                views: {
+                    agenda: {
+                        eventLimit: 6
+                    }
+                },
+                //select: function (start, end, jsEvent, view) {
+                //    if (moment().diff(start, 'days') > 0) {
+                //        $('#calendar').fullCalendar('unselect');
+                //        // or display some sort of alert
+                //        $("#FechaInvalida").modal("show");
+                //    }
+                //},
+
+                hiddenDays: [0],
+                lang: 'es',
+                eventLimit: true,
+                events: '/Calendar/GetDiaryEvents/',
+                themeButtonIcons: {
+                    prev: 'fa fa-caret-left',
+                    next: 'fa fa-caret-right',
+                },
+                dayClick: function (date, allDay, jsEvent, view) {
+                    var now = new moment().format('DD/MM/YYYY HH:mm');                    
+                    var dateEvent = moment(date).format('DD/MM/YYYY HH:mm');
+                    var HourDateEvent = moment().format('LL');
+
+                    var day  = moment().format('dddd');
+                    var GetView = $('#calendar').fullCalendar('getView');
+                    if (dateEvent < now || GetView.name == 'month' || (day == 'Saturday') && HourDateEvent < '14:00') {
+                        $("#FechaInvalida").modal("show");
+                    }
+                    else {
+                        $('#eventTitle').val("");
+                        $('#eventDate').val(moment(date).format('DD/MM/YYYY'));
+                        $('#eventTime').val(moment(date).format('HH:mm'));
+                        $('#btnGuardarCita').hide();
+                        $("#popupEventForm1").modal("show");
+                    }
+
+                },
+
+                eventDrop: function (event, delta, revertFunc) {
+                    if (moment().diff(event.start, 'days') > 0) {
+                       // $('#calendar').fullCalendar('unselect');
+                        // or display some sort of alert
+                        $("#FechaInvalida").modal("show");
+                        revertFunc();
+                    } else {
+                        if (confirm("¿Desea mover la cita de " + event.title + " a las: " + moment(event.start).format('HH:mm'))) {
+                            UpdateEvent(event.id, event.start, event.end);
+                        } else {
+
+                            revertFunc();
+                        }
+                    }
+
+
+                },
+
+                eventResize: function (event, delta, revertFunc) {
+                    if (confirm("¿Desea expadir el tiempo de duración de la cita?")) {
+                        UpdateEvent(event.id, event.start, event.end);
+                    }
+                    else {
+                        revertFunc();
+                    }
+                },
+
+                eventClick: function (calEvent, jsEvent, view) {
+
+                    $('#modalTitle').html("Cita " + calEvent.id);
+                    $('#eventID').val(calEvent.id);
+                    $('#modalBody').html('<strong>' + calEvent.title + '</strong><br /><strong>Inicio:</strong>' + moment(calEvent.start).format('HH:mm') + '<br /><strong>Final:</strong>' + moment(calEvent.end).format('HH:mm') + '<br />');
+                    $('#fullCalModal').modal();
+                }
+
+            });
+
+
+        });
+
+        //Función limpiar datos al cancelar crear cita
+        $(function () {
+            $('#btnPopupCancel').click(function () {
+                ClearPopupFormValues();
+                $('#popupEventForm1').modal('hide');
+            });
+        });
+
+        //Función crear cita
+        $(function () {
+            $('#btnGuardarCita').click(function () {
+
+                $('#popupEventForm1').modal('hide');
+
+                var dataRow = {
+                    'Title': $('#eventTitle').val(),
+                    'NewEventDate': $('#eventDate').val(),
+                    'NewEventTime': $('#eventTime').val(),
+                    'NewEventDuration': $('#eventDuration').val()
+                }
+
+                ClearPopupFormValues();
+
+                $.ajax({
+                    type: 'POST',
+                    url: "/Calendar/SaveEvent",
+                    data: dataRow,
+                    success: function (response) {
+                        if (response == 'True') {
+                            $('#calendar').fullCalendar('refetchEvents');
+                            alert('Cita guardada correctamente');
+                            ClearPopupFormValues();
+                        }
+                        else {
+                            alert('Ocurrió un error al guardar la cita');
+                        }
+                    }
+                });
+            });
+        });
+
+        //Función validar campos
+        function CheckInfo() {
+            // the example input can be like this..
+            var title = $('#eventTitle').val();
+            var duration = $('#eventDuration').val();
+            if (title == "" || duration == "") {
+                $('#btnGuardarCita').hide();
+            } else {
+                $('#btnGuardarCita').show();
+            }
+        };
+
+        //Función modal confirmar borrado
+        $(function () {
+            $("#btnPopupDelete").on('click', function () {
+                $('#confirm').modal({ keyboard: false }).show();
+            });
+        });
+
+        //Función click borrar cita
+        $(function () {
+            $("#btnDeleteEvent").on('click', function () {
+                DeleteEvent();
+
+            });
+        });
+
+        //Función limpiar datos modal nueva cita
+        function ClearPopupFormValues() {
+            $('#eventID').val("");
+            $('#eventTitle').val("");
+            $('#eventDateTime').val("");
+            $('#eventDuration').val("");
+            $('.field-validation-error').text("");
+        }
+
+        //Función borrar cita
+        function DeleteEvent() {
+            var dataRow = {
+                'ID': $('#eventID').val(),
+            }
+            $.ajax({
+                url: "/Calendar/DeleteEvent",
+                data: dataRow,
+                type: "POST",
+                success: function (json) {
+                    $('#confirm').modal('hide');
+                    $('#fullCalModal').modal('hide');
+                    $('#Mensajes').val(json);
+                    $('#calendar').fullCalendar('refetchEvents');
+                }
+
+            }
+                 )
+        }
+
+        //Función actualizar  cita
+        function UpdateEvent(EventID, EventStart, EventEnd) {
+
+            var dataRow = {
+                'ID': EventID,
+                'NewEventStart': EventStart,
+                'NewEventEnd': EventEnd
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: "/Calendar/UpdateEvent",
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify(dataRow)
+            });
+        }
+
+
+        //Función autocompletar busqueda paciente
+
+        $(function () {
+            $("#eventTitle").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: "/Calendar/getData",
+                        type: "POST",
+                        dataType: "json",
+                        data: { term: request.term },
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return { value: item.tvid, label: item.agentName };
+                            }))
+                        }
+                    })
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            });
+        });
+    </script>
+
+</div>
+
+
+<br /><br /><br /><br />
+
+
+@* Modal crear nueva cita *@
+@model Rec_App_2.Models.DiaryEvent
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div id="popupEventForm1" class="modal fade">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title" id="myModalLabel">Nueva cita</h3>
+                </div>
+
+
+                <div class="modal-body">
+
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"
+                                   for="eventTitle">@Html.DisplayNameFor(model => model.title)</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", @id = "eventTitle", @onkeyup = "CheckInfo()" } })
+                                    @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
+                                </div>
+                                <input name="BossId" id="BossId" type="hidden"
+                                       value="4" data-val-required="The BossId field is required."
+                                       data-val-number="The field BossId must be a number." data-val="true">
+                                <span class="field-validation-valid"
+                                      data-valmsg-replace="true" data-valmsg-for="BossLastName"></span>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label"
+                                       for="eventTitle">@Html.DisplayNameFor(model => model.start)</label>
+                                    <div class="col-sm-10">
+
+                                        @Html.EditorFor(model => model.start, new { htmlAttributes = new { @class = "form-control", @id = "eventDate", @readonly = "readonly", @placeholder = "Nombre del paciente"} })
+                                        @Html.ValidationMessageFor(model => model.start, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label"
+                                           for="eventTitle">@Html.DisplayNameFor(model => model.Hour)</label>
+                                        <div class="col-sm-10">
+                                            @Html.EditorFor(model => model.Hour, "{0:hh\\:mm}", new { htmlAttributes = new { @class = "form-control", @id = "eventTime", @readonly = "readonly" } })
+                                            @Html.ValidationMessageFor(model => model.Hour, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label"
+                                               for="eventTitle">@Html.DisplayNameFor(model => model.AppointmentLength)</label>
+                                            <div class="col-sm-10">
+                                                @Html.EditorFor(model => model.AppointmentLength, new { htmlAttributes = new { @class = "form-control", @id = "eventDuration", @onkeyup = "CheckInfo()" } })
+                                                @Html.ValidationMessageFor(model => model.AppointmentLength, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+
+
+
+
+
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-danger" id="btnPopupCancel" data-dismiss="modal">Cancelar</button>
+                                        <input class="btn btn-primary" type="submit" id="btnGuardarCita" value="Guardar" />
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+}
+@* Modal de fecha inválida o vista inválida *@
+<div id="FechaInvalida" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Atención</h2></div>
+            <div class="modal-body">
+                Elija una vista y una fecha válida para crear una cita.
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal para detalle de cita *@
+<div id="fullCalModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span> <span class="sr-only">Cerrar</span></button>
+                <h4 id="modalTitle" class="modal-title"></h4>
+                <h4 id="eventID" class="modal-title"></h4>
+            </div>
+            <div id="modalBody" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnPopupDelete" class="btn btn-danger">Eliminar cita</button>
+                <button id="btnPopupCancelDetails" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Modal para confirmar borrado de cita *@
+<div id="confirm" class="modal fade">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header"><h3>Atención</h3></div>
+            <div class="modal-body">
+                ¿Está seguro que desea eliminar la cita?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" id="btnDeleteEvent">Eliminar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+@Scripts.Render("~/Scripts/moment.min.js")
+@Scripts.Render("~/Scripts/fullcalendar.min.js")
+@Scripts.Render("~/Scripts/lang-all.js")
+
+@Scripts.Render("~/Scripts/jquery.validate.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
+@Scripts.Render("~/Scripts/jquery.validate.date.js")
+
+
+
+
+
+
+
+
+
