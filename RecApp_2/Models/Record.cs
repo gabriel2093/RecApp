@@ -35,7 +35,7 @@ namespace RecApp_2.Models
         [Display(Name = "Fecha de nacimiento")]
         public DateTime FechaNacimiento { get; set; }
 
-        //[Required(ErrorMessage = "Campo requerido*")]
+        
         //[DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]
         [Display(Name = "Edad")]
