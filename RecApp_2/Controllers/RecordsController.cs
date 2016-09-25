@@ -13,7 +13,7 @@ namespace RecApp_2.Controllers
 {
     public class RecordsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private RecordsContext db = new RecordsContext();
 
         // GET: Records
         public async Task<ActionResult> Index()
@@ -39,7 +39,13 @@ namespace RecApp_2.Controllers
         // GET: Records/Create
         public ActionResult Create()
         {
+            //List<CivilStatus> List = new List<CivilStatus>();
+            //List = db.Civil_Status.ToList();
+            //Record model = new Record();
+            //model.DropDownListEstadoCivil = new SelectList(List, "Id", "Descripcion", 1);
+            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion");
             return View();
+            
         }
 
         // POST: Records/Create
@@ -47,7 +53,7 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,Otros,AnomaliasAnestesia,Embarazo,Lactancia")] Record record)
+        public async Task<ActionResult> Create([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,AnomaliasAnestesia,Embarazo,Lactancia,Otros")] Record record)
         {
             if (ModelState.IsValid)
             {
@@ -71,6 +77,7 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion", record.IdEstadoCivil);
             return View(record);
         }
 
@@ -79,7 +86,7 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,Otros,AnomaliasAnestesia,Embarazo,Lactancia")] Record record)
+        public async Task<ActionResult> Edit([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,AnomaliasAnestesia,Embarazo,Lactancia,Otros")] Record record)
         {
             if (ModelState.IsValid)
             {
