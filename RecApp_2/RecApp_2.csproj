@@ -221,11 +221,8 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PatientModel.cs" />
     <Compile Include="Models\Record.cs" />
-<<<<<<< HEAD
     <Compile Include="Models\Tratamiento.cs" />
-=======
     <Compile Include="Models\RecordsContext.cs" />
->>>>>>> andres
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared.cs" />
