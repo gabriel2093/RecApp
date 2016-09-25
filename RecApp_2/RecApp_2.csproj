@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
+    <Compile Include="Controllers\TratamientoesController.cs" />
     <Compile Include="Diary.Context1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -220,6 +221,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PatientModel.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Tratamiento.cs" />
     <Compile Include="Models\RecordsContext.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -227,6 +229,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\accordion.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -635,6 +638,12 @@
     <Content Include="Views\Records\Details.cshtml" />
     <Content Include="Views\Records\Edit.cshtml" />
     <Content Include="Views\Records\Index.cshtml" />
+    <Content Include="Views\Tratamientoes\Create.cshtml" />
+    <Content Include="Views\Tratamientoes\Delete.cshtml" />
+    <Content Include="Views\Tratamientoes\Details.cshtml" />
+    <Content Include="Views\Tratamientoes\Edit.cshtml" />
+    <Content Include="Views\Tratamientoes\Index.cshtml" />
+    <Content Include="Views\Home\Mantenimientos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

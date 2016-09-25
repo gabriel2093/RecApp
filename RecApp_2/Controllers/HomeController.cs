@@ -16,14 +16,21 @@ namespace RecApp_2.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
+            //ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
+
+            return View();
+        }
+
+        public ActionResult Mantenimientos()
+        {
+            //ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
+            //ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
 
             return View();
         }

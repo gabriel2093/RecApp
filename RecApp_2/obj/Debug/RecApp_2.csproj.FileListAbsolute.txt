@@ -418,3 +418,4 @@ C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\es\Microsoft.Owin.Security.Twitter.res
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.dll
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.pdb
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache

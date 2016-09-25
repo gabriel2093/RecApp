@@ -3878,8 +3878,8 @@ fieldset[disabled] a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #337ab7;
-    border-color: #2e6da4;
+    background-color: #46a9be;
+    border-color: #46a9be;
 }
 
     .btn-primary:focus,
@@ -6696,7 +6696,7 @@ button.list-group-item-danger {
 
 .panel-footer {
     padding: 10px 15px;
-    background-color: #f5f5f5;
+    background-color: #fff;
     border-top: 1px solid #ddd;
     border-bottom-right-radius: 3px;
     border-bottom-left-radius: 3px;
@@ -6953,13 +6953,13 @@ button.list-group-item-danger {
     }
 
 .panel-primary {
-    border-color: #337ab7;
+    border-color: #46a9be;
 }
 
     .panel-primary > .panel-heading {
         color: #fff;
-        background-color: #337ab7;
-        border-color: #337ab7;
+        background-color: #46a9be;
+        border-color: #46a9be;
     }
 
         .panel-primary > .panel-heading + .panel-collapse > .panel-body {
@@ -6972,7 +6972,7 @@ button.list-group-item-danger {
         }
 
     .panel-primary > .panel-footer + .panel-collapse > .panel-body {
-        border-bottom-color: #337ab7;
+        border-bottom-color: #46a9be;
     }
 
 .panel-success {
