@@ -189,6 +189,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CivilStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
@@ -212,12 +213,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CivilStatContext.cs" />
+    <Compile Include="Models\CivilStatus.cs" />
     <Compile Include="Models\DiaryEvents.cs" />
-    <Compile Include="Models\EstadoCivil.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PatientModel.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\RecordsContext.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared.cs" />
@@ -622,6 +625,11 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
+    <Content Include="Views\CivilStatus\Create.cshtml" />
+    <Content Include="Views\CivilStatus\Delete.cshtml" />
+    <Content Include="Views\CivilStatus\Details.cshtml" />
+    <Content Include="Views\CivilStatus\Edit.cshtml" />
+    <Content Include="Views\CivilStatus\Index.cshtml" />
     <Content Include="Views\Records\Create.cshtml" />
     <Content Include="Views\Records\Delete.cshtml" />
     <Content Include="Views\Records\Details.cshtml" />

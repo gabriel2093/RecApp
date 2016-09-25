@@ -6,16 +6,14 @@ using System.Web;
 
 namespace RecApp_2.Models
 {
-    public class EstadoCivil
+    public class CivilStatus
     {
-        public int id;
 
+        public int Id { get; set; }
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Nombre")]
-        public string Nombre { set; get; }
+        public string Descripcion { get; set; }
 
 
     }
-
-  
 }

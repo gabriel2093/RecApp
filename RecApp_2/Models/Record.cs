@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecApp_2.Models
 {
@@ -60,6 +61,8 @@ namespace RecApp_2.Models
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Estado civil")]
         public  int IdEstadoCivil { get; set; }
+       
+
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]
@@ -89,74 +92,74 @@ namespace RecApp_2.Models
 
         //Condiciones Medicas
         [Display(Name = "Esta bajo tratamiento médico")]
-        public int TratamientoMedico { get; set; }
+        public bool TratamientoMedico { get; set; }
         
         [Display(Name = "Toma algún medicamento")]
-        public int Medicamento { get; set; }
+        public bool Medicamento { get; set; }
 
         [Display(Name = "Diabetes Mellitus")]
-        public int Diabetes { get; set; }
+        public bool Diabetes { get; set; }
 
         [Display(Name = "Artritis")]
-        public int Artritis{ get; set; }
+        public bool Artritis{ get; set; }
 
         [Display(Name = "Enfermedades cardiacas")]
-        public int EnfermedadCardiaca { get; set; }
+        public bool EnfermedadCardiaca { get; set; }
 
         [Display(Name = "Hepatitis")]
-        public int Hepatitis { get; set; }
+        public bool Hepatitis { get; set; }
 
         [Display(Name = "Fiebre reumática")]
-        public int FiebreReumatica { get; set; }
+        public bool FiebreReumatica { get; set; }
 
         [Display(Name = "Úlceras")]
-        public int Ulcera { get; set; }
+        public bool Ulcera { get; set; }
 
         [Display(Name = "Presión arterial alta")]
-        public int PresionAlta { get; set; }
+        public bool PresionAlta { get; set; }
 
         [Display(Name = "Presión arterial baja")]
-        public int PresionBaja { get; set; }
+        public bool PresionBaja { get; set; }
 
         [Display(Name = "Enfermedades Nerviosas")]
-        public int EnfermedadesNerviosas { get; set; }
+        public bool EnfermedadesNerviosas { get; set; }
 
 
         [Display(Name = "Otras Enfermedades")]
-        public int OtrasEnfermedades { get; set; }
+        public bool OtrasEnfermedades { get; set; }
 
 
         [Display(Name = "Sangrado prolongado")]
-        public int SangradoProlongado { get; set; }
+        public bool SangradoProlongado { get; set; }
 
       
         [Display(Name = "Desmayos")]
-        public int Desmayos { get; set; }
+        public bool Desmayos { get; set; }
 
         [Display(Name = "Intervención Quirúrgica")]
-        public int IntervencionQuirurgica { get; set; }
+        public bool IntervencionQuirurgica { get; set; }
 
 
         [Display(Name = "Aspirina")]
-        public int Aspirina { get; set; }
+        public bool Aspirina { get; set; }
 
         [Display(Name = "Sulfas")]
-        public int Sulfas { get; set; }
+        public bool Sulfas { get; set; }
 
         [Display(Name = "Penicilina")]
-        public int Penicilina { get; set; }
-
-        [Display(Name = "Otros")]
-        public int Otros { get; set; }
+        public bool Penicilina { get; set; }     
 
         [Display(Name = "Anomalías con anestesia dental")]
-        public int AnomaliasAnestesia { get; set; }
+        public bool AnomaliasAnestesia { get; set; }
 
         [Display(Name = "Está embaraza")]
-        public int Embarazo { get; set; }
+        public bool Embarazo { get; set; }
 
         [Display(Name = "Periodo lactancia")]
-        public int Lactancia { get; set; }
+        public bool Lactancia { get; set; }
+
+        [Display(Name = "Otros")]
+        public string Otros { get; set; }
 
     }
 }
