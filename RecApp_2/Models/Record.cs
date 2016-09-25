@@ -34,6 +34,7 @@ namespace RecApp_2.Models
         //[DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida."), DisplayFormat(DataFormatString = "{0:dd.MM.yy}") ]
         [DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida.")]
         [Display(Name = "Fecha de nacimiento")]
+        [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime FechaNacimiento { get; set; }
 
         

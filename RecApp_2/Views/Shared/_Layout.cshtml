@@ -42,7 +42,7 @@
 
         </div>
     </div>
-    <div class="container body-content ">
+    <div class="container">
 
         <div class="col-md-12">
             @if (Request.IsAuthenticated)
@@ -56,10 +56,15 @@
 
         </div>
 
-        <footer class="nav navbar-fixed-bottom text-right" style="margin-right:15px;">
+        <footer>
             <hr />
             <p>&copy; @DateTime.Now.Year - RecApp Todos los derechos reservados.</p>
         </footer>
+        @*<footer class="navbar-fixed-bottom footer">
+            <div class="container">
+                <p class="text-muted">Place sticky footer content here.</p>
+            </div>
+        </footer>*@
     </div>
 
 

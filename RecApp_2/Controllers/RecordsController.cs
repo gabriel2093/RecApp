@@ -33,8 +33,26 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
+            record.Edad =  CalculateAge(record.FechaNacimiento);            
+            record.MenorEdad = CalculateAdult(record.Edad);
             return View(record);
         }
+
+        private int CalculateAdult(int edad)
+        {
+            return edad >= 18 ? 1 : 0;
+        }
+
+        private int CalculateAge(DateTime fechaNacimiento)
+        {
+            DateTime now = DateTime.Today;
+            int age = now.Year - fechaNacimiento.Year;
+            if (fechaNacimiento > now.AddYears(-age)) age--;
+            return age;
+        }
+
+
 
         // GET: Records/Create
         public ActionResult Create()

@@ -5,327 +5,225 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-
-<div>
-    <h4>Record</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Apellido1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido2)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Apellido2)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cedula)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cedula)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaNacimiento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Edad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Edad)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MenorEdad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MenorEdad)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NombreEncargado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NombreEncargado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido1Encargado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Apellido1Encargado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Apellido2Encargado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Apellido2Encargado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IdEstadoCivil)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IdEstadoCivil)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Domicilio)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Domicilio)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Telefono1)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Telefono1)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Telefono2)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Telefono2)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Profesion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Profesion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ContactoEmergencia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContactoEmergencia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TratamientoMedico)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TratamientoMedico)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Medicamento)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Medicamento)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Diabetes)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Diabetes)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Artritis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Artritis)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EnfermedadCardiaca)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EnfermedadCardiaca)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Hepatitis)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Hepatitis)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FiebreReumatica)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FiebreReumatica)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Ulcera)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Ulcera)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PresionAlta)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PresionAlta)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.PresionBaja)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.PresionBaja)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EnfermedadesNerviosas)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EnfermedadesNerviosas)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.OtrasEnfermedades)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.OtrasEnfermedades)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SangradoProlongado)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SangradoProlongado)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Desmayos)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Desmayos)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.IntervencionQuirurgica)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IntervencionQuirurgica)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Aspirina)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Aspirina)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Sulfas)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Sulfas)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Penicilina)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Penicilina)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnomaliasAnestesia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnomaliasAnestesia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Embarazo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Embarazo)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Lactancia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Lactancia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Otros)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Otros)
-        </dd>
-
-    </dl>
+<div class="container col-md-12 center-block">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Detalle del expediente @Html.DisplayFor(model => model.Cedula) </h2>
+        </div>
+        <div class="panel-body">
+            <hr />
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="media">
+                        <a class="pull-left" href="#">
+                            <img class="media-object dp img-circle" src="~/Images/MedicalRecords.png" style="width: 100px;height:100px;">
+                        </a>
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                @Html.DisplayFor(model => model.Nombre)
+                                @Html.DisplayFor(model => model.Apellido1)
+                                @Html.DisplayFor(model => model.Apellido2)
+                            </h4>
+                            <h4>Cédula: @Html.DisplayFor(model => model.Cedula) </h4>
+                            <hr style="margin:8px auto">
+
+                            <span class="label label-info">Correo electrónico: @Html.DisplayFor(model => model.Email)</span>
+                            <span class="label label-default">@Html.DisplayNameFor(model => model.Telefono1): @Html.DisplayFor(model => model.Telefono1)</span>
+                            <span class="label label-default">@Html.DisplayNameFor(model => model.Telefono2): @Html.DisplayFor(model => model.Telefono2)</span>
+                            <span class="label label-default">@Html.DisplayNameFor(model => model.FechaNacimiento):  @Html.DisplayFor(model => model.FechaNacimiento)</span>
+                            <span class="label label-default">@Html.DisplayNameFor(model => model.Edad): @Html.DisplayFor(model => model.Edad)</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-7">
+                    <div class="panel with-nav-tabs panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs">
+                                @if (Model.Edad < 18)
+                                {
+                                    <li class="active"><a href="#tab1default" data-toggle="tab">Datos del Encargado</a></li>
+                                }
+                                <li class="active"><a href="#tab2default" data-toggle="tab">Datos Personales</a></li>                                
+                                <li><a href="#tab4default" data-toggle="tab">Enfermedades del paciente</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                @if (Model.Edad < 18)
+                                {
+                                    <div class="tab-pane fade in active" id="tab1default">
+
+                                        <h3>Datos del Encargado</h3>
+                                        @Html.DisplayNameFor(model => model.MenorEdad)
+                                        @Html.DisplayFor(model => model.MenorEdad)
+                                        @Html.DisplayNameFor(model => model.NombreEncargado)
+                                        @Html.DisplayFor(model => model.NombreEncargado)
+                                        @Html.DisplayNameFor(model => model.Apellido1Encargado)
+                                        @Html.DisplayFor(model => model.Apellido1Encargado)
+                                        @Html.DisplayNameFor(model => model.Apellido2Encargado)
+                                        @Html.DisplayFor(model => model.Apellido2Encargado)
+
+                                    </div>
+                                }
+                                <div class="tab-pane active" id="tab2default">
+                                    <div class="col-md-6">
+                                        <h3>Datos Personales</h3>
+                                        <label>
+                                            @Html.DisplayNameFor(model => model.IdEstadoCivil)
+                                        </label>
+
+                                               @ViewBag.CivilStatus
+                                        <br />
+                                        <label>
+                                            @Html.DisplayNameFor(model => model.Domicilio)
+                                        </label>
+                                        @Html.DisplayFor(model => model.Domicilio)
+                                        <br />
+                                        <label>
+                                            @Html.DisplayNameFor(model => model.Profesion)
+                                        </label>
+                                            @Html.DisplayFor(model => model.Profesion)
+                                        <br />
+                                        <label>
+                                            @Html.DisplayNameFor(model => model.ContactoEmergencia)
+                                        </label>
+                                            @Html.DisplayFor(model => model.ContactoEmergencia)
+                                    </div>
+                                </div>
+                               
+                                <div class="tab-pane fade" id="tab4default">
+                                    <div class="col-md-8 table-responsive">
+                                        <h3>Enfermedades del paciente</h3>
+                                        <table class="table table-responsive table-bordered" style="min-height:300px;">
+
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayNameFor(model => model.TratamientoMedico)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.TratamientoMedico)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayNameFor(model => model.Medicamento)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.Medicamento)
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayNameFor(model => model.Diabetes)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.Diabetes)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayNameFor(model => model.Artritis)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(model => model.Artritis)
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.EnfermedadCardiaca)</td>
+                                                <td>@Html.DisplayFor(model => model.EnfermedadCardiaca)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Hepatitis)</td>
+                                                <td>@Html.DisplayFor(model => model.Hepatitis)</td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.FiebreReumatica)</td>
+                                                <td>@Html.DisplayFor(model => model.FiebreReumatica)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Ulcera)</td>
+                                                <td>@Html.DisplayFor(model => model.Ulcera)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.PresionAlta)</td>
+                                                <td>@Html.DisplayFor(model => model.PresionAlta)</td>
+                                                <td>@Html.DisplayNameFor(model => model.PresionBaja)</td>
+                                                <td>@Html.DisplayFor(model => model.PresionBaja)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.EnfermedadesNerviosas)</td>
+                                                <td>@Html.DisplayFor(model => model.EnfermedadesNerviosas)</td>
+                                                <td>@Html.DisplayNameFor(model => model.OtrasEnfermedades)</td>
+                                                <td>@Html.DisplayFor(model => model.OtrasEnfermedades)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.SangradoProlongado)</td>
+                                                <td>@Html.DisplayFor(model => model.SangradoProlongado)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Desmayos)</td>
+                                                <td>@Html.DisplayFor(model => model.Desmayos)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.IntervencionQuirurgica)</td>
+                                                <td>@Html.DisplayFor(model => model.IntervencionQuirurgica)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Aspirina)</td>
+                                                <td>@Html.DisplayFor(model => model.Aspirina)</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.Sulfas)</td>
+                                                <td>@Html.DisplayFor(model => model.Sulfas)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Penicilina)</td>
+                                                <td>@Html.DisplayFor(model => model.Penicilina)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.AnomaliasAnestesia)</td>
+                                                <td>@Html.DisplayFor(model => model.AnomaliasAnestesia)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Embarazo)</td>
+                                                <td>@Html.DisplayFor(model => model.Embarazo)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>@Html.DisplayNameFor(model => model.Lactancia)</td>
+                                                <td>@Html.DisplayFor(model => model.Lactancia)</td>
+                                                <td>@Html.DisplayNameFor(model => model.Otros)</td>
+                                                <td>@Html.DisplayFor(model => model.Otros)</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </div>
+        <div class="panel-footer">
+            <p>
+                @Html.ActionLink("Editar", "Edit", new { id = Model.id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
+                @Html.ActionLink("Regresar", "Index", null, new { @class = "btn btn-primary " })
+            </p>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
