@@ -27,7 +27,7 @@ namespace RecApp_2.Models
         [Required(ErrorMessage = "Campo requerido*")]
         [DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]
-        [Display(Name = "Cédula de Identidad")]
+        [Display(Name = "Cédula de identidad")]
         public int Cedula { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
@@ -46,16 +46,12 @@ namespace RecApp_2.Models
         [Display(Name = "Menor de edad")]
         public int MenorEdad { get; set; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Encargado")]
         public string NombreEncargado { set; get; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Apellido 1")]
         public string Apellido1Encargado { set; get; }
 
-
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Apellido 2")]
         public string Apellido2Encargado { set; get; }
 
@@ -63,7 +59,6 @@ namespace RecApp_2.Models
         [Display(Name = "Estado civil")]
         public  int IdEstadoCivil { get; set; }
        
-
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]
@@ -80,7 +75,7 @@ namespace RecApp_2.Models
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Profesión")]
         public string Profesion { set; get; }
-
+    
 
         [Required(ErrorMessage = "Campo requerido*")]
         [EmailAddress(ErrorMessage = "Formato de correo incorrecto*")]
@@ -122,11 +117,11 @@ namespace RecApp_2.Models
         [Display(Name = "Presión arterial baja")]
         public bool PresionBaja { get; set; }
 
-        [Display(Name = "Enfermedades Nerviosas")]
+        [Display(Name = "Enfermedades nerviosas")]
         public bool EnfermedadesNerviosas { get; set; }
 
 
-        [Display(Name = "Otras Enfermedades")]
+        [Display(Name = "Otras enfermedades")]
         public bool OtrasEnfermedades { get; set; }
 
 
@@ -137,7 +132,7 @@ namespace RecApp_2.Models
         [Display(Name = "Desmayos")]
         public bool Desmayos { get; set; }
 
-        [Display(Name = "Intervención Quirúrgica")]
+        [Display(Name = "Intervención quirúrgica")]
         public bool IntervencionQuirurgica { get; set; }
 
 
@@ -159,7 +154,7 @@ namespace RecApp_2.Models
         [Display(Name = "Periodo lactancia")]
         public bool Lactancia { get; set; }
 
-        [Display(Name = "Otros")]
+        [Display(Name = "Comentarios")]
         public string Otros { get; set; }
 
     }
