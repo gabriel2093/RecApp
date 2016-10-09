@@ -25,6 +25,7 @@ namespace RecApp_2.Models
         [Display(Name = "Apellido 2")]
         public string Apellido2 { set; get; }
 
+        [Remote("IsUserExists", "Records", AdditionalFields = "Cedula", ErrorMessage = "La cédula que intenta ingresar ya se encuentra registrada.")]
         [Required(ErrorMessage = "Campo requerido*")]
         [DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]

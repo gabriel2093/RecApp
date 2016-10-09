@@ -639,6 +639,12 @@
     <Content Include="Views\Tratamientoes\Index.cshtml" />
     <Content Include="Views\Home\Mantenimientos.cshtml" />
     <Content Include="Web.config" />
+    <Content Include="Views\Records\Odontogram.cshtml" />
+    <Content Include="Views\Validation\Create.cshtml" />
+    <Content Include="Views\Validation\Delete.cshtml" />
+    <Content Include="Views\Validation\Details.cshtml" />
+    <Content Include="Views\Validation\Edit.cshtml" />
+    <Content Include="Views\Validation\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

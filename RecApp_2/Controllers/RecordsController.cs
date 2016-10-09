@@ -72,11 +72,18 @@ namespace RecApp_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,AnomaliasAnestesia,Embarazo,Lactancia,Otros")] Record record)
         {
+            if (IsUserExistsBool(record.Cedula))
+            {
+                ModelState.AddModelError("Cedula","El número de cédula ya se encuentra registrado.");
+            }
+
             if (ModelState.IsValid)
             {
-                db.Records.Add(record);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+               
+                    db.Records.Add(record);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+               
             }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
@@ -142,6 +149,25 @@ namespace RecApp_2.Controllers
             db.Records.Remove(record);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        // GET: Records/Odontogram
+        public ActionResult Odontogram()
+        {           
+            return View();
+
+        }
+
+        public JsonResult IsUserExists(int cedula)
+        {
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return Json(!db.Records.Any(record => record.Cedula == cedula), JsonRequestBehavior.AllowGet);
+        }
+
+        public bool IsUserExistsBool(int cedula)
+        {
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return db.Records.Any(record => record.Cedula == cedula);
         }
 
         protected override void Dispose(bool disposing)

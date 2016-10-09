@@ -120,7 +120,7 @@
                                                         <span class='input-group-addon'>
                                                             <i class='glyphicon glyphicon-pencil'></i>
                                                         </span>
-                                                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control", @maxlength = "9" } })
                                                         @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
@@ -509,7 +509,16 @@
     @*@Scripts.Render("~/bundles/jqueryval")*@
     <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+
     <script>
+        $(document).ready(function () {
+            var input = $('.input-validation-error:first');
+
+            if (input) {
+                input.focus();
+                return false;
+            }
+        });
         $('#btnNext').click(function () {
             $('.nav-tabs > .active').next('li').find('a').trigger('click');
         });
