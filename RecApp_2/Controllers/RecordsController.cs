@@ -34,7 +34,7 @@ namespace RecApp_2.Controllers
                 return HttpNotFound();
             }
             ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
-            record.Edad =  CalculateAge(record.FechaNacimiento);            
+            record.Edad = CalculateAge(record.FechaNacimiento);
             record.MenorEdad = CalculateAdult(record.Edad);
             return View(record);
         }
@@ -56,14 +56,13 @@ namespace RecApp_2.Controllers
 
         // GET: Records/Create
         public ActionResult Create()
-        {
-            //List<CivilStatus> List = new List<CivilStatus>();
-            //List = db.Civil_Status.ToList();
-            //Record model = new Record();
-            //model.DropDownListEstadoCivil = new SelectList(List, "Id", "Descripcion", 1);
-            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion");
-            return View();
-            
+        {          
+            var model = new Record();
+            {
+                model.ListCivilStatus = db.Civil_Status.ToList();
+            }         
+            return View(model);
+
         }
 
         // POST: Records/Create
@@ -80,6 +79,8 @@ namespace RecApp_2.Controllers
                 return RedirectToAction("Index");
             }
 
+            record.ListCivilStatus = db.Civil_Status.ToList();
+
             return View(record);
         }
 
@@ -95,7 +96,8 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion", record.IdEstadoCivil);
+            record.ListCivilStatus = db.Civil_Status.ToList();                        
+                         
             return View(record);
         }
 
@@ -112,6 +114,7 @@ namespace RecApp_2.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            record.ListCivilStatus = db.Civil_Status.ToList();
             return View(record);
         }
 

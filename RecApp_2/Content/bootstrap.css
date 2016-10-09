@@ -3171,9 +3171,11 @@ legend {
 label {
     display: inline-block;
     max-width: 100%;
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
+    margin-top:0px;
     font-weight: bold;
 }
+
 
 input[type="search"] {
     -webkit-box-sizing: border-box;
@@ -3313,7 +3315,7 @@ input[type="search"] {
 }
 
 .form-group {
-    /*margin-bottom: 15px;*/
+    margin-bottom:5px;
 }
 
 .radio,
@@ -3727,7 +3729,7 @@ select[multiple].input-lg {
 
 @media (min-width: 768px) {
     .form-horizontal .control-label {
-        padding-top: 7px;
+        padding-top: 12px;
         margin-bottom: 0;
         text-align: right;
     }
@@ -5935,6 +5937,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     font-weight: bold;
     line-height: 1;
     color: #fff;
+    
     text-align: center;
     white-space: nowrap;
     vertical-align: baseline;

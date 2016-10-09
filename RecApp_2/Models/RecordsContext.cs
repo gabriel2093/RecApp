@@ -19,7 +19,7 @@ namespace RecApp_2.Models
         {
         }
 
-        public System.Data.Entity.DbSet<RecApp_2.Models.Record> Records { get; set; }
+        public DbSet<RecApp_2.Models.Record> Records { get; set; }
         public virtual DbSet<CivilStatus> Civil_Status { get; set; }
     }
 }
