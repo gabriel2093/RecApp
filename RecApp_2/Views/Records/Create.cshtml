@@ -215,86 +215,87 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                         <div class="col-md-12">
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.Domicilio, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                <div class='col-md-8'>
-                                                    <div class='col-md-3 indent-small' style="margin-left:-5px;">
-                                                        <div class='form-group internal input-group'>
-                                                            <span class='input-group-addon'>
-                                                                <i class='glyphicon glyphicon-phone'></i>
-                                                            </span>
-                                                            @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control", @placeholder = "Habitación" } })
-                                                            @Html.ValidationMessageFor(model => model.Domicilio, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class='col-md-3 indent-small'>
-                                                        <div class='form-group internal'>
-
-                                                            @Html.EditorFor(model => model.Telefono1, new { htmlAttributes = new { @class = "form-control", @placeholder = "Teléfono 1" } })
-                                                            @Html.ValidationMessageFor(model => model.Telefono1, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class='col-md-3 indent-small'>
-                                                        <div class='form-group internal'>
-
-                                                            @Html.EditorFor(model => model.Telefono2, new { htmlAttributes = new { @class = "form-control", @placeholder = "Teléfono 2" } })
-                                                            @Html.ValidationMessageFor(model => model.Telefono2, "", new { @class = "text-danger" })
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Profesion, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                @Html.LabelFor(model => model.Domicilio, htmlAttributes: new { @class = "control-label col-md-2" })
                                                 <div class='col-md-6'>
-                                                    <div class='indent-small'>
-                                                        <div class='form-group internal input-group'>
-                                                            <span class='input-group-addon'>
-                                                                <i class='glyphicon glyphicon-user'></i>
-                                                            </span>
-                                                            @Html.EditorFor(model => model.Profesion, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Profesion, "", new { @class = "text-danger" })
-                                                        </div>
+                                                    <div class='form-group internal input-group'>
+                                                        <span class='input-group-addon'>
+                                                            <i class='glyphicon glyphicon-home'></i>
+                                                        </span>
+                                                        @Html.EditorFor(model => model.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Domicilio, "", new { @class = "text-danger" })
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                <div class='col-md-6'>
-                                                    <div class='indent-small'>
-                                                        <div class='form-group internal input-group'>
-                                                            <span class='input-group-addon'>
-                                                                <i class='glyphicon glyphicon-envelope'></i>
-                                                            </span>
-                                                            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                        </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Telefono1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-6">
+                                                        <div class='form-group'>
+                                                            <div class="col-md-6">
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-phone-alt'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Telefono1, new { htmlAttributes = new { @class = "form-control", @placeholder = "casa: xxxx-xxxx" } })
+                                                                @Html.ValidationMessageFor(model => model.Telefono1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-phone'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Telefono2, new { htmlAttributes = new { @class = "form-control", @placeholder = "celular: xxxx-xxxx" } })
+                                                                @Html.ValidationMessageFor(model => model.Telefono2, "", new { @class = "text-danger" })
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group">
-                                                @Html.LabelFor(model => model.ContactoEmergencia, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                <div class='col-md-6'>
-                                                    <div class='indent-small'>
-                                                        <div class='form-group internal input-group'>
-                                                            <span class='input-group-addon'>
-                                                                <i class='glyphicon glyphicon-alert'></i>
-                                                            </span>
-                                                            @Html.EditorFor(model => model.ContactoEmergencia, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.ContactoEmergencia, "", new { @class = "text-danger" })
+                            
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Profesion, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-user'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Profesion, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.Profesion, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-envelope'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.ContactoEmergencia, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-alert'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.ContactoEmergencia, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.ContactoEmergencia, "", new { @class = "text-danger" })
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                                     <a class="btn btn-primary pull-right" href="#tab2default" id="btnNext" data-toggle="tab">Continuar</a>
                                 </div>
@@ -302,7 +303,7 @@
                                 <div class="tab-pane" id="tab2default">
                                     @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
                                     <div class="col-md-12">
-                                        <div class="col-sm-3">
+                                        <div class="col-md-3">
                                             <div class="row">
                                                 @Html.LabelFor(model => model.TratamientoMedico, htmlAttributes: new { @class = "label-custom" })
                                                 <div class="col-md-2">
@@ -370,7 +371,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-md-3">
                                             <div class="row">
                                                 @Html.LabelFor(model => model.PresionAlta, htmlAttributes: new { @class = "label-custom " })
                                                 <div class="col-md-2">
@@ -437,7 +438,7 @@
 
 
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-md-3">
                                             <div class="row">
                                                 @Html.LabelFor(model => model.Sulfas, htmlAttributes: new { @class = "label-custom " })
                                                 <div class="col-md-2">
@@ -480,7 +481,7 @@
 
 
                                         </div>
-                                        <div class="col-sm-3">
+                                        <div class="col-md-3">
                                             <div class="row">
                                                 @Html.LabelFor(model => model.Otros, htmlAttributes: new { @class = "label-custom " })
                                                 <div class="col-md-12">
