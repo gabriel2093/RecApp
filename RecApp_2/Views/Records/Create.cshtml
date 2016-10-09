@@ -5,34 +5,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
+<script src="@Url.Content("~/Scripts/jquery-3.1.0.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<date-util format="dd/MM/yyyy"></date-util>
 <head>
     <!--funcion javascript para mostrar encargado -->
     <script>
         function mostrarEncargado() {
             var fecha = document.getElementById("fechaNacimiento").value;
-
-            var values = fecha.split("/");
-            var dia = values[0];
-            var mes = values[1];
-            var ano = values[2];
+            var values = fecha.split("-");
+            var dia= parseInt(values[2]);
+            var mes = parseInt(values[1]);
+            var ano = parseInt(values[0]);
 
             // cogemos los valores actuales
             var fecha_hoy = new Date();
-            var ahora_ano = fecha_hoy.getYear();
-            var ahora_mes = fecha_hoy.getMonth();
+            var ahora_ano = fecha_hoy.getFullYear();
+            var ahora_mes = fecha_hoy.getMonth()+1;
             var ahora_dia = fecha_hoy.getDate();
 
             // realizamos el calculo
-            var edad = (ahora_ano + 1900) - ano;
-            if (ahora_mes < (mes - 1)) {
+            var edad = ahora_ano -  ano;
+            if (ahora_mes < (mes)) {
                 edad--;
             }
-            if (((mes - 1) == ahora_mes) && (ahora_dia < dia)) {
+            if (((mes) == ahora_mes) && (ahora_dia < dia)) {
                 edad--;
             }
-            if (edad > 1900) {
-                edad -= 1900;
-            }
+            //mostrar la edad en el input
+            document.getElementById('edad').value = edad;
 
             if (edad < 18) {
                 //muestra el encargado
@@ -43,6 +44,7 @@
                 document.getElementById('encargado').style.display = 'none';
             }
         }
+    
     </script>
     <meta charset="UTF-8">
     <title>Especialidades Odontológicas | Expediente Clínico</title>
@@ -121,21 +123,30 @@
                                         <span class='input-group-addon'>
                                             <i class='glyphicon glyphicon-calendar'></i>
                                         </span>
-                                        @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @class = "form-control", @id="fechaNacimiento", @onchange = "javascript:mostrarEncargado();" } })
+                                        @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @class = "form-control", @id= "fechaNacimiento", @onchange = "javascript:mostrarEncargado();" , @type="date", @min = "1920-01-01", @max=DateTime.Now.Year.ToString()+"-01-01"} })
                                         @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!--
+                      
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Edad, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Edad, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Edad, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Edad, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-2" })
+                            <div class="col-md-6">                               
+                                <div class='form-group'>
+                                    <div class="col-md-6">
+                                        <div class='form-group internal input-group'>
+                                            <span class='input-group-addon'>
+                                                <i class='glyphicon glyphicon-stats'></i>
+                                            </span>
+                                            @Html.EditorFor(model => model.Edad, new { htmlAttributes = new { @class = "form-control", @readonly="true", @id= "edad"} })
+                                            @Html.ValidationMessageFor(model => model.Edad, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-
+                          <!--
                         <div class="form-group">
                             @Html.LabelFor(model => model.MenorEdad, htmlAttributes: new { @class = "control-label col-md-2" })
                             <div class="col-md-10">
@@ -145,7 +156,7 @@
                         </div>
                             -->
 
-                        <div class="form-group" id="encargado" style="display: none";">
+                        <div class="form-group" id="encargado" style="display: none;">
                             @Html.LabelFor(model => model.NombreEncargado, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-2" })
                             <div class='col-md-8'>
                                 <div class='col-md-3 indent-small'>
@@ -197,18 +208,24 @@
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(model => model.Telefono1, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Telefono1, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Telefono1, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.Telefono2, htmlAttributes: new { @class = "control-label col-md-2" })
-                            <div class="col-md-10">
-                                @Html.EditorFor(model => model.Telefono2, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.Telefono2, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.Telefono1, htmlAttributes: new { @class = "control-label col-md-2 col-md-offset-2" })
+                            <div class="col-md-6">
+                                <div class='form-group'>
+                                    <div class="col-md-6">
+                                        <span class='input-group-addon'>
+                                            <i class='glyphicon glyphicon-phone-alt'></i>
+                                        </span>
+                                        @Html.EditorFor(model => model.Telefono1, new { htmlAttributes = new { @class = "form-control", @placeholder = "casa: xxxx-xxxx" } })
+                                        @Html.ValidationMessageFor(model => model.Telefono1, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class='input-group-addon'>
+                                            <i class='glyphicon glyphicon-earphone'></i>
+                                        </span>
+                                        @Html.EditorFor(model => model.Telefono2, new { htmlAttributes = new { @class = "form-control", @placeholder = "celular: xxxx-xxxx" } })
+                                        @Html.ValidationMessageFor(model => model.Telefono2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

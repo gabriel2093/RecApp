@@ -20,9 +20,20 @@ namespace RecApp_2.Controllers
         {
             return View(await db.Records.ToListAsync());
         }
+        /*
+      [HttpPost]
+        public string CalcularEdad(DateTime fecha)
+        {
+            return string.Format("{0}", ObtenerEdad(fecha));
+        }
 
-        // GET: Records/Details/5
-        public async Task<ActionResult> Details(int? id)
+        private double ObtenerEdad(DateTime fecha)
+        {
+            double edad = DateTime.Now.Subtract(fecha).TotalDays / 365.25;
+            return System.Math.Truncate(edad);
+        }*/
+// GET: Records/Details/5
+public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
