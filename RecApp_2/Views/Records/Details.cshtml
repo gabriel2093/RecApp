@@ -41,12 +41,12 @@
                     <div class="panel with-nav-tabs panel-default">
                         <div class="panel-heading">
                             <ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab2default" data-toggle="tab">Datos Personales</a></li>
                                 @if (Model.Edad < 18)
                                 {
-                                    <li class="active"><a href="#tab1default" data-toggle="tab">Datos del Encargado</a></li>
-                                }
-                                <li class="active"><a href="#tab2default" data-toggle="tab">Datos Personales</a></li>                                
-                                <li><a href="#tab4default" data-toggle="tab">Enfermedades del paciente</a></li>
+                                    <li><a href="#tab1default" data-toggle="tab">Datos del Encargado</a></li>
+                                }                                
+                                <li><a href="#tab4default" data-toggle="tab">Condición Médica</a></li>
 
                             </ul>
                         </div>
@@ -54,23 +54,27 @@
                             <div class="tab-content">
                                 @if (Model.Edad < 18)
                                 {
-                                    <div class="tab-pane fade in active" id="tab1default">
+                                    <div class="tab-pane fade" id="tab1default">
 
-                                        <h3>Datos del Encargado</h3>
-                                        @Html.DisplayNameFor(model => model.MenorEdad)
-                                        @Html.DisplayFor(model => model.MenorEdad)
-                                        @Html.DisplayNameFor(model => model.NombreEncargado)
-                                        @Html.DisplayFor(model => model.NombreEncargado)
-                                        @Html.DisplayNameFor(model => model.Apellido1Encargado)
-                                        @Html.DisplayFor(model => model.Apellido1Encargado)
-                                        @Html.DisplayNameFor(model => model.Apellido2Encargado)
-                                        @Html.DisplayFor(model => model.Apellido2Encargado)
+                                        <h3> </h3>
+                                        <label>
+                                            @Html.DisplayNameFor(model => model.NombreEncargado)
+                                        </label>
+                                        @Html.DisplayFor(model => model.NombreEncargado) @Html.DisplayFor(model => model.Apellido1Encargado) @Html.DisplayFor(model => model.Apellido2Encargado)
+                                        <br />
 
                                     </div>
                                 }
                                 <div class="tab-pane active" id="tab2default">
                                     <div class="col-md-6">
-                                        <h3>Datos Personales</h3>
+                                        <h3> </h3>
+                                        @if (Model.Edad < 18)
+                                        {
+                                            <label>
+                                                @Html.DisplayNameFor(model => model.MenorEdad)
+                                            </label>
+                                            <br />
+                                        }
                                         <label>
                                             @Html.DisplayNameFor(model => model.IdEstadoCivil)
                                         </label>
@@ -96,7 +100,7 @@
                                
                                 <div class="tab-pane fade" id="tab4default">
                                     <div class="col-md-8 table-responsive">
-                                        <h3>Enfermedades del paciente</h3>
+                                        <h3> </h3>
                                         <table class="table table-responsive table-bordered" style="min-height:300px;">
 
                                             <tr>
