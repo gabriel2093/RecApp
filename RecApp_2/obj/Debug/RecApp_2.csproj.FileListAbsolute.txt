@@ -416,6 +416,12 @@ C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Faceboo
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+<<<<<<< HEAD
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
+=======
+C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
+C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
+C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
+>>>>>>> dev

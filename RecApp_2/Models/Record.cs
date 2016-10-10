@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,7 +12,7 @@ namespace RecApp_2.Models
     {
         public int id { get; set; }
 
-        [Required(ErrorMessage = "Campo requerido*")]        
+        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Nombre")]
         public string Nombre { set; get; }
 
@@ -32,16 +33,23 @@ namespace RecApp_2.Models
 
         [Required(ErrorMessage = "Campo requerido*")]
         //[DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida."), DisplayFormat(DataFormatString = "{0:dd.MM.yy}") ]
-        [DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida.")]
+        [DataType(DataType.Date, ErrorMessage = "Ingrese una fecha válida.")]
         [Display(Name = "Fecha de nacimiento")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        
+
+        // [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime FechaNacimiento { get; set; }
 
-        
+
         //[DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]
+        [NotMapped]
         [Display(Name = "Edad")]
         public int Edad { get; set; }
 
+        [NotMapped]
         [Display(Name = "Menor de edad")]
         public int MenorEdad { get; set; }
 
@@ -54,10 +62,15 @@ namespace RecApp_2.Models
         [Display(Name = "Apellido 2")]
         public string Apellido2Encargado { set; get; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
+        [Required(ErrorMessage = "Estado civil es requerido*")]
         [Display(Name = "Estado civil")]
-        public  int IdEstadoCivil { get; set; }
-       
+        public int IdEstadoCivil { get; set; }
+
+        [NotMapped]
+        public IEnumerable<CivilStatus> ListCivilStatus { get; set; }
+        
+
+
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]
@@ -74,7 +87,7 @@ namespace RecApp_2.Models
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Profesión")]
         public string Profesion { set; get; }
-    
+
 
         [Required(ErrorMessage = "Campo requerido*")]
         [EmailAddress(ErrorMessage = "Formato de correo incorrecto*")]
@@ -88,7 +101,7 @@ namespace RecApp_2.Models
         //Condiciones Medicas
         [Display(Name = "Esta bajo tratamiento médico")]
         public bool TratamientoMedico { get; set; }
-        
+
         [Display(Name = "Toma algún medicamento")]
         public bool Medicamento { get; set; }
 
@@ -96,7 +109,7 @@ namespace RecApp_2.Models
         public bool Diabetes { get; set; }
 
         [Display(Name = "Artritis")]
-        public bool Artritis{ get; set; }
+        public bool Artritis { get; set; }
 
         [Display(Name = "Enfermedades cardiacas")]
         public bool EnfermedadCardiaca { get; set; }
@@ -127,7 +140,7 @@ namespace RecApp_2.Models
         [Display(Name = "Sangrado prolongado")]
         public bool SangradoProlongado { get; set; }
 
-      
+
         [Display(Name = "Desmayos")]
         public bool Desmayos { get; set; }
 
@@ -142,7 +155,7 @@ namespace RecApp_2.Models
         public bool Sulfas { get; set; }
 
         [Display(Name = "Penicilina")]
-        public bool Penicilina { get; set; }     
+        public bool Penicilina { get; set; }
 
         [Display(Name = "Anomalías con anestesia dental")]
         public bool AnomaliasAnestesia { get; set; }
@@ -153,6 +166,7 @@ namespace RecApp_2.Models
         [Display(Name = "Periodo lactancia")]
         public bool Lactancia { get; set; }
 
+        [MaxLength(500, ErrorMessage= "Se permiten 500 caracteres como máximo.")]
         [Display(Name = "Comentarios")]
         public string Otros { get; set; }
 

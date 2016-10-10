@@ -5,258 +5,111 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Cedula)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FechaNacimiento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Edad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MenorEdad)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NombreEncargado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido1Encargado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Apellido2Encargado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IdEstadoCivil)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Domicilio)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefono1)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Telefono2)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Profesion)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Email)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ContactoEmergencia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TratamientoMedico)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Medicamento)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Diabetes)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Artritis)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EnfermedadCardiaca)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Hepatitis)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FiebreReumatica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Ulcera)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PresionAlta)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.PresionBaja)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EnfermedadesNerviosas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OtrasEnfermedades)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SangradoProlongado)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Desmayos)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IntervencionQuirurgica)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Aspirina)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Sulfas)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Penicilina)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AnomaliasAnestesia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Embarazo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Lactancia)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Otros)
-        </th>
-        <th></th>
-    </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nombre)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellido1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellido2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cedula)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaNacimiento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Edad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MenorEdad)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.NombreEncargado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellido1Encargado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Apellido2Encargado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdEstadoCivil)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Domicilio)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono1)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Telefono2)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Profesion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ContactoEmergencia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TratamientoMedico)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Medicamento)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Diabetes)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Artritis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EnfermedadCardiaca)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Hepatitis)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.FiebreReumatica)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Ulcera)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PresionAlta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PresionBaja)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EnfermedadesNerviosas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.OtrasEnfermedades)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SangradoProlongado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Desmayos)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IntervencionQuirurgica)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Aspirina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Sulfas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Penicilina)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AnomaliasAnestesia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Embarazo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Lactancia)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Otros)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.id })
-        </td>
-    </tr>
-}
+<div class="container col-md-12 center-block">
 
-</table>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Expedientes Clínicos</h2>
+        </div>
+        <div class="panel-body table-responsive">
+            <p>
+                @Html.ActionLink(" Nuevo registro ", "Create", null, new { @class = "btn btn-success glyphicon glyphicon-plus" })
+            </p>
+             @using (Html.BeginForm("Index", "Records", FormMethod.Get))
+            {
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <span class="glyphicon glyphicon-search"></span> @Html.TextBox("search")
+                        <input type="submit" value="Buscar por nombre" class="btn-custom-danger"/>
+                       @* <input type="text" class="form-control" id="search" placeholder="Búsqueda por nombre" />*@
+                    </div>
+                </div>           
+             }
+          
+            <table class="table table-responsive table-bordered">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apellido1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Apellido2)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Cedula)
+                    </th>                  
+                    <th>
+                        @Html.DisplayNameFor(model => model.Domicilio)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Telefono1)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Telefono2)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContactoEmergencia)
+                    </th>
+                    <th></th>
+                </tr>
+                @*Si no se encuenta coincidencia en la búsqueda ,muestre el mensaje*@
+                @if (Model.Count() == 0) 
+                {
+                    <tr>
+                        <td colspan="10">Ningún registro coincide con la búsqueda</td>
+                    </tr>
+                }
+                       
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellido1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Apellido2)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Cedula)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Domicilio)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefono1)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Telefono2)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContactoEmergencia)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-primary glyphicon glyphicon-plus" }) 
+                           
+                        </td>
+                    </tr>
+                }
+                
+            </table>
+        </div>
+    </div>
+</div>

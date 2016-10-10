@@ -16,9 +16,10 @@ namespace RecApp_2.Controllers
         private RecordsContext db = new RecordsContext();
 
         // GET: Records
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
-            return View(await db.Records.ToListAsync());
+            return View(db.Records.Where(x => x.Nombre.StartsWith(search) || search == null).ToList());
+           // return View(await db.Records.ToListAsync());
         }
         /*
       [HttpPost]
@@ -44,19 +45,36 @@ public async Task<ActionResult> Details(int? id)
             {
                 return HttpNotFound();
             }
+            ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.MenorEdad = CalculateAdult(record.Edad);
             return View(record);
         }
 
+        private int CalculateAdult(int edad)
+        {
+            return edad >= 18 ? 1 : 0;
+        }
+
+        private int CalculateAge(DateTime fechaNacimiento)
+        {
+            DateTime now = DateTime.Today;
+            int age = now.Year - fechaNacimiento.Year;
+            if (fechaNacimiento > now.AddYears(-age)) age--;
+            return age;
+        }
+
+
+
         // GET: Records/Create
         public ActionResult Create()
-        {
-            //List<CivilStatus> List = new List<CivilStatus>();
-            //List = db.Civil_Status.ToList();
-            //Record model = new Record();
-            //model.DropDownListEstadoCivil = new SelectList(List, "Id", "Descripcion", 1);
-            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion");
-            return View();
-            
+        {          
+            var model = new Record();
+            {
+                model.ListCivilStatus = db.Civil_Status.ToList();
+            }         
+            return View(model);
+
         }
 
         // POST: Records/Create
@@ -73,6 +91,8 @@ public async Task<ActionResult> Details(int? id)
                 return RedirectToAction("Index");
             }
 
+            record.ListCivilStatus = db.Civil_Status.ToList();
+
             return View(record);
         }
 
@@ -88,7 +108,8 @@ public async Task<ActionResult> Details(int? id)
             {
                 return HttpNotFound();
             }
-            ViewBag.IdEstadoCivil = new SelectList(db.Civil_Status, "Id", "Descripcion", record.IdEstadoCivil);
+            record.ListCivilStatus = db.Civil_Status.ToList();                        
+                         
             return View(record);
         }
 
@@ -105,6 +126,7 @@ public async Task<ActionResult> Details(int? id)
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+            record.ListCivilStatus = db.Civil_Status.ToList();
             return View(record);
         }
 

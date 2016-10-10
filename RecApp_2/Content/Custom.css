@@ -87,8 +87,32 @@ h4 {
 }
 
 .footer-class{
+    display: inline-block;
     min-height: 30px;
     width: 100%;
     text-align:right;
 }
 
+
+
+.label-custom {
+    display: inline-block;
+    max-width: 100%;
+    /*margin-bottom: 5px;*/
+    margin-top:15px;
+    font-weight: bold;
+}
+
+.label-custom:hover {
+    cursor:pointer;
+}
+textarea{
+  width:100%;
+}
+
+.btn-custom-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    margin-left: 18px;
+}

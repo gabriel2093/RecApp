@@ -349,6 +349,7 @@
     <Content Include="Images\expedientes.jpg" />
     <Content Include="Images\Logo_Hilda-Vilchez.png" />
     <Content Include="Images\mantenimiento.jpg" />
+    <Content Include="Images\MedicalRecords.png" />
     <Content Include="Images\records.jpg" />
     <Content Include="img\dentist-icons\01.jpg" />
     <Content Include="img\dentist-icons\02.png" />
@@ -578,13 +579,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -644,6 +638,13 @@
     <Content Include="Views\Tratamientoes\Edit.cshtml" />
     <Content Include="Views\Tratamientoes\Index.cshtml" />
     <Content Include="Views\Home\Mantenimientos.cshtml" />
+    <Content Include="Web.config" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
