@@ -107,5 +107,12 @@ h4 {
     cursor:pointer;
 }
 textarea{
-  
+  width:100%;
+}
+
+.btn-custom-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    margin-left: 18px;
 }

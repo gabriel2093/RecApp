@@ -16,9 +16,10 @@ namespace RecApp_2.Controllers
         private RecordsContext db = new RecordsContext();
 
         // GET: Records
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string search)
         {
-            return View(await db.Records.ToListAsync());
+            return View(db.Records.Where(x => x.Nombre.StartsWith(search) || search == null).ToList());
+           // return View(await db.Records.ToListAsync());
         }
 
         // GET: Records/Details/5
