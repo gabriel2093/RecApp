@@ -104,6 +104,7 @@ h4 {
     font-weight: bold;
 }
 
+<<<<<<< HEAD
     .label-custom:hover {
         cursor: pointer;
     }
@@ -133,4 +134,18 @@ h4 {
 
 .diente_nino:hover{
     background-color:gray;
+=======
+.label-custom:hover {
+    cursor:pointer;
+}
+textarea{
+  width:100%;
+}
+
+.btn-custom-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    margin-left: 18px;
+>>>>>>> f8adb742dd26d4927b48a0f49c2a61dcdc27a0d7
 }

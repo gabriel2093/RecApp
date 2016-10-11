@@ -74,11 +74,11 @@ namespace RecApp_2.Models
 
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Teléfonos")]
+        [Display(Name = "Domicilio")]
         public string Domicilio { set; get; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Teléfono domicilio")]
+        [Display(Name = "Teléfonos")]
         public string Telefono1 { set; get; }
 
         [Required(ErrorMessage = "Campo requerido*")]
