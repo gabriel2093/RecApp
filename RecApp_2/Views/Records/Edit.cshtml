@@ -44,6 +44,8 @@
                     document.getElementById('divMenorEdad').style.display = 'block';
                     $('#lblMenorEdad').html('Sí');
                     $('#MenorEdadH').val(1);
+                    document.getElementById('ninoArriba').style.display = 'block';
+                    document.getElementById('ninoAbajo').style.display = 'block';
 
                 } else {
 
@@ -109,9 +111,27 @@
             }
 
         }
-    </script>
-    <script>
+  
+        /*FUNCIONES PARA EL ODONTOGRAMA*/
+        function cambiarOdontograma() {
+            if(document.getElementById('decidua').checked){
+                document.getElementById('ninoArriba').style.display = 'block';
+                document.getElementById('ninoAbajo').style.display = 'block';
+                document.getElementById('adultoArriba').style.display = 'none';
+                document.getElementById('adultoAbajo').style.display = 'none';
+            }
+            else{
+                document.getElementById('adultoArriba').style.display = 'block';
+                document.getElementById('adultoAbajo').style.display = 'block';
+                document.getElementById('ninoArriba').style.display = 'none';
+                document.getElementById('ninoAbajo').style.display = 'none';
+            }
+          
+        }
 
+        function activarDiente() {
+            var numDiente = document.getElementById("num").value;
+        }
 
     </script>
     <meta charset="UTF-8">
@@ -143,6 +163,7 @@
                                 <ul class="nav nav-tabs">
                                     <li class="active"><a href="#tab1default" data-toggle="tab">Datos Personales</a></li>
                                     <li><a href="#tab2default" data-toggle="tab">Condiciones Médicas</a></li>
+                                    <li><a href="#tab3default" data-toggle="tab">Odontograma</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
@@ -559,6 +580,80 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @*Seccion del Odontograma*@
+                                    <div class="tab-pane" id="tab3default">
+                                        <div class="col-md-12">
+
+                                            <label class="control-label">Seleccione el tipo </label><hr />
+                                            <input type="radio" id="permanente" name="tipo" onchange="cambiarOdontograma();" checked />Permanente <br />
+                                            <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
+                                    
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="adultoArriba" style="display:block;">
+                                                <button class="btn diente" type="button" value="18">X</button>
+                                                <button class="btn diente" type="button" value="17">X</button>
+                                                <button class="btn diente" type="button" value="16">X</button>
+                                                <button class="btn diente" type="button" value="15">X</button>
+                                                <button class="btn diente" type="button" value="14">X</button>
+                                                <button class="btn diente" type="button" value="13">X</button>
+                                                <button class="btn diente" type="button" value="12">X</button>
+                                                <button class="btn diente" type="button" value="11">X</button>
+                                                <button class="btn diente" type="button" value="21">X</button>
+                                                <button class="btn diente" type="button" value="22">X</button>
+                                                <button class="btn diente" type="button" value="23">X</button>
+                                                <button class="btn diente" type="button" value="24">X</button>
+                                                <button class="btn diente" type="button" value="25">X</button>
+                                                <button class="btn diente" type="button" value="26">X</button>
+                                                <button class="btn diente" type="button" value="27">X</button>
+                                                <button class="btn diente" type="button" value="28">X</button>
+                                            </div>
+
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
+                                                <div class="clearfix"></div>
+                                                <button class="btn diente_nino" type="button" value="55">Button</button>
+                                                <button class="btn diente_nino" type="button" value="54">Button</button>
+                                                <button class="btn diente_nino" type="button" value="53">Button</button>
+                                                <button class="btn diente_nino" type="button" value="52">Button</button>
+                                                <button class="btn diente_nino" type="button" value="51">Button</button>
+                                                <button class="btn diente_nino" type="button" value="61">Button</button>
+                                                <button class="btn diente_nino" type="button" value="62">Button</button>
+                                                <button class="btn diente_nino" type="button" value="63">Button</button>
+                                                <button class="btn diente_nino" type="button" value="64">Button</button>
+                                                <button class="btn diente_nino" type="button" value="65">Button</button>
+                                            </div>
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="ninoAbajo" style="display:none;">
+                                                <button class="btn diente_nino" type="button" value="85">Button</button>
+                                                <button class="btn diente_nino" type="button" value="84">Button</button>
+                                                <button class="btn diente_nino" type="button" value="83">Button</button>
+                                                <button class="btn diente_nino" type="button" value="82">Button</button>
+                                                <button class="btn diente_nino" type="button" value="81">Button</button>
+                                                <button class="btn diente_nino" type="button" value="71">Button</button>
+                                                <button class="btn diente_nino" type="button" value="72">Button</button>
+                                                <button class="btn diente_nino" type="button" value="73">Button</button>
+                                                <button class="btn diente_nino" type="button" value="74">Button</button>
+                                                <button class="btn diente_nino" type="button" value="75">Button</button>
+                                            </div>
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="adultoAbajo" style="display:block;">
+                                                <button class="btn diente" type="button" value="48">X</button>
+                                                <button class="btn diente" type="button" value="47">X</button>
+                                                <button class="btn diente" type="button" value="46">X</button>
+                                                <button class="btn diente" type="button" value="45">X</button>
+                                                <button class="btn diente" type="button" value="44">X</button>
+                                                <button class="btn diente" type="button" value="43">X</button>
+                                                <button class="btn diente" type="button" value="42">X</button>
+                                                <button class="btn diente" type="button" value="41">X</button>
+                                                <button class="btn diente" type="button" value="31">X</button>
+                                                <button class="btn diente" type="button" value="32">X</button>
+                                                <button class="btn diente" type="button" value="33">X</button>
+                                                <button class="btn diente" type="button" value="34">X</button>
+                                                <button class="btn diente" type="button" value="35">X</button>
+                                                <button class="btn diente" type="button" value="36">X</button>
+                                                <button class="btn diente" type="button" value="37">X</button>
+                                                <button class="btn diente" type="button" value="38">X</button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
