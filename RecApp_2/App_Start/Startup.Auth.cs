@@ -6,6 +6,8 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using RecApp_2.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Configuration;
 
 namespace RecApp_2
 {
@@ -63,6 +65,10 @@ namespace RecApp_2
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+            
         }
+
+
+       
     }
 }

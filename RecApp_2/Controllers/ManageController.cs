@@ -80,7 +80,6 @@ namespace RecApp_2.Controllers
         }
 
 
-
         //
         // POST: /Manage/RemoveLogin
         [HttpPost]
@@ -114,28 +113,13 @@ namespace RecApp_2.Controllers
         //[ValidateAntiForgeryToken]
         public ActionResult MantUsuarios()
         {
-          
+
             var users = db.Users.ToList();
             return View(users);
         }
 
         // GET: People/Details/5
-        public  ActionResult Details(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            ApplicationUser usuario =   db.Users.Find(id);
-            if (usuario == null)
-            {
-                return HttpNotFound();
-            }
-            return PartialView("_Details", usuario);
-        }
-
-        // GET: People/Edit/5
-        public  ActionResult Edit(string id)
+        public ActionResult Details(string id)
         {
             if (id == null)
             {
@@ -146,7 +130,43 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("_Edit", usuario);
+            return PartialView("_Details", usuario);
+        }
+
+        //// GET: People/Edit/5
+        //public  ActionResult Edit(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    ApplicationUser usuario = db.Users.Find(id);
+        //    if (usuario == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return PartialView("_Edit", usuario);
+        //}
+
+        [HttpGet]
+        // GET: CivilStatus/Edit/5
+        public ActionResult EditUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = UserManager.FindById(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            user.RoleId = user.Roles.ToList()[0].RoleId;
+            ViewBag.Name = new SelectList(db.Roles.Where(u => !u.Name.Contains("Administrador"))
+                                         .ToList(), "Id", "Name", user.RoleId);
+
+            return View(user);
         }
 
         // POST: People/Edit/5
@@ -154,31 +174,71 @@ namespace RecApp_2.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PhoneNumber")] ApplicationUser usuario)
+        public async Task<ActionResult> EditUser(ApplicationUser usuario)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuario).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return Json(new { success = true });
+                ApplicationUser user = UserManager.FindById(usuario.Id);
+                var roles = db.Roles.OrderBy(x => x.Name);
+
+
+                var idRolAnterior = user.Roles.ToList()[0].RoleId;
+                string roleAnteriorName = roles.FirstOrDefault(role => role.Id.Equals(idRolAnterior)).Name;
+
+                string roleNuevoName = roles.FirstOrDefault(role => role.Id.Equals(usuario.RoleId)).Name;
+
+                if (!this.UserManager.IsInRole(usuario.Id, roleNuevoName))
+                {
+                    //Remueve el registro anterior. 
+                    this.UserManager.RemoveFromRole(user.Id, roleAnteriorName);
+                    this.UserManager.AddToRole(usuario.Id, roleNuevoName);                   
+                    db.Entry(usuario).State = EntityState.Modified;
+                    await db.SaveChangesAsync();                    
+                }
+                else
+                {
+                    db.Entry(usuario).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    
+                }
+                TempData["UserMessage"] = "Registro actualizado correctamente.";
+                //ViewBag.Result = "Registro modificado correctamente.";
+                return RedirectToAction("MantUsuarios", "Manage");
+               // return Json(new { success = true });
             }
-            return PartialView("_Edit", usuario);
+            return View(usuario);
         }
 
-        //// GET: People/Delete/5
-        //public async Task<ActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Person person = await db.People.FindAsync(id);
-        //    if (person == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return PartialView("_Delete", person);
-        //}
+        // GET: DisableUser
+        public async Task<ActionResult> DisableUser(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ApplicationUser user = UserManager.FindById(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            if (!user.LockoutEnabled)
+            {
+                user.LockoutEnabled = true;
+                user.LockoutEndDateUtc = DateTime.UtcNow.AddMinutes(60);
+            }
+            else
+            {
+                user.LockoutEnabled = false;
+                user.LockoutEndDateUtc = DateTime.UtcNow.AddMinutes(60);
+            }     
+           
+            await UserManager.UpdateAsync(user);
+            //db.Entry(user).State = EntityState.Modified;
+            //await db.SaveChangesAsync();
+            TempData["UserMessage"] = "Registro actualizado correctamente.";
+            return RedirectToAction("MantUsuarios", "Manage");
+        }
 
         #endregion
         //

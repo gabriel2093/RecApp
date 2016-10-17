@@ -64,6 +64,11 @@ namespace RecApp_2.Models
 
     public class RegisterViewModel
     {
+
+        [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "UserRoles")]
+        public string UserRoles { get; set; }
+
         [Required(ErrorMessage = "Campo requerido*")]
         [EmailAddress(ErrorMessage = "Formato incorrecto*")]
         [Display(Name = "Correo electrónico")]
@@ -79,7 +84,7 @@ namespace RecApp_2.Models
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
         public string ConfirmPassword { get; set; }
-    }
+    } 
 
     public class ResetPasswordViewModel
     {

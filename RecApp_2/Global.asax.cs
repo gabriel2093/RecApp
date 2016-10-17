@@ -20,6 +20,11 @@ namespace RecApp_2
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
+        protected void Application_AuthenticateRequest(object sender, EventArgs args)
+        {
+           
+        }
+
 
     }
 }

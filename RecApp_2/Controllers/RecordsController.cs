@@ -18,7 +18,7 @@ namespace RecApp_2.Controllers
         // GET: Records
         public async Task<ActionResult> Index(string search)
         {
-            return View(db.Records.Where(x => x.Nombre.StartsWith(search) || search == null).ToList());
+            return View(db.Records.Where(Expediente => Expediente.Nombre.StartsWith(search) || search == null).ToList());
            // return View(await db.Records.ToListAsync());
         }
 
@@ -93,8 +93,10 @@ namespace RecApp_2.Controllers
         }
 
         // GET: Records/Edit/5
+        
         public async Task<ActionResult> Edit(int? id)
         {
+            
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

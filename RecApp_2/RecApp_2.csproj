@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\TratamientoesController.cs" />
     <Compile Include="Diary.Context1.cs">
       <AutoGen>True</AutoGen>
@@ -612,8 +613,6 @@
     <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Manage\CargarUsuarios.cshtml" />
     <Content Include="Views\Manage\MantUsuarios.cshtml" />
-    <Content Include="Views\Manage\_Details.cshtml" />
-    <Content Include="Views\Manage\_Edit.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
@@ -638,13 +637,20 @@
     <Content Include="Views\Tratamientoes\Edit.cshtml" />
     <Content Include="Views\Tratamientoes\Index.cshtml" />
     <Content Include="Views\Home\Mantenimientos.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\Records\Odontogram.cshtml" />
     <Content Include="Views\Validation\Create.cshtml" />
     <Content Include="Views\Validation\Delete.cshtml" />
     <Content Include="Views\Validation\Details.cshtml" />
     <Content Include="Views\Validation\Edit.cshtml" />
     <Content Include="Views\Validation\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
+    <Content Include="Views\Manage\_Details.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Manage\EditUser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
