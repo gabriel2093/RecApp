@@ -103,13 +103,25 @@ h4 {
     margin-top: 15px;
     font-weight: bold;
 }
-
-<<<<<<< HEAD
-    .label-custom:hover {
+.btn-custom-danger {
+    color: #fff;
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    margin-left: 18px;
+}
+ 
+.btn-custom-danger:hover{
+    background-color: gray;
+}
+.label-custom:hover {
         cursor: pointer;
     }
 
+textarea {
+  width:100%;
+}
 
+/*Diseno para los dientes*/
 .diente {
     height: 50px;
     width: 50px;
@@ -128,24 +140,18 @@ h4 {
 }
 
 .diente:hover{
-    background-color:gray;
+    background-color:lightblue;
+    filter:alpha(opacity=100);   
+    opacity: 1.0;
+    position: relative; 
+    top: -1px;
 }
 
 
-.diente_nino:hover{
-    background-color:gray;
-=======
-.label-custom:hover {
-    cursor:pointer;
-}
-textarea{
-  width:100%;
-}
-
-.btn-custom-danger {
-    color: #fff;
-    background-color: #d9534f;
-    border-color: #d43f3a;
-    margin-left: 18px;
->>>>>>> f8adb742dd26d4927b48a0f49c2a61dcdc27a0d7
+.diente_nino:hover {
+    background-color: lightblue;
+    filter:alpha(opacity=100);   
+    opacity: 1.0;
+    position: relative; 
+    top: -1px;
 }

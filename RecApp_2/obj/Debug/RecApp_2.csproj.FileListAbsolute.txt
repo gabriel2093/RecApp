@@ -309,8 +309,10 @@ C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Faceboo
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
+<<<<<<< HEAD
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\roslyn\csc.exe
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\roslyn\csc.exe.config
@@ -419,3 +421,5 @@ C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\es\Microsoft.Owin.Security.MicrosoftAc
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.dll
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.pdb
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
+=======
+>>>>>>> origin/dev

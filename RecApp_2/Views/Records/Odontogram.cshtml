@@ -1,10 +1,28 @@
-﻿
+﻿@model RecApp_2.Models.Record
 @{
     ViewBag.Title = "Odontogram";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <head>
+    <script>
+        function escogerOdontograma() {
+            var edad = @Html.Raw(Json.Encode(Model.Edad));
+            if(edad<18){
+                document.getElementById('ninoArriba').style.display = 'block';
+                document.getElementById('ninoAbajo').style.display = 'block';
+            }
+            else{
+                document.getElementById('adultoArriba').style.display = 'block';
+                document.getElementById('adultoAbajo').style.display = 'block';
+            }
+        }
+
+        function activarDiente() {
+            var numDiente = document.getElementById("num").value;
+        }
+
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Untitled</title>
@@ -23,70 +41,67 @@
             <fieldset>
                 <legend>Odontograma </legend>
             </fieldset>
-            <div class="col-md-12 col-md-offset-0 text-center">
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
+            <div class="col-md-12 col-md-offset-0 text-center" id="adultoArriba" style="display:none;">
+                <button class="btn diente" type="button" value="18" id="num">Button</button>
+                <button class="btn diente" type="button" value="17" id="num">Button</button>
+                <button class="btn diente" type="button" value="16">Button</button>
+                <button class="btn diente" type="button" value="15">Button</button>
+                <button class="btn diente" type="button" value="14">Button</button>
+                <button class="btn diente" type="button" value="13">Button</button>
+                <button class="btn diente" type="button" value="12">Button</button>
+                <button class="btn diente" type="button" value="11">Button</button>
+                <button class="btn diente" type="button" value="21">Button</button>
+                <button class="btn diente" type="button" value="22">Button</button>
+                <button class="btn diente" type="button" value="23">Button</button>
+                <button class="btn diente" type="button" value="24">Button</button>
+                <button class="btn diente" type="button" value="25">Button</button>
+                <button class="btn diente" type="button" value="26">Button</button>
+                <button class="btn diente" type="button" value="27">Button</button>
+                <button class="btn diente" type="button" value="28">Button</button>
+                
             </div>
-            <div class="col-md-12 col-md-offset-0 text-center">
+            <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
                 <div class="clearfix"></div>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
+                <button class="btn diente_nino" type="button" value="55">Button</button>
+                <button class="btn diente_nino" type="button" value="54">Button</button>
+                <button class="btn diente_nino" type="button" value="53">Button</button>
+                <button class="btn diente_nino" type="button" value="52">Button</button>
+                <button class="btn diente_nino" type="button" value="51">Button</button>
+                <button class="btn diente_nino" type="button" value="61">Button</button>
+                <button class="btn diente_nino" type="button" value="62">Button</button>
+                <button class="btn diente_nino" type="button" value="63">Button</button>
+                <button class="btn diente_nino" type="button" value="64">Button</button>
+                <button class="btn diente_nino" type="button" value="65">Button</button>
             </div>
-            <div class="col-md-12 col-md-offset-0 text-center">
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
-                <button class="btn diente_nino" type="button">Button</button>
+            <div class="col-md-12 col-md-offset-0 text-center" id="ninoAbajo" style="display:none;">
+                <button class="btn diente_nino" type="button" value="85">Button</button>
+                <button class="btn diente_nino" type="button" value="84">Button</button>
+                <button class="btn diente_nino" type="button" value="83">Button</button>
+                <button class="btn diente_nino" type="button" value="82">Button</button>
+                <button class="btn diente_nino" type="button" value="81">Button</button>
+                <button class="btn diente_nino" type="button" value="71">Button</button>
+                <button class="btn diente_nino" type="button" value="72">Button</button>
+                <button class="btn diente_nino" type="button" value="73">Button</button>
+                <button class="btn diente_nino" type="button" value="74">Button</button>
+                <button class="btn diente_nino" type="button" value="75">Button</button>
             </div>
-            <div class="col-md-12 col-md-offset-0 text-center">
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
-                <button class="btn diente" type="button">Button</button>
+            <div class="col-md-12 col-md-offset-0 text-center" id="adultoAbajo" style="display:none;">
+                <button class="btn diente" type="button" value="48">Button</button>
+                <button class="btn diente" type="button" value="47">Button</button>
+                <button class="btn diente" type="button" value="46">Button</button>
+                <button class="btn diente" type="button" value="45">Button</button>
+                <button class="btn diente" type="button" value="44">Button</button>
+                <button class="btn diente" type="button" value="43">Button</button>
+                <button class="btn diente" type="button" value="42">Button</button>
+                <button class="btn diente" type="button" value="41">Button</button>
+                <button class="btn diente" type="button" value="31">Button</button>
+                <button class="btn diente" type="button" value="32">Button</button>
+                <button class="btn diente" type="button" value="33">Button</button>
+                <button class="btn diente" type="button" value="34">Button</button>
+                <button class="btn diente" type="button" value="35">Button</button>
+                <button class="btn diente" type="button" value="36">Button</button>
+                <button class="btn diente" type="button" value="37">Button</button>
+                <button class="btn diente" type="button" value="38">Button</button>
             </div>
             <div class="clearfix"></div>
 
