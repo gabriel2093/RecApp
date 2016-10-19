@@ -69,9 +69,9 @@ namespace RecApp_2.Models
 
         [NotMapped]
         public IEnumerable<CivilStatus> ListCivilStatus { get; set; }
-        
 
-
+        [NotMapped]
+        public IEnumerable<Tratamiento> ListTratamiento{ get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]

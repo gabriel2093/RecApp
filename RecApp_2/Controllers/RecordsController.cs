@@ -18,11 +18,8 @@ namespace RecApp_2.Controllers
         // GET: Records
         public async Task<ActionResult> Index(string search)
         {
-<<<<<<< HEAD
-            return View(db.Records.Where(Expediente => Expediente.Nombre.StartsWith(search) || search == null).ToList());
-=======
+
             return View(db.Records.Where(x => x.Nombre.StartsWith(search) || x.Apellido1.StartsWith(search) || x.Apellido2.StartsWith(search) || x.Cedula.ToString() == search || search == null).ToList());
->>>>>>> origin/dev
            // return View(await db.Records.ToListAsync());
         }
 
@@ -111,8 +108,15 @@ namespace RecApp_2.Controllers
                 return HttpNotFound();
             }
             record.ListCivilStatus = db.Civil_Status.ToList();
+           // record.ListTratamiento = db.Tratamiento_valor.ToList();
             record.Edad = CalculateAge(record.FechaNacimiento);
-            return View(record);
+
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+            tratamientoPaciente.ListTratamiento = db.Tratamiento_valor.ToList();
+
+            var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
+            return View(tuple);
+          //  return View(record);
         }
 
         // POST: Records/Edit/5
@@ -128,7 +132,9 @@ namespace RecApp_2.Controllers
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             record.ListCivilStatus = db.Civil_Status.ToList();
+          
             return View(record);
         }
 
