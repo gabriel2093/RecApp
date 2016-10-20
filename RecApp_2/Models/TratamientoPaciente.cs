@@ -39,6 +39,7 @@ namespace RecApp_2.Models
         [Display(Name = "Observaciones")]
         public string Observaciones { get; set; }
 
+        [Display(Name = "Fecha del tratamiento")]
         [Required(ErrorMessage = "Campo requerido*")]        
         public DateTime FechaTratamiento { get; set; } =  DateTime.Now;
        

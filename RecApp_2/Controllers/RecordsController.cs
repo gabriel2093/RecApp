@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RecApp_2.Models;
+using System.Globalization;
 
 namespace RecApp_2.Controllers
 {
@@ -161,7 +162,7 @@ namespace RecApp_2.Controllers
             //  return View(record);
         }
 
-        // GET: Records/Edit/5
+        // GET: Records/FiltrarTratamientos/5
         [HttpGet]
         public ActionResult FiltrarTratamientosPorDiente(int idDiente, int idPaciente_1)
         {
@@ -171,7 +172,7 @@ namespace RecApp_2.Controllers
             record.Edad = CalculateAge(record.FechaNacimiento);
             record.ListTratamientoPaciente = from tP in
                                            db.TratamientoPaciente.ToList()
-                                             where tP.IdPaciente.Equals(idPaciente_1) && tP.IdDiente == idDiente && tP.IdPaciente.Equals(idPaciente_1)
+                                             where tP.IdPaciente.Equals(idPaciente_1) && tP.IdDiente.Equals(idDiente)
                                              select tP;
 
             //Devolver tupla de tipo TratamientoPaciente
@@ -188,6 +189,95 @@ namespace RecApp_2.Controllers
             return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
           
         }
+
+
+        // GET: Records/FiltrarTratamientosFecha/5
+        [HttpGet]
+        public ActionResult FiltrarTratamientosPorFecha(String fechaInicio, String fechaFin, int idPaciente_1)
+        {
+
+            DateTime fechaInicioD = DateTime.ParseExact(fechaInicio + " " + "00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            DateTime fechaFinD = DateTime.ParseExact(fechaFin + " " + "00:00", "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            Record record = db.Records.Find(idPaciente_1);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = from tP in
+                                           db.TratamientoPaciente.ToList()
+                                             where (tP.FechaTratamiento.Date >= fechaInicioD.Date && tP.FechaTratamiento.Date <= fechaFinD) && tP.IdPaciente.Equals(idPaciente_1)
+                                             select tP;
+
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
+
+        }
+
+
+        // GET: Records/FiltrarTratamientosPorTratamiento/5
+        [HttpGet]
+        public ActionResult FiltrarTratamientosPorTratamiento(int idTratamiento_1, int idPaciente_1)
+        {            
+            Record record = db.Records.Find(idPaciente_1);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = from tP in
+                                           db.TratamientoPaciente.ToList()
+                                             where (tP.IdTratamiento.Equals(idTratamiento_1)) && tP.IdPaciente.Equals(idPaciente_1)
+                                             select tP;
+
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
+
+        }
+
+
+        // GET: Records/FiltrarTratamientosPorCaraDiente/5
+        [HttpGet]
+        public ActionResult FiltrarTratamientosPorCaraDiente(string idCaraDiente_1, int idPaciente_1)
+        {
+            Record record = db.Records.Find(idPaciente_1);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = from tP in
+                                           db.TratamientoPaciente.ToList()
+                                             where (tP.Cara.Equals(idCaraDiente_1)) && tP.IdPaciente.Equals(idPaciente_1)
+                                             select tP;
+
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
+
+        }
+
+      
 
         // POST: Records/Edit/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
