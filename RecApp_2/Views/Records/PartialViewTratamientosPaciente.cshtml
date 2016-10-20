@@ -1,0 +1,46 @@
+﻿@model IEnumerable<RecApp_2.Models.TratamientoPaciente>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Tratamiento)
+        </th>
+       
+        <th>
+            @Html.DisplayNameFor(model => model.IdDiente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cara)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaTratamiento)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tratamiento)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.IdDiente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cara)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observaciones)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaTratamiento)
+        </td>       
+    </tr>
+}
+
+</table>

@@ -20,7 +20,7 @@ namespace RecApp_2.Controllers
         {
 
             return View(db.Records.Where(x => x.Nombre.StartsWith(search) || x.Apellido1.StartsWith(search) || x.Apellido2.StartsWith(search) || x.Cedula.ToString() == search || search == null).ToList());
-           // return View(await db.Records.ToListAsync());
+            // return View(await db.Records.ToListAsync());
         }
 
         // GET: Records/Details/5
@@ -58,11 +58,11 @@ namespace RecApp_2.Controllers
 
         // GET: Records/Create
         public ActionResult Create()
-        {          
+        {
             var model = new Record();
             {
                 model.ListCivilStatus = db.Civil_Status.ToList();
-            }         
+            }
             return View(model);
 
         }
@@ -76,16 +76,16 @@ namespace RecApp_2.Controllers
         {
             if (IsUserExistsBool(record.Cedula))
             {
-                ModelState.AddModelError("Cedula","El número de cédula ya se encuentra registrado.");
+                ModelState.AddModelError("Cedula", "El número de cédula ya se encuentra registrado.");
             }
 
             if (ModelState.IsValid)
             {
-               
-                    db.Records.Add(record);
-                    await db.SaveChangesAsync();
-                    return RedirectToAction("Index");
-               
+
+                db.Records.Add(record);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+
             }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
@@ -94,10 +94,10 @@ namespace RecApp_2.Controllers
         }
 
         // GET: Records/Edit/5
-        
+
         public async Task<ActionResult> Edit(int? id)
         {
-            
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -107,16 +107,86 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
+            if (TempData["AgregoTratamiento"] ==null)
+            {
+                TempData["AgregoTratamiento"] = "false";
+            }
+
+            if (TempData["MensajeErrorAgregarTratamiento"] == null)
+            {
+                TempData["MensajeErrorAgregarTratamiento"] = "false";
+            }
             record.ListCivilStatus = db.Civil_Status.ToList();
-           // record.ListTratamiento = db.Tratamiento_valor.ToList();
             record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = from tP in
+                                           db.TratamientoPaciente.ToList()
+                                             where tP.IdPaciente.Equals(id)
+                                             select tP;
 
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
-            tratamientoPaciente.ListTratamiento = db.Tratamiento_valor.ToList();
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in db.TratamientoPaciente.ToList())
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
 
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
             return View(tuple);
-          //  return View(record);
+            //  return View(record);
+        }
+
+        // GET: Records/Edit/5
+        [HttpGet]
+        public ActionResult GetTratamientosDiente(int? idDiente, int? idPaciente_1)
+        {
+
+            if (idDiente == null || idPaciente_1 == null)
+            {
+                return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
+
+            }
+
+            var tratamientos = (from t in db.TratamientoPaciente.ToList()
+                                where (t.IdDiente.Equals(idDiente) &&
+                                t.IdPaciente.Equals(idPaciente_1))
+                                select t).ToList();
+            if (tratamientos.Count.Equals(0))
+            {
+                return Json(new { success = false, responseText = "The attached file is not supported." }, JsonRequestBehavior.AllowGet);
+
+            }
+            return Json(new { success = true, responseText = "Your message successfuly sent!" }, JsonRequestBehavior.AllowGet);
+
+            //  return View(record);
+        }
+
+        // GET: Records/Edit/5
+        [HttpGet]
+        public ActionResult FiltrarTratamientosPorDiente(int idDiente, int idPaciente_1)
+        {
+           
+            Record record =  db.Records.Find(idPaciente_1);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = from tP in
+                                           db.TratamientoPaciente.ToList()
+                                             where tP.IdPaciente.Equals(idPaciente_1) && tP.IdDiente == idDiente && tP.IdPaciente.Equals(idPaciente_1)
+                                             select tP;
+
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+            
+            return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
+          
         }
 
         // POST: Records/Edit/5
@@ -124,7 +194,7 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,AnomaliasAnestesia,Embarazo,Lactancia,Otros")] Record record)
+        public async Task<ActionResult> Edit([Bind(Prefix = "Item1", Include = "id,Nombre,Apellido1,Apellido2,Cedula,FechaNacimiento,Edad,MenorEdad,NombreEncargado,Apellido1Encargado,Apellido2Encargado,IdEstadoCivil,Domicilio,Telefono1,Telefono2,Profesion,Email,ContactoEmergencia,TratamientoMedico,Medicamento,Diabetes,Artritis,EnfermedadCardiaca,Hepatitis,FiebreReumatica,Ulcera,PresionAlta,PresionBaja,EnfermedadesNerviosas,OtrasEnfermedades,SangradoProlongado,Desmayos,IntervencionQuirurgica,Aspirina,Sulfas,Penicilina,AnomaliasAnestesia,Embarazo,Lactancia,Otros")] Record record)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +204,7 @@ namespace RecApp_2.Controllers
             }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
-          
+
             return View(record);
         }
 
@@ -166,7 +236,7 @@ namespace RecApp_2.Controllers
 
         // GET: Records/Odontogram
         public ActionResult Odontogram()
-        {           
+        {
             return View();
 
         }

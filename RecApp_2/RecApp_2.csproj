@@ -658,6 +658,7 @@
     <Content Include="Views\TratamientoPacientes\Details.cshtml" />
     <Content Include="Views\TratamientoPacientes\Edit.cshtml" />
     <Content Include="Views\TratamientoPacientes\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewTratamientosPaciente.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -15,12 +15,21 @@ namespace RecApp_2.Models
         [Display(Name = "Tratamiento")]
         public int IdTratamiento { get; set; }
 
+        
+        [NotMapped]
+        [Display(Name = "Tratamiento")]
+        public string Tratamiento { get; set; }
+
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Cédula paciente")]
         public int IdPaciente { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Nombre del paciente")]
+        public string NombrePaciente { get; set; }
+
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "# diente")]
+        [Display(Name = "No. Diente")]
         public int IdDiente { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
@@ -30,7 +39,12 @@ namespace RecApp_2.Models
         [Display(Name = "Observaciones")]
         public string Observaciones { get; set; }
 
+        [Required(ErrorMessage = "Campo requerido*")]        
+        public DateTime FechaTratamiento { get; set; } =  DateTime.Now;
+       
+
         [NotMapped]
         public IEnumerable<Tratamiento> ListTratamiento { get; set; }
+
     }
 }

@@ -41,7 +41,7 @@ namespace RecApp_2.Controllers
         public ActionResult Create()
         {
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
-            tratamientoPaciente.ListTratamiento = db1.Tratamiento_valor.ToList();
+            tratamientoPaciente.ListTratamiento = db1.Tratamiento.ToList();
             return View();
         }
 
@@ -50,16 +50,19 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
+        public async Task<ActionResult> Create([Bind(Prefix = "Item2", Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
             if (ModelState.IsValid)
             {
                 db.TratamientoPacientes.Add(tratamientoPaciente);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                TempData["AgregoTratamiento"] = "true";
+                TempData["MensajeErrorAgregarTratamiento"] = "true";
+                return RedirectToAction("Edit/"+ tratamientoPaciente.IdPaciente, "Records");
             }
 
-            return View(tratamientoPaciente);
+            TempData["MensajeErrorAgregarTratamiento"] = "Ocurrió un error, intente agregando el tratamiento nuevamente.";
+            return RedirectToAction("Edit/" + tratamientoPaciente.IdPaciente, "Records");
         }
 
         // GET: TratamientoPacientes/Edit/5

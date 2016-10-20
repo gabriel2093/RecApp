@@ -7,676 +7,826 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <head>
-        <!--funcion javascript para mostrar encargado -->
-        <script>
-            $(document).ready(function () {
-                $('#fechaNacimiento').removeAttr("data-val-date");
-                var fecha = @Html.Raw(Json.Encode(Model.Item1.FechaNacimiento));
-                var pattern = /Date\(([^)]+)\)/;
-                var results = pattern.exec(fecha);
-                var dt = new Date(parseFloat(results[1]));
-                var month = dt.getMonth() + 1;
-                if (month<10) {
-                    month = "0"+month;
+<head>
+    <!--funcion javascript para mostrar encargado -->
+    <script>
+        $(document).ready(function () {
+
+
+            $("#btnVerTratamiento").click(function() {
+                $('.nav-tabs a[href="#tab4default"]').tab('show');
+            });
+            $('#fechaNacimiento').removeAttr("data-val-date");
+            var fecha = @Html.Raw(Json.Encode(Model.Item1.FechaNacimiento));
+            var pattern = /Date\(([^)]+)\)/;
+            var results = pattern.exec(fecha);
+            var dt = new Date(parseFloat(results[1]));
+            var month = dt.getMonth() + 1;
+            if (month<10) {
+                month = "0"+month;
+            }
+            fecha =  dt.getFullYear()+"-"+(month) + "-" + dt.getDate();
+
+            document.getElementById('fechaNacimiento').value = fecha;
+            if (fecha) {
+                var today = new Date();
+                var dd = Number(today.getDate());
+                var mm = Number(today.getMonth() + 1);
+                var yyyy = Number(today.getFullYear());
+
+                var myBDM = Number(fecha.split("-")[1])
+                var myBDD = Number(fecha.split("-")[2])
+                var myBDY = Number(fecha.split("-")[0])
+                var age = yyyy - myBDY;
+
+                if (mm < myBDM) {
+                    age = age - 1;
                 }
-                fecha =  dt.getFullYear()+"-"+(month) + "-" + dt.getDate();
+                else if (mm == myBDM && dd < myBDD) {
+                    age = age - 1;
+                }
 
-                document.getElementById('fechaNacimiento').value = fecha;
-                if (fecha) {
-                    var today = new Date();
-                    var dd = Number(today.getDate());
-                    var mm = Number(today.getMonth() + 1);
-                    var yyyy = Number(today.getFullYear());
+                if (age < 18) {
+                    document.getElementById('encargado').style.display = 'block';
+                    document.getElementById('divMenorEdad').style.display = 'block';
+                    $('#lblMenorEdad').html('Sí');
+                    $('#MenorEdadH').val(1);
+                    document.getElementById('ninoArriba').style.display = 'block';
+                    document.getElementById('ninoAbajo').style.display = 'block';
 
-                    var myBDM = Number(fecha.split("-")[1])
-                    var myBDD = Number(fecha.split("-")[2])
-                    var myBDY = Number(fecha.split("-")[0])
-                    var age = yyyy - myBDY;
-
-                    if (mm < myBDM) {
-                        age = age - 1;
-                    }
-                    else if (mm == myBDM && dd < myBDD) {
-                        age = age - 1;
-                    }
-
-                    if (age < 18) {
-                        document.getElementById('encargado').style.display = 'block';
-                        document.getElementById('divMenorEdad').style.display = 'block';
-                        $('#lblMenorEdad').html('Sí');
-                        $('#MenorEdadH').val(1);
-                        document.getElementById('ninoArriba').style.display = 'block';
-                        document.getElementById('ninoAbajo').style.display = 'block';
-
-                    } else {
-
-                        $('#MenorEdadH').val(0);
-                        document.getElementById('encargado').style.display = 'none';
-                        document.getElementById('divMenorEdad').style.display = 'block';
-                        $('#lblMenorEdad').html('No');
-
-                    }
-
-                    $('#EdadH').val(age);
-                    $('#lblEdad').html(age + ' años');
-                    document.getElementById('divEdad').style.display = 'block';
                 } else {
+
+                    $('#MenorEdadH').val(0);
                     document.getElementById('encargado').style.display = 'none';
-                    document.getElementById('divMenorEdad').style.display = 'none';
-                    document.getElementById('divEdad').style.display = 'none';
+                    document.getElementById('divMenorEdad').style.display = 'block';
+                    $('#lblMenorEdad').html('No');
+
+                }
+
+                $('#EdadH').val(age);
+                $('#lblEdad').html(age + ' años');
+                document.getElementById('divEdad').style.display = 'block';
+            } else {
+                document.getElementById('encargado').style.display = 'none';
+                document.getElementById('divMenorEdad').style.display = 'none';
+                document.getElementById('divEdad').style.display = 'none';
+            }
+
+            var bandera = @TempData["AgregoTratamiento"].ToString();
+            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();
+            if (mensajeError == true) {
+                $("#mensajeError").html('Tratamiento agregado correctamente.');
+                
+            }else {
+                document.getElementById('mensajeError').style.display = 'none';
+            }
+            if (bandera == true)
+            {
+                $('.nav-tabs a[href="#tab3default"]').tab('show');
+            }
+
+        });
+        function mostrarEncargado() {
+            var fecha = document.getElementById("fechaNacimiento").value;
+            if (fecha) {
+                var today = new Date();
+                var dd = Number(today.getDate());
+                var mm = Number(today.getMonth() + 1);
+                var yyyy = Number(today.getFullYear());
+
+                var myBDM = Number(fecha.split("-")[1])
+                var myBDD = Number(fecha.split("-")[2])
+                var myBDY = Number(fecha.split("-")[0])
+                var age = yyyy - myBDY;
+
+                if (mm < myBDM) {
+                    age = age - 1;
+                }
+                else if (mm == myBDM && dd < myBDD) {
+                    age = age - 1;
+                }
+
+                if (age < 18) {
+                    document.getElementById('encargado').style.display = 'block';
+                    document.getElementById('divMenorEdad').style.display = 'block';
+                    $('#lblMenorEdad').html('Sí');
+                    $('#MenorEdadH').val(1);
+
+                } else {
+
+                    $('#MenorEdadH').val(0);
+                    document.getElementById('encargado').style.display = 'none';
+                    document.getElementById('divMenorEdad').style.display = 'block';
+                    $('#lblMenorEdad').html('No');
+
+                }
+
+                $('#EdadH').val(age);
+                $('#lblEdad').html(age + ' años');
+                document.getElementById('divEdad').style.display = 'block';
+            } else {
+                document.getElementById('encargado').style.display = 'none';
+                document.getElementById('divMenorEdad').style.display = 'none';
+                document.getElementById('divEdad').style.display = 'none';
+            }
+
+        }
+
+
+
+        /*FUNCIONES PARA EL ODONTOGRAMA*/
+        function cambiarOdontograma() {
+            if(document.getElementById('decidua').checked){
+                document.getElementById('ninoArriba').style.display = 'block';
+                document.getElementById('ninoAbajo').style.display = 'block';
+                document.getElementById('adultoArriba').style.display = 'none';
+                document.getElementById('adultoAbajo').style.display = 'none';
+            }
+            else{
+                document.getElementById('adultoArriba').style.display = 'block';
+                document.getElementById('adultoAbajo').style.display = 'block';
+                document.getElementById('ninoArriba').style.display = 'none';
+                document.getElementById('ninoAbajo').style.display = 'none';
+            }
+
+
+
+        }
+
+
+        function buttonClick(button){
+
+            document.getElementById('IdDiente').value = button.value;
+            document.getElementById('btnVerTratamiento').value = button.value;
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            document.getElementById('IdPaciente').value = idPaciente;
+
+            $.ajax({
+                url:'@Url.Action("GetTratamientosDiente", "Records")',
+                type: 'GET',
+                data: { idDiente: button.value, idPaciente_1: idPaciente },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        // alert("true!");
+                        $("#btnVerTratamiento").css("display", "inline");
+                        //jQuery('#btnVerTratamiento').show()
+                    } else {
+                        //alert("false!");
+                        // DoSomethingElse()
+                        $("#btnVerTratamiento").css("display", "none");
+                        // jQuery('#btnVerTratamiento').hide()
+                    }
+                },
+                error: function (response) {
+                    alert("error!");  //
                 }
 
             });
-            function mostrarEncargado() {
-                var fecha = document.getElementById("fechaNacimiento").value;
-                if (fecha) {
-                    var today = new Date();
-                    var dd = Number(today.getDate());
-                    var mm = Number(today.getMonth() + 1);
-                    var yyyy = Number(today.getFullYear());
 
-                    var myBDM = Number(fecha.split("-")[1])
-                    var myBDD = Number(fecha.split("-")[2])
-                    var myBDY = Number(fecha.split("-")[0])
-                    var age = yyyy - myBDY;
+            //  return true;
+        }
 
-                    if (mm < myBDM) {
-                        age = age - 1;
-                    }
-                    else if (mm == myBDM && dd < myBDD) {
-                        age = age - 1;
-                    }
+        function activarDiente() {
+            var numDiente = document.getElementById("num").value;
+        }
 
-                    if (age < 18) {
-                        document.getElementById('encargado').style.display = 'block';
-                        document.getElementById('divMenorEdad').style.display = 'block';
-                        $('#lblMenorEdad').html('Sí');
-                        $('#MenorEdadH').val(1);
 
-                    } else {
 
-                        $('#MenorEdadH').val(0);
-                        document.getElementById('encargado').style.display = 'none';
-                        document.getElementById('divMenorEdad').style.display = 'block';
-                        $('#lblMenorEdad').html('No');
 
-                    }
+        function colocarTabOdontograma() {
+            $('.nav-tabs a[href="#tabDefault4"]').tab('show');
+        }
 
-                    $('#EdadH').val(age);
-                    $('#lblEdad').html(age + ' años');
-                    document.getElementById('divEdad').style.display = 'block';
-                } else {
-                    document.getElementById('encargado').style.display = 'none';
-                    document.getElementById('divMenorEdad').style.display = 'none';
-                    document.getElementById('divEdad').style.display = 'none';
+
+
+        function FiltrarTratamientoDiente(button) {
+            var idDiente =button.value;
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            $.ajax({
+                url:'@Url.Action("FiltrarTratamientosPorDiente", "Records")',
+                type: 'GET',
+                data: { idDiente: button.value, idPaciente_1: idPaciente },
+                //dataType: "json",
+                success: function (data) {
+
+                    $('#PartialViewTratamientosPaciente').html(data)
+                },
+                error: function (data) {
+                    alert("error!"+ data);  //
                 }
 
-            }
-
-            /*FUNCIONES PARA EL ODONTOGRAMA*/
-            function cambiarOdontograma() {
-                if(document.getElementById('decidua').checked){
-                    document.getElementById('ninoArriba').style.display = 'block';
-                    document.getElementById('ninoAbajo').style.display = 'block';
-                    document.getElementById('adultoArriba').style.display = 'none';
-                    document.getElementById('adultoAbajo').style.display = 'none';
-                }
-                else{
-                    document.getElementById('adultoArriba').style.display = 'block';
-                    document.getElementById('adultoAbajo').style.display = 'block';
-                    document.getElementById('ninoArriba').style.display = 'none';
-                    document.getElementById('ninoAbajo').style.display = 'none';
-                }
-
-            }
-
-            function activarDiente() {
-                var numDiente = document.getElementById("num").value;
-            }
-
-            function show_popup() {
-                $("#popup").modal();
-            }
-        </script>
-
-        <meta charset="UTF-8">
-        <title>Especialidades Odontológicas | Expediente Clínico</title>
-        <meta name="description" content="Especialista Dental" />
-        <meta name="keywords" content="Dentista, Heredia, Odontologa, Especialidades, Especialista" />
-
-    </head>
-    <body>
-        <div class="container col-md-12 center-block">
-            <div class="panel panel-primary">
-                <div class='panel-heading'>
-                    <h4>Editando Expediente @Html.DisplayFor(model => model.Item1.Cedula)</h4>
-                </div>
-                <div class='panel-body'>
+            });
+        }
 
 
-                    @using (Html.BeginForm())
-                    {
-                        @Html.AntiForgeryToken()
 
-                        <div class="form-horizontal">
+        function show_popup() {
+            $("#popup").modal();
+        }
+    </script>
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            @Html.HiddenFor(model => model.Item1.id)
+    <meta charset="UTF-8">
+    <title>Especialidades Odontológicas | Expediente Clínico</title>
+    <meta name="description" content="Especialista Dental" />
+    <meta name="keywords" content="Dentista, Heredia, Odontologa, Especialidades, Especialista" />
 
-                            <div class="panel with-nav-tabs panel-default">
-                                <div class="panel-heading">
-                                    <ul class="nav nav-tabs">
-                                        <li class="active"><a href="#tab1default" data-toggle="tab">Datos Personales</a></li>
-                                        <li><a href="#tab2default" data-toggle="tab">Condiciones Médicas</a></li>
-                                        <li><a href="#tab3default" data-toggle="tab">Odontograma</a></li>
-                                    </ul>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab1default">
-                                            <div class="form-horizontal">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Nombre, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-8'>
-                                                            <div class='col-md-3 indent-small' style="margin-left:-5px;">
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-user'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Nombre, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                            <div class='col-md-3 indent-small'>
-                                                                <div class='form-group internal '>
-                                                                    @Html.EditorFor(model => model.Item1.Apellido1, new { htmlAttributes = new { @class = "form-control", @placeholder = "1er Apellido" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Apellido1, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                            <div class='col-md-3 indent-small'>
-                                                                <div class='form-group internal'>
-                                                                    @Html.EditorFor(model => model.Item1.Apellido2, new { htmlAttributes = new { @class = "form-control", @placeholder = "2do Apellido" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Apellido2, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Cedula, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='form-group internal input-group'>
-                                                                <span class='input-group-addon'>
-                                                                    <i class='glyphicon glyphicon-pencil'></i>
-                                                                </span>
-                                                                @Html.EditorFor(model => model.Item1.Cedula, new { htmlAttributes = new { @class = "form-control", @maxlength = "9", @readonly = "true" } })
-                                                                @Html.ValidationMessageFor(model => model.Item1.Cedula, "", new { @class = "text-danger" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='form-group internal input-group'>
-                                                                <span class='input-group-addon'>
-                                                                    <i class='glyphicon glyphicon-calendar'></i>
-                                                                </span>
-                                                                @Html.EditorFor(model => model.Item1.FechaNacimiento, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "fechaNacimiento", @max = (DateTime.Now.Year - 1).ToString() + "-01-01", @min = "1920-01-01", @onchange = "javascript:mostrarEncargado();" } })
-                                                                @Html.ValidationMessageFor(model => model.Item1.FechaNacimiento, "", new { @class = "text-danger" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group" id="divEdad" style="display:none;">
-                                                        @Html.Label("Edad", htmlAttributes: new { @class = "control-label col-md-2" })
-                                                        <div class='col-md-6'>
-
-                                                            <div class='form-group internal input-group'>
-                                                                <span class='input-group-addon'>
-                                                                    <i class='glyphicon glyphicon-bishop'></i>
-                                                                </span>
-                                                                @Html.HiddenFor(model => model.Item1.Edad, new { id = "EdadH" })
-                                                                <label id="lblEdad" class="form-control"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group" id="divMenorEdad" style="display:none;">
-                                                        @Html.Label("Menor de Edad", htmlAttributes: new { @class = "control-label col-md-2" })
-                                                        <div class='col-md-6'>
-                                                            <div class='form-group internal input-group'>
-                                                                <span class='input-group-addon'>
-                                                                    <i class='glyphicon glyphicon-bishop'></i>
-                                                                </span>
-                                                                @Html.HiddenFor(model => model.Item1.Edad, new { id = "MenorEdadH" })
-                                                                <label id="lblMenorEdad" class="form-control"></label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group" id="encargado" style="display:none;">
-                                                        @Html.LabelFor(model => model.Item1.NombreEncargado, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-8'>
-                                                            <div class='col-md-3 indent-small' style="margin-left:-5px;">
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-user'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.NombreEncargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.NombreEncargado, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                            <div class='col-md-3 indent-small'>
-                                                                <div class='form-group internal'>
-                                                                    @Html.EditorFor(model => model.Item1.Apellido1Encargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "1er Apellido" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Apellido1Encargado, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                            <div class='col-md-3 indent-small'>
-                                                                <div class='form-group internal'>
-                                                                    @Html.EditorFor(model => model.Item1.Apellido2Encargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "2do Apellido" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Apellido2Encargado, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.IdEstadoCivil, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='indent-small'>
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-question-sign'></i>
-                                                                    </span>
-                                                                    @Html.DropDownListFor(model => model.Item1.IdEstadoCivil, new SelectList(Model.Item1.ListCivilStatus, "Id", "Descripcion"), "--Elija una opción--", new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.IdEstadoCivil, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Domicilio, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                        <div class='col-md-6'>
-                                                            <div class='form-group internal input-group'>
-                                                                <span class='input-group-addon'>
-                                                                    <i class='glyphicon glyphicon-home'></i>
-                                                                </span>
-                                                                @Html.EditorFor(model => model.Item1.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
-                                                                @Html.ValidationMessageFor(model => model.Item1.Domicilio, "", new { @class = "text-danger" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Telefono1, htmlAttributes: new { @class = "control-label col-md-2" })
-                                                        <div class="col-md-6">
-                                                            <div class='form-group'>
-                                                                <div class="col-md-6">
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-phone-alt'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.Telefono1, new { htmlAttributes = new { @class = "form-control", @placeholder = "casa: xxxx-xxxx" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Telefono1, "", new { @class = "text-danger" })
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-phone'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.Telefono2, new { htmlAttributes = new { @class = "form-control", @placeholder = "celular: xxxx-xxxx" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Telefono2, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Profesion, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='indent-small'>
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-user'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.Profesion, new { htmlAttributes = new { @class = "form-control" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Profesion, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.Email, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='indent-small'>
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-envelope'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.Email, new { htmlAttributes = new { @class = "form-control" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.Email, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        @Html.LabelFor(model => model.Item1.ContactoEmergencia, htmlAttributes: new { @class = "control-label col-md-2 " })
-                                                        <div class='col-md-6'>
-                                                            <div class='indent-small'>
-                                                                <div class='form-group internal input-group'>
-                                                                    <span class='input-group-addon'>
-                                                                        <i class='glyphicon glyphicon-alert'></i>
-                                                                    </span>
-                                                                    @Html.EditorFor(model => model.Item1.ContactoEmergencia, new { htmlAttributes = new { @class = "form-control" } })
-                                                                    @Html.ValidationMessageFor(model => model.Item1.ContactoEmergencia, "", new { @class = "text-danger" })
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
-                                            <a class="btn btn-primary pull-right" href="#tab2default" id="btnNext" data-toggle="tab">Continuar</a>
-                                        </div>
-
-                                        <div class="tab-pane" id="tab2default">
-                                            @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
-                                            <div class="col-md-12">
-                                                <div class="col-sm-3">
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.TratamientoMedico, htmlAttributes: new { @class = "label-custom" })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.TratamientoMedico, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.TratamientoMedico, "", new { @class = "text-danger" })
-                                                        </div>
-
-                                                    </div>
-
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Medicamento, htmlAttributes: new { @class = "label-custom" })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Medicamento, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Medicamento, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Diabetes, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Diabetes, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Diabetes, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Artritis, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Artritis, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Artritis, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.EnfermedadCardiaca, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.EnfermedadCardiaca, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.EnfermedadCardiaca, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Hepatitis, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Hepatitis, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Hepatitis, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.FiebreReumatica, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.FiebreReumatica, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.FiebreReumatica, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Ulcera, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Ulcera, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Ulcera, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.PresionAlta, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.PresionAlta, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.PresionAlta, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.PresionBaja, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.PresionBaja, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.PresionBaja, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.EnfermedadesNerviosas, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.EnfermedadesNerviosas, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.EnfermedadesNerviosas, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.OtrasEnfermedades, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.OtrasEnfermedades, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.OtrasEnfermedades, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.SangradoProlongado, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.SangradoProlongado, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.SangradoProlongado, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Desmayos, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Desmayos, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Desmayos, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.IntervencionQuirurgica, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.IntervencionQuirurgica, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.IntervencionQuirurgica, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Aspirina, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Aspirina, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Aspirina, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Sulfas, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Sulfas, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Sulfas, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Penicilina, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Penicilina, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Penicilina, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.AnomaliasAnestesia, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.AnomaliasAnestesia, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.AnomaliasAnestesia, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Embarazo, htmlAttributes: new { @class = "label-custom" })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Embarazo, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Embarazo, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Lactancia, htmlAttributes: new { @class = "label-custom" })
-                                                        <div class="col-md-2">
-                                                            @Html.EditorFor(model => model.Item1.Lactancia, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Lactancia, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-
-
-                                                </div>
-                                                <div class="col-sm-3">
-                                                    <div class="row">
-                                                        @Html.LabelFor(model => model.Item1.Otros, htmlAttributes: new { @class = "label-custom " })
-                                                        <div class="col-md-12">
-                                                            @Html.TextAreaFor(model => model.Item1.Otros, new { htmlAttributes = new { @class = "form-control" } })
-                                                            @Html.ValidationMessageFor(model => model.Item1.Otros, "", new { @class = "text-danger" })
-                                                        </div>
-                                                    </div>
-                                                    <br /><br /><br />
-                                                    <div class="row">
-                                                        <a class="btn btn-primary" href="#tab1default" id="btnPrevious" data-toggle="tab">Regresar</a>
-                                                        <input type="submit" value="Guardar cambios" class="btn btn-success" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @*Seccion del Odontograma*@
-                                        <div class="tab-pane" id="tab3default">
-                                            <div class="col-md-12">
-
-                                                <label class="control-label">Seleccione el tipo </label><hr />
-                                                <input type="radio" id="permanente" name="tipo" onchange="cambiarOdontograma();" checked />Permanente <br />
-                                                <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
-
-                                                <div class="col-md-12 col-md-offset-0 text-center" id="adultoArriba" style="display:block;">
-                                                    <button class="btn diente" type="button" value="18" onclick="" data-toggle="modal" data-target="#myModal">18</button>
-                                                    <button class="btn diente" type="button" value="17" data-toggle="modal" data-target="#myModal">17</button>
-                                                    <button class="btn diente" type="button" value="16" data-toggle="modal" data-target="#myModal">16</button>
-                                                    <button class="btn diente" type="button" value="15" data-toggle="modal" data-target="#myModal">15</button>
-                                                    <button class="btn diente" type="button" value="14" data-toggle="modal" data-target="#myModal">14</button>
-                                                    <button class="btn diente" type="button" value="13" data-toggle="modal" data-target="#myModal">13</button>
-                                                    <button class="btn diente" type="button" value="12" data-toggle="modal" data-target="#myModal">12</button>
-                                                    <button class="btn diente" type="button" value="11" data-toggle="modal" data-target="#myModal">11</button>
-                                                    <button class="btn diente" type="button" value="21" data-toggle="modal" data-target="#myModal">21</button>
-                                                    <button class="btn diente" type="button" value="22" data-toggle="modal" data-target="#myModal">22</button>
-                                                    <button class="btn diente" type="button" value="23" data-toggle="modal" data-target="#myModal">23</button>
-                                                    <button class="btn diente" type="button" value="24" data-toggle="modal" data-target="#myModal">24</button>
-                                                    <button class="btn diente" type="button" value="25" data-toggle="modal" data-target="#myModal">25</button>
-                                                    <button class="btn diente" type="button" value="26" data-toggle="modal" data-target="#myModal">26</button>
-                                                    <button class="btn diente" type="button" value="27" data-toggle="modal" data-target="#myModal">27</button>
-                                                    <button class="btn diente" type="button" value="28" data-toggle="modal" data-target="#myModal">28</button>
-                                                </div>
-
-                                                <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
-                                                    <div class="clearfix"></div>
-                                                    <button class="btn diente_nino" type="button" value="55">55</button>
-                                                    <button class="btn diente_nino" type="button" value="54">54</button>
-                                                    <button class="btn diente_nino" type="button" value="53">53</button>
-                                                    <button class="btn diente_nino" type="button" value="52">52</button>
-                                                    <button class="btn diente_nino" type="button" value="51">51</button>
-                                                    <button class="btn diente_nino" type="button" value="61">61</button>
-                                                    <button class="btn diente_nino" type="button" value="62">62</button>
-                                                    <button class="btn diente_nino" type="button" value="63">63</button>
-                                                    <button class="btn diente_nino" type="button" value="64">64</button>
-                                                    <button class="btn diente_nino" type="button" value="65">65</button>
-                                                </div>
-                                                <div class="col-md-12 col-md-offset-0 text-center" id="ninoAbajo" style="display:none;">
-                                                    <button class="btn diente_nino" type="button" value="85">85</button>
-                                                    <button class="btn diente_nino" type="button" value="84">84</button>
-                                                    <button class="btn diente_nino" type="button" value="83">83</button>
-                                                    <button class="btn diente_nino" type="button" value="82">82</button>
-                                                    <button class="btn diente_nino" type="button" value="81">81</button>
-                                                    <button class="btn diente_nino" type="button" value="71">71</button>
-                                                    <button class="btn diente_nino" type="button" value="72">72</button>
-                                                    <button class="btn diente_nino" type="button" value="73">73</button>
-                                                    <button class="btn diente_nino" type="button" value="74">74</button>
-                                                    <button class="btn diente_nino" type="button" value="75">75</button>
-                                                </div>
-                                                <div class="col-md-12 col-md-offset-0 text-center" id="adultoAbajo" style="display:block;">
-                                                    <button class="btn diente" type="button" value="48">48</button>
-                                                    <button class="btn diente" type="button" value="47">47</button>
-                                                    <button class="btn diente" type="button" value="46">46</button>
-                                                    <button class="btn diente" type="button" value="45">45</button>
-                                                    <button class="btn diente" type="button" value="44">44</button>
-                                                    <button class="btn diente" type="button" value="43">43</button>
-                                                    <button class="btn diente" type="button" value="42">42</button>
-                                                    <button class="btn diente" type="button" value="41">41</button>
-                                                    <button class="btn diente" type="button" value="31">31</button>
-                                                    <button class="btn diente" type="button" value="32">32</button>
-                                                    <button class="btn diente" type="button" value="33">33</button>
-                                                    <button class="btn diente" type="button" value="34">34</button>
-                                                    <button class="btn diente" type="button" value="35">35</button>
-                                                    <button class="btn diente" type="button" value="36">36</button>
-                                                    <button class="btn diente" type="button" value="37">37</button>
-                                                    <button class="btn diente" type="button" value="38">38</button>
-                                                </div>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                            </div><!-- Fin del Panel -->
-                        </div><!-- Fin del Form -->
-                    }
-                </div><!-- Fin del Panel Body -->
+</head>
+<body>
+    <div class="container col-md-12 center-block">
+        <div class="panel panel-primary">
+            <div class='panel-heading'>
+                <h4>Editando Expediente @Html.DisplayFor(model => model.Item1.Cedula)</h4>
             </div>
-        </div>
-        <!-- Modal Diente-->
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+            <div class='panel-body'>
 
+
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.Item1.id)
+
+                        <div class="panel with-nav-tabs panel-default">
+                            <div class="panel-heading">
+                                <ul class="nav nav-tabs">
+                                    <li class="active"><a href="#tab1default" data-toggle="tab">Datos Personales</a></li>
+                                    <li><a href="#tab2default" data-toggle="tab">Condiciones Médicas</a></li>
+                                    <li><a href="#tab3default" data-toggle="tab">Odontograma</a></li>
+                                    <li><a href="#tab4default" data-toggle="tab">Tratamientos</a></li>
+                                </ul>
+                            </div>
+                            <div class="panel-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab1default">
+                                        <div class="form-horizontal">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Nombre, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-8'>
+                                                        <div class='col-md-3 indent-small' style="margin-left:-5px;">
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-user'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.Nombre, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Nombre, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-3 indent-small'>
+                                                            <div class='form-group internal '>
+                                                                @Html.EditorFor(model => model.Item1.Apellido1, new { htmlAttributes = new { @class = "form-control", @placeholder = "1er Apellido" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Apellido1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-3 indent-small'>
+                                                            <div class='form-group internal'>
+                                                                @Html.EditorFor(model => model.Item1.Apellido2, new { htmlAttributes = new { @class = "form-control", @placeholder = "2do Apellido" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Apellido2, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Cedula, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='form-group internal input-group'>
+                                                            <span class='input-group-addon'>
+                                                                <i class='glyphicon glyphicon-pencil'></i>
+                                                            </span>
+                                                            @Html.EditorFor(model => model.Item1.Cedula, new { htmlAttributes = new { @class = "form-control", @maxlength = "9", @readonly = "true" } })
+                                                            @Html.ValidationMessageFor(model => model.Item1.Cedula, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='form-group internal input-group'>
+                                                            <span class='input-group-addon'>
+                                                                <i class='glyphicon glyphicon-calendar'></i>
+                                                            </span>
+                                                            @Html.EditorFor(model => model.Item1.FechaNacimiento, new { htmlAttributes = new { @class = "form-control", @type = "date", @id = "fechaNacimiento", @max = (DateTime.Now.Year - 1).ToString() + "-01-01", @min = "1920-01-01", @onchange = "javascript:mostrarEncargado();" } })
+                                                            @Html.ValidationMessageFor(model => model.Item1.FechaNacimiento, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group" id="divEdad" style="display:none;">
+                                                    @Html.Label("Edad", htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class='col-md-6'>
+
+                                                        <div class='form-group internal input-group'>
+                                                            <span class='input-group-addon'>
+                                                                <i class='glyphicon glyphicon-bishop'></i>
+                                                            </span>
+                                                            @Html.HiddenFor(model => model.Item1.Edad, new { id = "EdadH" })
+                                                            <label id="lblEdad" class="form-control"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group" id="divMenorEdad" style="display:none;">
+                                                    @Html.Label("Menor de Edad", htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class='col-md-6'>
+                                                        <div class='form-group internal input-group'>
+                                                            <span class='input-group-addon'>
+                                                                <i class='glyphicon glyphicon-bishop'></i>
+                                                            </span>
+                                                            @Html.HiddenFor(model => model.Item1.Edad, new { id = "MenorEdadH" })
+                                                            <label id="lblMenorEdad" class="form-control"></label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group" id="encargado" style="display:none;">
+                                                    @Html.LabelFor(model => model.Item1.NombreEncargado, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-8'>
+                                                        <div class='col-md-3 indent-small' style="margin-left:-5px;">
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-user'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.NombreEncargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "Nombre" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.NombreEncargado, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-3 indent-small'>
+                                                            <div class='form-group internal'>
+                                                                @Html.EditorFor(model => model.Item1.Apellido1Encargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "1er Apellido" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Apellido1Encargado, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class='col-md-3 indent-small'>
+                                                            <div class='form-group internal'>
+                                                                @Html.EditorFor(model => model.Item1.Apellido2Encargado, new { htmlAttributes = new { @class = "form-control", @placeholder = "2do Apellido" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Apellido2Encargado, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.IdEstadoCivil, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-question-sign'></i>
+                                                                </span>
+                                                                @Html.DropDownListFor(model => model.Item1.IdEstadoCivil, new SelectList(Model.Item1.ListCivilStatus, "Id", "Descripcion"), "--Elija una opción--", new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(model => model.Item1.IdEstadoCivil, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Domicilio, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class='col-md-6'>
+                                                        <div class='form-group internal input-group'>
+                                                            <span class='input-group-addon'>
+                                                                <i class='glyphicon glyphicon-home'></i>
+                                                            </span>
+                                                            @Html.EditorFor(model => model.Item1.Domicilio, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Item1.Domicilio, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Telefono1, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    <div class="col-md-6">
+                                                        <div class='form-group'>
+                                                            <div class="col-md-6">
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-phone-alt'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.Telefono1, new { htmlAttributes = new { @class = "form-control", @placeholder = "casa: xxxx-xxxx" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Telefono1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-phone'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.Telefono2, new { htmlAttributes = new { @class = "form-control", @placeholder = "celular: xxxx-xxxx" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Telefono2, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Profesion, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-user'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.Profesion, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Profesion, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.Email, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-envelope'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.Email, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.Email, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(model => model.Item1.ContactoEmergencia, htmlAttributes: new { @class = "control-label col-md-2 " })
+                                                    <div class='col-md-6'>
+                                                        <div class='indent-small'>
+                                                            <div class='form-group internal input-group'>
+                                                                <span class='input-group-addon'>
+                                                                    <i class='glyphicon glyphicon-alert'></i>
+                                                                </span>
+                                                                @Html.EditorFor(model => model.Item1.ContactoEmergencia, new { htmlAttributes = new { @class = "form-control" } })
+                                                                @Html.ValidationMessageFor(model => model.Item1.ContactoEmergencia, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
+                                        <a class="btn btn-primary pull-right" href="#tab2default" id="btnNext" data-toggle="tab">Continuar</a>
+                                    </div>
+
+                                    <div class="tab-pane" id="tab2default">
+                                        @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
+                                        <div class="col-md-12">
+                                            <div class="col-sm-3">
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.TratamientoMedico, htmlAttributes: new { @class = "label-custom" })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.TratamientoMedico, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.TratamientoMedico, "", new { @class = "text-danger" })
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Medicamento, htmlAttributes: new { @class = "label-custom" })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Medicamento, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Medicamento, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Diabetes, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Diabetes, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Diabetes, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Artritis, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Artritis, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Artritis, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.EnfermedadCardiaca, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.EnfermedadCardiaca, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.EnfermedadCardiaca, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Hepatitis, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Hepatitis, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Hepatitis, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.FiebreReumatica, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.FiebreReumatica, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.FiebreReumatica, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Ulcera, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Ulcera, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Ulcera, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.PresionAlta, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.PresionAlta, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.PresionAlta, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.PresionBaja, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.PresionBaja, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.PresionBaja, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.EnfermedadesNerviosas, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.EnfermedadesNerviosas, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.EnfermedadesNerviosas, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.OtrasEnfermedades, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.OtrasEnfermedades, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.OtrasEnfermedades, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.SangradoProlongado, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.SangradoProlongado, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.SangradoProlongado, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Desmayos, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Desmayos, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Desmayos, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.IntervencionQuirurgica, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.IntervencionQuirurgica, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.IntervencionQuirurgica, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Aspirina, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Aspirina, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Aspirina, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Sulfas, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Sulfas, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Sulfas, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Penicilina, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Penicilina, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Penicilina, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.AnomaliasAnestesia, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.AnomaliasAnestesia, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.AnomaliasAnestesia, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Embarazo, htmlAttributes: new { @class = "label-custom" })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Embarazo, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Embarazo, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Lactancia, htmlAttributes: new { @class = "label-custom" })
+                                                    <div class="col-md-2">
+                                                        @Html.EditorFor(model => model.Item1.Lactancia, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Lactancia, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <div class="row">
+                                                    @Html.LabelFor(model => model.Item1.Otros, htmlAttributes: new { @class = "label-custom " })
+                                                    <div class="col-md-12">
+                                                        @Html.TextAreaFor(model => model.Item1.Otros, new { htmlAttributes = new { @class = "form-control" } })
+                                                        @Html.ValidationMessageFor(model => model.Item1.Otros, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <br /><br /><br />
+                                                <div class="row">
+                                                    <a class="btn btn-primary" href="#tab1default" id="btnPrevious" data-toggle="tab">Regresar</a>
+                                                    <input type="submit" value="Guardar cambios" class="btn btn-success" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @*Seccion del Odontograma*@
+                                    <div class="tab-pane" id="tab3default">
+
+                                        <div class="col-md-12">
+                                            
+                                            <label class="control-label">Seleccione el tipo </label><hr />
+                                            <div class="row">
+                                                <label class="control-label center-block alert alert-success" id="mensajeError"></label>
+                                            </div>
+                                            
+                                            <input type="radio" id="permanente" name="tipo" onchange="cambiarOdontograma();" checked />Permanente <br />
+                                            <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
+
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="adultoArriba" style="display:block;">
+                                                <button class="btn diente" type="button" value="18" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">18</button>
+                                                <button class="btn diente" type="button" value="17" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">17</button>
+                                                <button class="btn diente" type="button" value="16" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">16</button>
+                                                <button class="btn diente" type="button" value="15" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">15</button>
+                                                <button class="btn diente" type="button" value="14" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">14</button>
+                                                <button class="btn diente" type="button" value="13" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">13</button>
+                                                <button class="btn diente" type="button" value="12" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">12</button>
+                                                <button class="btn diente" type="button" value="11" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">11</button>
+                                                <button class="btn diente" type="button" value="21" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">21</button>
+                                                <button class="btn diente" type="button" value="22" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">22</button>
+                                                <button class="btn diente" type="button" value="23" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">23</button>
+                                                <button class="btn diente" type="button" value="24" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">24</button>
+                                                <button class="btn diente" type="button" value="25" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">25</button>
+                                                <button class="btn diente" type="button" value="26" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">26</button>
+                                                <button class="btn diente" type="button" value="27" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">27</button>
+                                                <button class="btn diente" type="button" value="28" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">28</button>
+                                            </div>
+
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
+                                                <div class="clearfix"></div>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="55">55</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="54">54</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="53">53</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="52">52</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="51">51</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="61">61</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="62">62</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="63">63</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="64">64</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="65">65</button>
+                                            </div>
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="ninoAbajo" style="display:none;">
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="85">85</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="84">84</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="83">83</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="82">82</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="81">81</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="71">71</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="72">72</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="73">73</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="74">74</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="75">75</button>
+                                            </div>
+                                            <div class="col-md-12 col-md-offset-0 text-center" id="adultoAbajo" style="display:block;">
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="48">48</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="47">47</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="46">46</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="45">45</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="44">44</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="43">43</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="42">42</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="41">41</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="31">31</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="32">32</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="33">33</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="34">34</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="35">35</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="36">36</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="37">37</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="38">38</button>
+                                            </div>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                    @*Seccion de Tratamientos*@
+                                    <div class="tab-pane" id="tab4default">
+                                        <div class="col-md-12 table table-responsive">
+                                            <table class="table" id="PartialViewTratamientosPaciente">
+                                                <tr>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Item2.Tratamiento)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Item2.IdDiente)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Item2.Cara)
+                                                    </th>
+                                                    <th>
+                                                        @Html.DisplayNameFor(model => model.Item2.Observaciones)
+                                                    </th>
+                                                    <th></th>
+                                                </tr>
+
+                                                @foreach (var item in Model.Item1.ListTratamientoPaciente)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.FechaTratamiento)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Tratamiento)
+                                                        </td>
+
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.IdDiente)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Cara)
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => item.Observaciones)
+                                                        </td>
+                                                        <td>
+                                                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
+                                                            @Html.ActionLink("Detalles", "Details", new { id = item.Id })
+
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                            </table>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div><!-- Fin del Panel -->
+                    </div><!-- Fin del Form -->
+                }
+            </div><!-- Fin del Panel Body -->
+        </div>
+    </div>
+    <!-- Modal Diente-->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        @using (Html.BeginForm("Create", "TratamientoPacientes"))
+        {
+            @Html.AntiForgeryToken()
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Detalle diente</h4>
+                        <h4 class="modal-title" id="myModalLabel">Aplicar nuevo tratamiento al paciente</h4>
                     </div>
                     <div class="modal-body">
                         <div class="form-horizontal">
@@ -688,31 +838,73 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
+
+                                 {
+                                    new SelectListItem{ Text="Vestibular", Value = "Vestibular" },
+                                    new SelectListItem{ Text="Lingual", Value = "Lingual" },
+                                    new SelectListItem{ Text="Distal", Value = "Distal" },
+                                    new SelectListItem{ Text="Incisal", Value = "Incisal" },
+                                    new SelectListItem{ Text="Mesial", Value = "Mesial" },
+                                    new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
+
+
+                                 }, "--Elija una opción--", new { @class = "form-control" })
+
+                                    @Html.ValidationMessageFor(model => model.Item2.Cara, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="eventTitle">Detalles</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => Model.Item2.Observaciones, new { htmlAttributes = new { @class = "form-control text-area" } })
+                                </div>
+                            </div>
+                            @if (TempData["AgregoTratamiento"] != null && TempData["AgregoTratamiento"].ToString().Equals("true"))
+                            {
+                                @Html.HiddenFor(model => Model.Item2.IdDiente, new { id = "IdDiente" })
+                                @Html.HiddenFor(model => Model.Item2.IdPaciente, new { id = "IdPaciente" })
+                                @Html.HiddenFor(model => Model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(model => model.Item2.IdDiente, new { id = "IdDiente" })
+                                @Html.HiddenFor(model => model.Item2.IdPaciente, new { id = "IdPaciente" })
+                                @Html.HiddenFor(model => model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+
+                            }
+
                         </div><!-- Fin del form -->
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary">Agregar Tratamiento</button>
+                        <button class="btn btn-warning" id="btnVerTratamiento" href="#tab4default" onclick="return FiltrarTratamientoDiente(this)" data-dismiss="modal" data-toggle="tab">Ver tratamientos aplicados al diente</button>
+                        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
                     </div>
                 </div>
             </div>
-        </div><!-- Fin del Modal -->
+        }
+    </div><!-- Fin del Modal -->
 
-    </body>
+</body>
 
-    @section Scripts {
-        /@*@Scripts.Render("~/bundles/jqueryval")*@
-        <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
-        <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
-        <script>
-            $('#btnNext').click(function () {
-                $('.nav-tabs > .active').next('li').find('a').trigger('click');
-            });
+@section Scripts {
+    /@*@Scripts.Render("~/bundles/jqueryval")*@
+    <script src="@Url.Content("~/Scripts/jquery.validate.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.js")" type="text/javascript"></script>
+    <script>
+        $('#btnNext').click(function () {
+            $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        });
 
-            $('#btnPrevious').click(function () {
-                $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-            });
-        </script>
-    }
+        $('#btnPrevious').click(function () {
+            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+        });
+    </script>
+}
 
 
