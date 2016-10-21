@@ -325,10 +325,12 @@
     <Content Include="css\animate.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\custom-styles.css" />
+    <Content Include="css\daterangepicker.css" />
     <Content Include="css\et-icons.css" />
     <Content Include="css\normalize.css" />
     <Content Include="css\owl.carousel.min.css" />
     <Content Include="css\owl.css" />
+    <Content Include="css\select2.min.css" />
     <Content Include="Diary.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Diary.Context1.cs</LastGenOutput>
@@ -428,11 +430,14 @@
     <Content Include="img\team\team3.jpg" />
     <Content Include="img\team\team5.jpg" />
     <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\daterangepicker.js" />
     <Content Include="js\index.js" />
     <Content Include="js\jquery-1.11.1.min.js" />
     <Content Include="js\jquery.onepagenav.js" />
     <Content Include="js\main.js" />
+    <Content Include="js\moment.min.js" />
     <Content Include="js\owl.carousel.min.js" />
+    <Content Include="js\select2.min.js" />
     <Content Include="js\tooltip.js" />
     <Content Include="js\typed.js" />
     <Content Include="js\typewriter.js" />
@@ -658,6 +663,7 @@
     <Content Include="Views\TratamientoPacientes\Details.cshtml" />
     <Content Include="Views\TratamientoPacientes\Edit.cshtml" />
     <Content Include="Views\TratamientoPacientes\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewTratamientosPaciente.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

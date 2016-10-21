@@ -19,8 +19,9 @@ namespace RecApp_2.Models
         {
         }
 
-        public DbSet<RecApp_2.Models.Record> Records { get; set; }
+        public DbSet<Record> Records { get; set; }
         public virtual DbSet<CivilStatus> Civil_Status { get; set; }
-        public virtual DbSet<Tratamiento> Tratamiento_valor { get; set; }
+        public virtual DbSet<Tratamiento> Tratamiento { get; set; }
+        public virtual DbSet<TratamientoPaciente> TratamientoPaciente { get; set; }
     }
 }
