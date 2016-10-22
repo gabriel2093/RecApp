@@ -1,6 +1,4 @@
-﻿@*@model RecApp_2.Models.Record*@
-
-@model Tuple<RecApp_2.Models.Record, RecApp_2.Models.TratamientoPaciente>
+﻿@model Tuple<RecApp_2.Models.Record, RecApp_2.Models.TratamientoPaciente>
 @{
 
     ViewBag.Title = "Especialidades Odontológicas | Expediente Clínico";
@@ -8,10 +6,10 @@
 }
 
 <head>
-    <!--funcion javascript para mostrar encargado -->
+    <!--Funciones del JQuery / JavaScript expediente. -->
     <script>
         $(document).ready(function () {
-
+         //Configuración DateRangePicker
             moment.locale('es', {
                 months : "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre".split(","),
                 monthsShort : "Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dec".split("_"),
@@ -33,7 +31,7 @@
 
 
             $("#btnVerTratamiento").click(function() {
-                $('.nav-tabs a[href="#tab4default"]').tab('show');
+                $('.nav-tabs a[href="#tab5default"]').tab('show');
             });
             $('#fechaNacimiento').removeAttr("data-val-date");
             var fecha = @Html.Raw(Json.Encode(Model.Item1.FechaNacimiento));
@@ -92,19 +90,23 @@
             }
 
             var bandera = @TempData["AgregoTratamiento"].ToString();
-            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();
+            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();                
+
             if (mensajeError == true) {
                 $("#mensajeError").html('Tratamiento agregado correctamente.');
 
             }else {
                 document.getElementById('mensajeError').style.display = 'none';
-            }
+            }        
             if (bandera == true)
             {
-                $('.nav-tabs a[href="#tab3default"]').tab('show');
+                $('.nav-tabs a[href="#tab4default"]').tab('show');
             }
 
         });
+
+
+        //Funciones  JavaScript
         function mostrarEncargado() {
             var fecha = document.getElementById("fechaNacimiento").value;
             if (fecha) {
@@ -150,10 +152,7 @@
             }
 
         }
-
-
-
-        /*FUNCIONES PARA EL ODONTOGRAMA*/
+        
         function cambiarOdontograma() {
             if(document.getElementById('decidua').checked){
                 document.getElementById('ninoArriba').style.display = 'block';
@@ -171,8 +170,21 @@
 
 
         }
+      
+        function activarDiente() {
+            var numDiente = document.getElementById("num").value;
+        }
+
+        function colocarTabOdontograma() {
+            $('.nav-tabs a[href="#tabDefault4"]').tab('show');
+        }
+
+        function show_popup() {
+            $("#popup").modal();
+        }
 
 
+        //Función JQuery
         function buttonClick(button){
 
             document.getElementById('IdDiente').value = button.value;
@@ -186,38 +198,19 @@
                 data: { idDiente: button.value, idPaciente_1: idPaciente },
                 dataType: "json",
                 success: function (response) {
-                    if (response.success) {
-                        // alert("true!");
-                        $("#btnVerTratamiento").css("display", "inline");
-                        //jQuery('#btnVerTratamiento').show()
-                    } else {
-                        //alert("false!");
-                        // DoSomethingElse()
-                        $("#btnVerTratamiento").css("display", "none");
-                        // jQuery('#btnVerTratamiento').hide()
+                    if (response.success) {                       
+                        $("#btnVerTratamiento").css("display", "inline");                        
+                    } else {                      
+                        $("#btnVerTratamiento").css("display", "none");                        
                     }
                 },
                 error: function (response) {
-                    alert("error!");  //
+                    alert("error!");
                 }
 
             });
 
-            //  return true;
         }
-
-        function activarDiente() {
-            var numDiente = document.getElementById("num").value;
-        }
-
-
-
-
-        function colocarTabOdontograma() {
-            $('.nav-tabs a[href="#tabDefault4"]').tab('show');
-        }
-
-
 
         function FiltrarTratamientoDiente(button) {
             var idDiente =button.value;
@@ -225,19 +218,16 @@
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorDiente", "Records")',
                 type: 'GET',
-                data: { idDiente: button.value, idPaciente_1: idPaciente },
-                //dataType: "json",
+                data: { idDiente: button.value, idPaciente_1: idPaciente },                
                 success: function (data) {
-
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data);  //
+                    alert("error!"+ data);
                 }
 
             });
         }
-
 
         function FiltrarTratamientoPorFecha() {
             var startDate = $('#reportrange').data('daterangepicker').startDate.format('DD/MM/YYYY');
@@ -246,81 +236,114 @@
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorFecha", "Records")',
                 type: 'GET',
-                data: { fechaInicio: startDate, fechaFin: endDate, idPaciente_1: idPaciente },
-                //dataType: "json",
+                data: { fechaInicio: startDate, fechaFin: endDate, idPaciente_1: idPaciente },              
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data);  //
+                    alert("error!"+ data); 
                 }
 
             });
         }
-        
+
         function FiltrarTratamientoPorTratamiento() {
-            var idTratamiento = $('#drpTratamientoFiltro').val();
-            //var endDate = $('#reportrange').data('daterangepicker').endDate.format('DD/MM/YYYY');
+            var idTratamiento = $('#drpTratamientoFiltro').val();          
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorTratamiento", "Records")',
                 type: 'GET',
-                data: { idTratamiento_1: idTratamiento, idPaciente_1: idPaciente },
-                //dataType: "json",
+                data: { idTratamiento_1: idTratamiento, idPaciente_1: idPaciente },               
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data);  //
+                    alert("error!"+ data);
                 }
-
             });
         }
 
 
         function FiltrarTratamientoPorCaraDiente() {
-            var idCara = $('#drpCarasDiente').val();
-            //var endDate = $('#reportrange').data('daterangepicker').endDate.format('DD/MM/YYYY');
+            var idCara = $('#drpCarasDiente').val();           
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorCaraDiente", "Records")',
                 type: 'GET',
-                data: { idCaraDiente_1: idCara, idPaciente_1: idPaciente },
-                //dataType: "json",
+                data: { idCaraDiente_1: idCara, idPaciente_1: idPaciente },               
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data);  //
+                    alert("error!"+ data); 
                 }
 
             });
         }
 
-
-        
         function FiltrarTratamientoPorDiente() {
-            var idDiente_1 = Number($('#drpNoDiente').val());
-            //var endDate = $('#reportrange').data('daterangepicker').endDate.format('DD/MM/YYYY');
+            var idDiente_1 = Number($('#drpNoDiente').val());           
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorDiente", "Records")',
                 type: 'GET',
-                data: { idDiente: idDiente_1, idPaciente_1: idPaciente },
-                //dataType: "json",
+                data: { idDiente: idDiente_1, idPaciente_1: idPaciente },              
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data);  //
+                    alert("error!"+ data);
                 }
 
             });
         }
 
-        function show_popup() {
-            $("#popup").modal();
-        }
+
+        $(function() {
+
+            var start = moment().subtract(29, 'days');
+            var end = moment();
+
+            function cb(start, end) {
+                $('#reportrange span').html(start.format('D/MM/YYYY') + ' - ' + end.format('D/MM/YYYY'));
+            }
+
+            $('#reportrange').daterangepicker({
+                locale: {
+                    format : "DD/MM/YYYY",
+                    applyLabel: 'Aplicar',
+                    buttonClasses: ['btn btn-primary'],
+                    applyClass: 'btn-small btn-primary',
+                    cancelLabel: "Cancelar",
+                    fromLabel: "Desde",
+                    toLabel: "Hasta",
+                },
+                showCustomRangeLabel: false,
+                alwaysShowCalendars: true,
+                startDate: start,
+                endDate: end,
+                ranges: {
+                    'Hoy': [moment(), moment()],
+                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
+                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
+                    'Mes anterior': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, cb);
+
+            cb(start, end);
+
+        });
+
+        $('#btnNext').click(function () {
+            $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        });
+
+        $('#btnPrevious').click(function () {
+            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+        });
+     
     </script>
 
     <meta charset="UTF-8">
@@ -333,7 +356,7 @@
     <div class="container col-md-12 center-block">
         <div class="panel panel-primary">
             <div class='panel-heading'>
-                <h4>Editando Expediente @Html.DisplayFor(model => model.Item1.Cedula)</h4>
+                <h4>Expediente #@Html.DisplayFor(model => model.Item1.Cedula)</h4>
             </div>
             <div class='panel-body'>
 
@@ -350,16 +373,229 @@
                         <div class="panel with-nav-tabs panel-default">
                             <div class="panel-heading">
                                 <ul class="nav nav-tabs">
-                                    <li class="active"><a href="#tab1default" data-toggle="tab">Datos Personales</a></li>
-                                    <li><a href="#tab2default" data-toggle="tab">Condiciones Médicas</a></li>
-                                    <li><a href="#tab3default" data-toggle="tab">Odontograma</a></li>
-                                    <li><a href="#tab4default" data-toggle="tab">Tratamientos</a></li>
+                                    <li class="active"><a href="#tab1default" data-toggle="tab">Información Principal</a></li>
+                                    <li><a href="#tab2default" data-toggle="tab">Datos Personales</a></li>
+                                    <li><a href="#tab3default" data-toggle="tab">Condiciones Médicas / Enfermedades</a></li>
+                                    <li><a href="#tab4default" data-toggle="tab">Odontograma</a></li>
+                                    <li><a href="#tab5default" data-toggle="tab">Tratamientos Aplicados</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
+                                    @*Detalles del paciente*@
                                     <div class="tab-pane active" id="tab1default">
+                                        @if (TempData["MessageRegistroModificado"] != null)
+                                        {
+                                            <label class="control-label center-block alert alert-success" id="mensajeErrorEditarExp">@TempData["MessageRegistroModificado"].ToString()</label>                                                  
+                                        }
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <div class="media">
+                                                    <a class="pull-left" href="#">
+                                                        <img class="media-object dp img-circle" src="~/Images/MedicalRecords.png" style="width: 100px;height:100px;">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <h4>
+                                                            @Html.DisplayFor(model => model.Item1.Nombre)
+                                                            @Html.DisplayFor(model => model.Item1.Apellido1)
+                                                            @Html.DisplayFor(model => model.Item1.Apellido2)
+                                                        </h4>
+                                                        <h4>Cédula: @Html.DisplayFor(model => model.Item1.Cedula) </h4>
+                                                        <hr style="margin:8px auto">
+
+                                                        <span class="label label-info">Correo electrónico: @Html.DisplayFor(model => model.Item1.Email)</span>
+                                                        <span class="label label-default">@Html.DisplayNameFor(model => model.Item1.Telefono1): @Html.DisplayFor(model => model.Item1.Telefono1)</span>
+                                                        <span class="label label-default">@Html.DisplayNameFor(model => model.Item1.Telefono2): @Html.DisplayFor(model => model.Item1.Telefono2)</span>
+                                                        <span class="label label-default">@Html.DisplayNameFor(model => model.Item1.FechaNacimiento):  @Html.DisplayFor(model => model.Item1.FechaNacimiento)</span>
+                                                        <span class="label label-default">@Html.DisplayNameFor(model => model.Item1.Edad): @Html.DisplayFor(model => model.Item1.Edad)</span>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-7">
+                                                <div class="panel with-nav-tabs panel-default">
+                                                    <div class="panel-heading">
+                                                        <ul class="nav nav-tabs">
+                                                            <li class="active"><a href="#tab2default_2" data-toggle="tab">Información Personal</a></li>
+                                                            @if (Model.Item1.Edad < 18)
+                                                            {
+                                                            <li><a href="#tab1default_1" data-toggle="tab">Datos del Encargado</a></li>
+                                                            }
+
+                                                            <li><a href="#tab4default_4" data-toggle="tab">Condición Médica</a></li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <div class="tab-content">
+                                                            @if (Model.Item1.Edad < 18)
+                                                            {
+                                                            <div class="tab-pane fade" id="tab1default_1">
+
+                                                                <h3> </h3>
+                                                                <label>
+                                                                    @Html.DisplayNameFor(model => model.Item1.NombreEncargado)
+                                                                </label>
+                                                                @Html.DisplayFor(model => model.Item1.NombreEncargado) @Html.DisplayFor(model => model.Item1.Apellido1Encargado) @Html.DisplayFor(model => model.Item1.Apellido2Encargado)
+                                                                <br />
+
+                                                            </div>
+                                                            }
+                                                            <div class="tab-pane active" id="tab2default_2">
+                                                                <div class="col-md-6">
+                                                                    <h3> </h3>
+                                                                    @if (Model.Item1.Edad < 18)
+                                                                    {
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.MenorEdad)
+                                                                    </label>
+                                                                    <br />
+                                                                    }
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.IdEstadoCivil)
+                                                                    </label>
+
+                                                                    @ViewBag.CivilStatus
+                                                                    <br />
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.Domicilio)
+                                                                    </label>
+                                                                    @Html.DisplayFor(model => model.Item1.Domicilio)
+                                                                    <br />
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.Profesion)
+                                                                    </label>
+                                                                    @Html.DisplayFor(model => model.Item1.Profesion)
+                                                                    <br />
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.ContactoEmergencia)
+                                                                    </label>
+                                                                    @Html.DisplayFor(model => model.Item1.ContactoEmergencia)
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="tab-pane fade" id="tab4default_4">
+                                                                <div class="col-md-8 table-responsive">
+                                                                    <h3> </h3>
+                                                                    <table class="table table-responsive table-bordered" style="min-height:300px;">
+
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.DisplayNameFor(model => model.Item1.TratamientoMedico)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(model => model.Item1.TratamientoMedico)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayNameFor(model => model.Item1.Medicamento)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(model => model.Item1.Medicamento)
+                                                                            </td>
+
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>
+                                                                                @Html.DisplayNameFor(model => model.Item1.Diabetes)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(model => model.Item1.Diabetes)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayNameFor(model => model.Item1.Artritis)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(model => model.Item1.Artritis)
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.EnfermedadCardiaca)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.EnfermedadCardiaca)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Hepatitis)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Hepatitis)</td>
+                                                                        </tr>
+
+
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.FiebreReumatica)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.FiebreReumatica)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Ulcera)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Ulcera)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.PresionAlta)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.PresionAlta)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.PresionBaja)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.PresionBaja)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.EnfermedadesNerviosas)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.EnfermedadesNerviosas)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.OtrasEnfermedades)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.OtrasEnfermedades)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.SangradoProlongado)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.SangradoProlongado)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Desmayos)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Desmayos)</td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.IntervencionQuirurgica)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.IntervencionQuirurgica)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Aspirina)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Aspirina)</td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Sulfas)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Sulfas)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Penicilina)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Penicilina)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.AnomaliasAnestesia)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.AnomaliasAnestesia)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Embarazo)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Embarazo)</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Lactancia)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Lactancia)</td>
+                                                                            <td>@Html.DisplayNameFor(model => model.Item1.Otros)</td>
+                                                                            <td>@Html.DisplayFor(model => model.Item1.Otros)</td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+                                        </div>
+                                    </div>
+
+                                    @*Datos personales*@
+                                    <div class="tab-pane" id="tab2default">
                                         <div class="form-horizontal">
+                                            <div class="container">
+                                                @if (ViewBag.MessageErrorEdit != null)
+                                                {
+                                                    <label class="control-label center-block alert alert-danger" id="mensajeErrorEditarExp">@ViewBag.MessageErrorEdit</label>
+                                                   <script>
+                                                       $('.nav-tabs a[href="#tab2default"]').tab('show');
+                                                   </script>
+                                                    
+                                                }
+                                                  
+                                            </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     @Html.LabelFor(model => model.Item1.Nombre, htmlAttributes: new { @class = "control-label col-md-2 " })
@@ -570,10 +806,11 @@
                                             </div>
                                         </div>
                                         @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
-                                        <a class="btn btn-primary pull-right" href="#tab2default" id="btnNext" data-toggle="tab">Continuar</a>
+                                        <a class="btn btn-primary pull-right" href="#tab3default" id="btnNext" data-toggle="tab">Continuar</a>
                                     </div>
 
-                                    <div class="tab-pane" id="tab2default">
+                                    @*Enfermedades*@
+                                    <div class="tab-pane" id="tab3default">
                                         @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
                                         <div class="col-md-12">
                                             <div class="col-sm-3">
@@ -764,7 +1001,7 @@
                                                 </div>
                                                 <br /><br /><br />
                                                 <div class="row">
-                                                    <a class="btn btn-primary" href="#tab1default" id="btnPrevious" data-toggle="tab">Regresar</a>
+                                                    <a class="btn btn-primary" href="#tab2default" id="btnPrevious" data-toggle="tab">Regresar</a>
                                                     <input type="submit" value="Guardar cambios" class="btn btn-success" />
                                                 </div>
                                             </div>
@@ -772,10 +1009,8 @@
                                     </div>
 
                                     @*Seccion del Odontograma*@
-                                    <div class="tab-pane" id="tab3default">
-
+                                    <div class="tab-pane" id="tab4default">
                                         <div class="col-md-12">
-
                                             <label class="control-label">Seleccione el tipo </label><hr />
                                             <div class="row">
                                                 <label class="control-label center-block alert alert-success" id="mensajeError"></label>
@@ -851,7 +1086,7 @@
                                     </div>
 
                                     @*Seccion de Tratamientos*@
-                                    <div class="tab-pane" id="tab4default">
+                                    <div class="tab-pane" id="tab5default">
                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="col-md-3">
@@ -882,7 +1117,7 @@
                                                 <div class="col-md-3">
                                                     <label>Filtrar por diente</label>
                                                     <div class="input-group">
-                                                        <select class="js-example-basic-single" style= "width: 100%; cursor: pointer;" id="drpNoDiente">
+                                                        <select class="js-example-basic-single" style="width: 100%; cursor: pointer;" id="drpNoDiente">
                                                             <option value="11">1.1</option>
                                                             <option value="12">1.2</option>
                                                             <option value="13">1.3</option>
@@ -936,7 +1171,7 @@
                                                             <option value="82">8.2</option>
                                                             <option value="83">8.3</option>
                                                             <option value="84">8.4</option>
-                                                            <option value="85">8.5</option>                                                                                                                       
+                                                            <option value="85">8.5</option>
                                                         </select>
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-danger" id="btnFiltrarPorTratamiento" onclick="return FiltrarTratamientoPorDiente()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
@@ -1027,31 +1262,33 @@
             </div><!-- Fin del Panel Body -->
         </div>
     </div>
+
+
     <!-- Modal Diente-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         @using (Html.BeginForm("Create", "TratamientoPacientes"))
             {
-            @Html.AntiForgeryToken()
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Aplicar nuevo tratamiento al paciente</h4>
+    @Html.AntiForgeryToken()
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Aplicar nuevo tratamiento al paciente</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="eventTitle">Tratamiento</label>
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), "--Elija una opción--", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="eventTitle">Tratamiento</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), "--Elija una opción--", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
-                                <div class="col-sm-10">
-                                    @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
 
                                         {
                                         new SelectListItem{ Text="Vestibular", Value = "Vestibular" },
@@ -1064,103 +1301,60 @@
 
                                         }, "--Elija una opción--", new { @class = "form-control" })
 
-                                    @Html.ValidationMessageFor(model => model.Item2.Cara, "", new { @class = "text-danger" })
-                                </div>
-                            </div>
+                            @Html.ValidationMessageFor(model => model.Item2.Cara, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label" for="eventTitle">Detalles</label>
-                                <div class="col-sm-10">
-                                    @Html.EditorFor(model => Model.Item2.Observaciones, new { htmlAttributes = new { @class = "form-control text-area" } })
-                                </div>
-                            </div>
-                            @if (TempData["AgregoTratamiento"] != null && TempData["AgregoTratamiento"].ToString().Equals("true"))
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="eventTitle">Detalles</label>
+                        <div class="col-sm-10">
+                            @Html.EditorFor(model => Model.Item2.Observaciones, new { htmlAttributes = new { @class = "form-control text-area" } })
+                        </div>
+                    </div>
+                    @if (TempData["AgregoTratamiento"] != null && TempData["AgregoTratamiento"].ToString().Equals("true"))
                             {
-                                @Html.HiddenFor(model => Model.Item2.IdDiente, new { id = "IdDiente" })
-                                @Html.HiddenFor(model => Model.Item2.IdPaciente, new { id = "IdPaciente" })
-                                @Html.HiddenFor(model => Model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+                        @Html.HiddenFor(model => Model.Item2.IdDiente, new { id = "IdDiente" })
+                        @Html.HiddenFor(model => Model.Item2.IdPaciente, new { id = "IdPaciente" })
+                        @Html.HiddenFor(model => Model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
                             }
                             else
                             {
-                                @Html.HiddenFor(model => model.Item2.IdDiente, new { id = "IdDiente" })
-                                @Html.HiddenFor(model => model.Item2.IdPaciente, new { id = "IdPaciente" })
-                                @Html.HiddenFor(model => model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+                        @Html.HiddenFor(model => model.Item2.IdDiente, new { id = "IdDiente" })
+                        @Html.HiddenFor(model => model.Item2.IdPaciente, new { id = "IdPaciente" })
+                        @Html.HiddenFor(model => model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
 
                             }
 
-                        </div><!-- Fin del form -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        <button class="btn btn-warning" id="btnVerTratamiento" href="#tab4default" onclick="return FiltrarTratamientoDiente(this)" data-dismiss="modal" data-toggle="tab">Ver tratamientos aplicados al diente</button>
-                        <input type="submit" value="Guardar cambios" class="btn btn-primary" />
-                    </div>
-                </div>
+                </div><!-- Fin del form -->
             </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-warning" id="btnVerTratamiento" href="#tab5default" onclick="return FiltrarTratamientoDiente(this)" data-dismiss="modal" data-toggle="tab">Ver tratamientos aplicados al diente</button>
+                <input type="submit" value="Aplicar tratamiento" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
         }
-    </div><!-- Fin del Modal -->
+    </div>
+    <!-- Fin del Modal -->
 
 </body>
 
-@section Scripts {
-    /@*@Scripts.Render("~/bundles/jqueryval")*@
+@section Scripts {   
     @Scripts.Render(" ~/Scripts/jquery.validate.js")
-    @Scripts.Render(" ~/Scripts/jquery.validate.unobtrusive.js")
-
-    @*<script src="~/js/jquery-1.11.1.min.js"></script>*@
+    @Scripts.Render(" ~/Scripts/jquery.validate.unobtrusive.js")   
     @Scripts.Render("~/js/moment.min.js")
     @Scripts.Render("~/js/daterangepicker.js")
     @Scripts.Render("~/js/select2.min.js")
     <link href="~/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/daterangepicker.css" />
     <script>
-        $('#btnNext').click(function () {
-            $('.nav-tabs > .active').next('li').find('a').trigger('click');
-        });
-
-        $('#btnPrevious').click(function () {
-            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-        });
+       
 
     </script>
 
     <script type="text/javascript">
-        $(function() {
-
-            var start = moment().subtract(29, 'days');
-            var end = moment();
-
-            function cb(start, end) {
-                $('#reportrange span').html(start.format('D/MM/YYYY') + ' - ' + end.format('D/MM/YYYY'));
-            }
-
-            $('#reportrange').daterangepicker({
-                locale: {
-                    format : "DD/MM/YYYY",
-                    applyLabel: 'Aplicar',
-                    buttonClasses: ['btn btn-primary'],
-                    applyClass: 'btn-small btn-primary',
-                    cancelLabel: "Cancelar",
-                    fromLabel: "Desde",
-                    toLabel: "Hasta",
-                },
-                showCustomRangeLabel: false,
-                alwaysShowCalendars: true,
-                startDate: start,
-                endDate: end,
-                ranges: {
-                    'Hoy': [moment(), moment()],
-                    'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Últimos 7 días': [moment().subtract(6, 'days'), moment()],
-                    'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
-                    'Este mes': [moment().startOf('month'), moment().endOf('month')],
-                    'Mes anterior': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
-            }, cb);
-
-            cb(start, end);
-
-        });
+       
     </script>
 }
 
