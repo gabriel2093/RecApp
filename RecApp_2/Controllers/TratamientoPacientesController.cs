@@ -77,6 +77,8 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
+                        
+            tratamientoPaciente.ListTratamiento = db1.Tratamiento.ToList();
             return View(tratamientoPaciente);
         }
 

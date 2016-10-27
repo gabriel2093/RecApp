@@ -5,66 +5,150 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>TratamientoPaciente</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdTratamiento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdTratamiento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdTratamiento, "", new { @class = "text-danger" })
-            </div>
+<div class="container col-md-12 center-block">
+    <script>
+        $(document).ready(function () {
+            $(".js-example-basic-single").select2();
+            var Cara = @Html.Raw(Json.Encode(Model.Cara));
+            var IdDiente = @Html.Raw(Json.Encode(Model.IdDiente));             
+            $('#drpNoDiente').val(IdDiente).change()                    
+        });
+    </script>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Editando tratamiento </h2>
         </div>
+        <div class="panel-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdPaciente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdPaciente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdPaciente, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdDiente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdDiente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdDiente, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-horizontal">                  
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="form-group">
+                        @Html.Label("Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IdPaciente, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })                          
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdTratamiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(Model => Model.IdTratamiento, new SelectList(Model.ListTratamiento, "Id", "Nombre"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdTratamiento, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdDiente, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cara, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cara, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cara, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                            <select class="js-example-basic-single" style="width: 100%; cursor: pointer;" id="drpNoDiente">
+                                <option value="11">1.1</option>
+                                <option value="12">1.2</option>
+                                <option value="13">1.3</option>
+                                <option value="14">1.4</option>
+                                <option value="15">1.5</option>
+                                <option value="16">1.6</option>
+                                <option value="17">1.7</option>
+                                <option value="18">1.8</option>
+                                <option value="21">2.1</option>
+                                <option value="22">2.2</option>
+                                <option value="23">2.3</option>
+                                <option value="24">2.4</option>
+                                <option value="25">2.5</option>
+                                <option value="26">2.6</option>
+                                <option value="27">2.7</option>
+                                <option value="28">2.8</option>
+                                <option value="41">4.1</option>
+                                <option value="42">4.2</option>
+                                <option value="43">4.3</option>
+                                <option value="44">4.4</option>
+                                <option value="45">4.5</option>
+                                <option value="46">4.6</option>
+                                <option value="47">4.7</option>
+                                <option value="48">4.8</option>
+                                <option value="31">3.1</option>
+                                <option value="32">3.2</option>
+                                <option value="33">3.3</option>
+                                <option value="34">3.4</option>
+                                <option value="35">3.5</option>
+                                <option value="36">3.6</option>
+                                <option value="37">3.7</option>
+                                <option value="38">3.8</option>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                                <option value="51">5.1</option>
+                                <option value="52">5.2</option>
+                                <option value="53">5.3</option>
+                                <option value="54">5.4</option>
+                                <option value="55">5.5</option>
+                                <option value="61">6.1</option>
+                                <option value="62">6.2</option>
+                                <option value="63">6.3</option>
+                                <option value="64">6.4</option>
+                                <option value="65">6.5</option>
+                                <option value="71">7.1</option>
+                                <option value="72">7.2</option>
+                                <option value="73">7.3</option>
+                                <option value="74">7.4</option>
+                                <option value="75">7.5</option>
+                                <option value="81">8.1</option>
+                                <option value="82">8.2</option>
+                                <option value="83">8.3</option>
+                                <option value="84">8.4</option>
+                                <option value="85">8.5</option>
+                            </select>                            
+                            @Html.ValidationMessageFor(model => model.IdDiente, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cara, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">                           
+                            @Html.DropDownListFor(model => model.Cara, new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{ Text="Vestibular", Value = "Vestibular" },
+                                                        new SelectListItem{ Text="Lingual", Value = "Lingual" },
+                                                        new SelectListItem{ Text="Distal", Value = "Distal" },
+                                                        new SelectListItem{ Text="Incisal", Value = "Incisal" },
+                                                        new SelectListItem{ Text="Mesial", Value = "Mesial" },
+                                                        new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
+                                                        }, new { @class = "form-control", @id = "drpCarasDiente", @style = "cursor: pointer;" })
+                            @Html.ValidationMessageFor(model => model.Cara, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                <a href="@Url.Action("Edit", "Records", new { id = Model.IdPaciente })" class="btn btn-warning">Volver al Expediente</a>                                                                      
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/js/select2.min.js")
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+   
+}

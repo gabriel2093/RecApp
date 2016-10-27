@@ -8,8 +8,11 @@
 <head>
     <!--Funciones del JQuery / JavaScript expediente. -->
     <script>
-        $(document).ready(function () {
-         //Configuración DateRangePicker
+
+       
+
+        $(document).ready(function () {                       
+            //Configuración DateRangePicker
             moment.locale('es', {
                 months : "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre".split(","),
                 monthsShort : "Ene_Feb_Mar_Abr_May_Jun_Jul_Ago_Sep_Oct_Nov_Dec".split("_"),
@@ -27,8 +30,6 @@
             );
 
             $(".js-example-basic-single").select2();
-
-
 
             $("#btnVerTratamiento").click(function() {
                 $('.nav-tabs a[href="#tab5default"]').tab('show');
@@ -63,22 +64,22 @@
                     age = age - 1;
                 }
 
-                if (age < 18) {
-                    document.getElementById('encargado').style.display = 'block';
-                    document.getElementById('divMenorEdad').style.display = 'block';
-                    $('#lblMenorEdad').html('Sí');
-                    $('#MenorEdadH').val(1);
-                    document.getElementById('ninoArriba').style.display = 'block';
-                    document.getElementById('ninoAbajo').style.display = 'block';
+                //if (age < 18) {
+                //    document.getElementById('encargado').style.display = 'block';
+                //    document.getElementById('divMenorEdad').style.display = 'block';
+                //    $('#lblMenorEdad').html('Sí');
+                //    $('#MenorEdadH').val(1);
+                //    document.getElementById('ninoArriba').style.display = 'block';
+                //    document.getElementById('ninoAbajo').style.display = 'block';
 
-                } else {
+                //} else {
 
-                    $('#MenorEdadH').val(0);
-                    document.getElementById('encargado').style.display = 'none';
-                    document.getElementById('divMenorEdad').style.display = 'block';
-                    $('#lblMenorEdad').html('No');
+                //    $('#MenorEdadH').val(0);
+                //    document.getElementById('encargado').style.display = 'none';
+                //    document.getElementById('divMenorEdad').style.display = 'block';
+                //    $('#lblMenorEdad').html('No');
 
-                }
+                //}
 
                 $('#EdadH').val(age);
                 $('#lblEdad').html(age + ' años');
@@ -90,14 +91,14 @@
             }
 
             var bandera = @TempData["AgregoTratamiento"].ToString();
-            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();                
+            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();
 
             if (mensajeError == true) {
                 $("#mensajeError").html('Tratamiento agregado correctamente.');
 
             }else {
                 document.getElementById('mensajeError').style.display = 'none';
-            }        
+            }
             if (bandera == true)
             {
                 $('.nav-tabs a[href="#tab4default"]').tab('show');
@@ -152,8 +153,9 @@
             }
 
         }
-        
+       
         function cambiarOdontograma() {
+
             if(document.getElementById('decidua').checked){
                 document.getElementById('ninoArriba').style.display = 'block';
                 document.getElementById('ninoAbajo').style.display = 'block';
@@ -167,10 +169,8 @@
                 document.getElementById('ninoAbajo').style.display = 'none';
             }
 
-
-
         }
-      
+
         function activarDiente() {
             var numDiente = document.getElementById("num").value;
         }
@@ -198,10 +198,10 @@
                 data: { idDiente: button.value, idPaciente_1: idPaciente },
                 dataType: "json",
                 success: function (response) {
-                    if (response.success) {                       
-                        $("#btnVerTratamiento").css("display", "inline");                        
-                    } else {                      
-                        $("#btnVerTratamiento").css("display", "none");                        
+                    if (response.success) {
+                        $("#btnVerTratamiento").css("display", "inline");
+                    } else {
+                        $("#btnVerTratamiento").css("display", "none");
                     }
                 },
                 error: function (response) {
@@ -218,7 +218,7 @@
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorDiente", "Records")',
                 type: 'GET',
-                data: { idDiente: button.value, idPaciente_1: idPaciente },                
+                data: { idDiente: button.value, idPaciente_1: idPaciente },
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
@@ -236,24 +236,24 @@
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorFecha", "Records")',
                 type: 'GET',
-                data: { fechaInicio: startDate, fechaFin: endDate, idPaciente_1: idPaciente },              
+                data: { fechaInicio: startDate, fechaFin: endDate, idPaciente_1: idPaciente },
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data); 
+                    alert("error!"+ data);
                 }
 
             });
         }
 
         function FiltrarTratamientoPorTratamiento() {
-            var idTratamiento = $('#drpTratamientoFiltro').val();          
+            var idTratamiento = $('#drpTratamientoFiltro').val();
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorTratamiento", "Records")',
                 type: 'GET',
-                data: { idTratamiento_1: idTratamiento, idPaciente_1: idPaciente },               
+                data: { idTratamiento_1: idTratamiento, idPaciente_1: idPaciente },
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
@@ -265,29 +265,29 @@
 
 
         function FiltrarTratamientoPorCaraDiente() {
-            var idCara = $('#drpCarasDiente').val();           
+            var idCara = $('#drpCarasDiente').val();
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorCaraDiente", "Records")',
                 type: 'GET',
-                data: { idCaraDiente_1: idCara, idPaciente_1: idPaciente },               
+                data: { idCaraDiente_1: idCara, idPaciente_1: idPaciente },
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
                 error: function (data) {
-                    alert("error!"+ data); 
+                    alert("error!"+ data);
                 }
 
             });
         }
 
         function FiltrarTratamientoPorDiente() {
-            var idDiente_1 = Number($('#drpNoDiente').val());           
+            var idDiente_1 = Number($('#drpNoDiente').val());
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             $.ajax({
                 url:'@Url.Action("FiltrarTratamientosPorDiente", "Records")',
                 type: 'GET',
-                data: { idDiente: idDiente_1, idPaciente_1: idPaciente },              
+                data: { idDiente: idDiente_1, idPaciente_1: idPaciente },
                 success: function (data) {
                     $('#PartialViewTratamientosPaciente').html(data)
                 },
@@ -343,7 +343,7 @@
         $('#btnPrevious').click(function () {
             $('.nav-tabs > .active').prev('li').find('a').trigger('click');
         });
-     
+
     </script>
 
     <meta charset="UTF-8">
@@ -386,7 +386,11 @@
                                     <div class="tab-pane active" id="tab1default">
                                         @if (TempData["MessageRegistroModificado"] != null)
                                         {
-                                            <label class="control-label center-block alert alert-success" id="mensajeErrorEditarExp">@TempData["MessageRegistroModificado"].ToString()</label>                                                  
+                                        <div class="alert alert-success">
+                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                            <strong><label class="control-label center-block" id="mensajeErrorEditarExp">@TempData["MessageRegistroModificado"].ToString()</label></strong> 
+                                        </div>
+
                                         }
                                         <div class="row">
                                             <div class="col-md-5">
@@ -588,13 +592,16 @@
                                             <div class="container">
                                                 @if (ViewBag.MessageErrorEdit != null)
                                                 {
-                                                    <label class="control-label center-block alert alert-danger" id="mensajeErrorEditarExp">@ViewBag.MessageErrorEdit</label>
-                                                   <script>
-                                                       $('.nav-tabs a[href="#tab2default"]').tab('show');
-                                                   </script>
-                                                    
+                                                    <div class="alert alert-danger">
+                                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                        <label class="control-label center-block" id="mensajeErrorEditarExp">@ViewBag.MessageErrorEdit</label>
+                                                    </div>
+                                                        <script>
+                                                            $('.nav-tabs a[href="#tab2default"]').tab('show');
+                                                        </script>
+
                                                 }
-                                                  
+
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="form-group">
@@ -1011,11 +1018,10 @@
                                     @*Seccion del Odontograma*@
                                     <div class="tab-pane" id="tab4default">
                                         <div class="col-md-12">
-                                            <label class="control-label">Seleccione el tipo </label><hr />
-                                            <div class="row">
-                                                <label class="control-label center-block alert alert-success" id="mensajeError"></label>
-                                            </div>
-
+                                            @*<div class="alert alert-success">
+                                                <label class="control-label center-block " id="mensajeError"></label>
+                                            </div>*@
+                                            <label class="control-label">Seleccione el tipo </label><hr />                                          
                                             <input type="radio" id="permanente" name="tipo" onchange="cambiarOdontograma();" checked />Permanente <br />
                                             <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
 
@@ -1037,7 +1043,6 @@
                                                 <button class="btn diente" type="button" value="27" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">27</button>
                                                 <button class="btn diente" type="button" value="28" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">28</button>
                                             </div>
-
                                             <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
                                                 <div class="clearfix"></div>
                                                 <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="55">55</button>
@@ -1098,7 +1103,7 @@
 
                                                         </div>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-primary" id="btnFiltrarPorFechas" onclick="return FiltrarTratamientoPorFecha()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                            <button class="btn btn-danger" id="btnFiltrarPorFechas" onclick="return FiltrarTratamientoPorFecha()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1106,10 +1111,10 @@
                                                 <div class="col-md-3">
                                                     <label>Filtrar por tratamiento</label>
                                                     <div class="input-group">
-                                                        @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), new { @class = "form-control", @id = "drpTratamientoFiltro", @style= "cursor: pointer;" })
+                                                        @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), new { @class = "form-control", @id = "drpTratamientoFiltro", @style = "cursor: pointer;" })
                                                         @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-success" id="btnFiltrarPorTratamiento" onclick="return FiltrarTratamientoPorTratamiento()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                            <button class="btn btn-danger" id="btnFiltrarPorTratamiento" onclick="return FiltrarTratamientoPorTratamiento()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1192,7 +1197,7 @@
                                                         new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
                                                         }, new { @class = "form-control", @id = "drpCarasDiente", @style = "cursor: pointer;" })
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-warning" id="btnFiltrarPorCaraDiente" onclick="return FiltrarTratamientoPorCaraDiente()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                            <button class="btn btn-danger" id="btnFiltrarPorCaraDiente" onclick="return FiltrarTratamientoPorCaraDiente()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1241,9 +1246,7 @@
                                                             @Html.DisplayFor(modelItem => item.FechaTratamiento)
                                                         </td>
                                                         <td>
-                                                            @Html.ActionLink("Editar", "Edit", new { id = item.Id }) |
-                                                            @Html.ActionLink("Detalles", "Details", new { id = item.Id })
-
+                                                           <a href="@Url.Action("Edit", "TratamientoPacientes", new { id = item.Id })" class="btn btn-primary">Editar</a>                                                        
                                                         </td>
                                                     </tr>
                                                 }
@@ -1268,27 +1271,27 @@
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         @using (Html.BeginForm("Create", "TratamientoPacientes"))
             {
-    @Html.AntiForgeryToken()
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Aplicar nuevo tratamiento al paciente</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-horizontal">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="eventTitle">Tratamiento</label>
-                        <div class="col-sm-10">
-                            @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), "--Elija una opción--", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
-                        </div>
+            @Html.AntiForgeryToken()
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Aplicar nuevo tratamiento al paciente</h4>
                     </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="eventTitle">Tratamiento</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), "--Elija una opción--", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
-                        <div class="col-sm-10">
-                            @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
+                                <div class="col-sm-10">
+                                    @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
 
                                         {
                                         new SelectListItem{ Text="Vestibular", Value = "Vestibular" },
@@ -1301,61 +1304,54 @@
 
                                         }, "--Elija una opción--", new { @class = "form-control" })
 
-                            @Html.ValidationMessageFor(model => model.Item2.Cara, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
+                                    @Html.ValidationMessageFor(model => model.Item2.Cara, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" for="eventTitle">Detalles</label>
-                        <div class="col-sm-10">
-                            @Html.EditorFor(model => Model.Item2.Observaciones, new { htmlAttributes = new { @class = "form-control text-area" } })
-                        </div>
-                    </div>
-                    @if (TempData["AgregoTratamiento"] != null && TempData["AgregoTratamiento"].ToString().Equals("true"))
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label" for="eventTitle">Detalles</label>
+                                <div class="col-sm-10">
+                                    @Html.EditorFor(model => Model.Item2.Observaciones, new { htmlAttributes = new { @class = "form-control text-area" } })
+                                </div>
+                            </div>
+                            @if (TempData["AgregoTratamiento"] != null && TempData["AgregoTratamiento"].ToString().Equals("true"))
                             {
-                        @Html.HiddenFor(model => Model.Item2.IdDiente, new { id = "IdDiente" })
-                        @Html.HiddenFor(model => Model.Item2.IdPaciente, new { id = "IdPaciente" })
-                        @Html.HiddenFor(model => Model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+                                @Html.HiddenFor(model => Model.Item2.IdDiente, new { id = "IdDiente" })
+                                @Html.HiddenFor(model => Model.Item2.IdPaciente, new { id = "IdPaciente" })
+                                @Html.HiddenFor(model => Model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
                             }
                             else
                             {
-                        @Html.HiddenFor(model => model.Item2.IdDiente, new { id = "IdDiente" })
-                        @Html.HiddenFor(model => model.Item2.IdPaciente, new { id = "IdPaciente" })
-                        @Html.HiddenFor(model => model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
+                                @Html.HiddenFor(model => model.Item2.IdDiente, new { id = "IdDiente" })
+                                @Html.HiddenFor(model => model.Item2.IdPaciente, new { id = "IdPaciente" })
+                                @Html.HiddenFor(model => model.Item2.FechaTratamiento, new { id = "FechaTratamiento", @Value = DateTime.Now })
 
                             }
 
-                </div><!-- Fin del form -->
+                        </div><!-- Fin del form -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button class="btn btn-warning" id="btnVerTratamiento" href="#tab5default" onclick="return FiltrarTratamientoDiente(this)" data-dismiss="modal" data-toggle="tab">Ver tratamientos aplicados al diente</button>
+                        <input type="submit" value="Aplicar tratamiento" class="btn btn-primary" />
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                <button class="btn btn-warning" id="btnVerTratamiento" href="#tab5default" onclick="return FiltrarTratamientoDiente(this)" data-dismiss="modal" data-toggle="tab">Ver tratamientos aplicados al diente</button>
-                <input type="submit" value="Aplicar tratamiento" class="btn btn-primary" />
-            </div>
-        </div>
-    </div>
         }
     </div>
     <!-- Fin del Modal -->
 
 </body>
 
-@section Scripts {   
+@section Scripts {
     @Scripts.Render(" ~/Scripts/jquery.validate.js")
-    @Scripts.Render(" ~/Scripts/jquery.validate.unobtrusive.js")   
+    @Scripts.Render(" ~/Scripts/jquery.validate.unobtrusive.js")
     @Scripts.Render("~/js/moment.min.js")
     @Scripts.Render("~/js/daterangepicker.js")
     @Scripts.Render("~/js/select2.min.js")
     <link href="~/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/daterangepicker.css" />
-    <script>
-       
-
-    </script>
-
-    <script type="text/javascript">
-       
-    </script>
+   
 }
 
 
