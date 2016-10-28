@@ -5,66 +5,160 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>TratamientoPaciente</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdTratamiento, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdTratamiento, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdTratamiento, "", new { @class = "text-danger" })
-            </div>
+<div class="container col-md-12 center-block">
+    <script>
+        $(document).ready(function () {
+            $(".js-example-basic-single").select2();
+            var Cara = @Html.Raw(Json.Encode(Model.Cara));
+            var IdDiente = @Html.Raw(Json.Encode(Model.IdDiente));             
+            $('#drpNoDiente').val(IdDiente).change()                    
+        });
+
+    </script>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Editando tratamiento </h2>
         </div>
+        <div class="panel-body">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdPaciente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdPaciente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdPaciente, "", new { @class = "text-danger" })
-            </div>
-        </div>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.IdDiente, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IdDiente, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IdDiente, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                <div class="form-horizontal">                  
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    <div class="form-group">
+                        @Html.Label("Paciente", htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.HiddenFor(model => model.Id, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })       
+                            @Html.HiddenFor(model => model.IdPaciente, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                            
+                            @Html.EditorFor(model => model.NombrePaciente, new { htmlAttributes = new { @class = "form-control", @readonly = "true" } })
+                   
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdTratamiento, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.DropDownListFor(Model => Model.IdTratamiento, new SelectList(Model.ListTratamiento, "Id", "Nombre"), new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.IdTratamiento, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                  
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IdDiente, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cara, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Cara, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Cara, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                @Html.DropDownListFor(model => model.IdDiente, new List
+                                <SelectListItem>
+                                    {
+                                    new SelectListItem{ Text="1.1", Value = "11" },
+                                    new SelectListItem{ Text="1.2", Value = "12" },
+                                    new SelectListItem{ Text="1.3", Value = "13" },
+                                    new SelectListItem{ Text="1.4", Value = "14" },
+                                    new SelectListItem{ Text="1.5", Value = "15" },
+                                    new SelectListItem{ Text="1.6", Value = "16" },
+                                    new SelectListItem{ Text="1.7", Value = "17" },
+                                    new SelectListItem{ Text="1.8", Value = "18" },
+                                    new SelectListItem{ Text="2.1", Value = "21" },
+                                    new SelectListItem{ Text="2.2", Value = "22" },
+                                    new SelectListItem{ Text="2.3", Value = "23" },
+                                    new SelectListItem{ Text="2.4", Value = "24" },
+                                    new SelectListItem{ Text="2.5", Value = "25" },
+                                    new SelectListItem{ Text="2.6", Value = "26" },
+                                    new SelectListItem{ Text="2.7", Value = "27" },
+                                    new SelectListItem{ Text="2.8", Value = "28" },
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
-            </div>
-        </div>
+                                    new SelectListItem{ Text="4.1", Value = "41" },
+                                    new SelectListItem{ Text="4.2", Value = "42" },
+                                    new SelectListItem{ Text="4.3", Value = "43" },
+                                    new SelectListItem{ Text="4.4", Value = "44" },
+                                    new SelectListItem{ Text="4.5", Value = "45" },
+                                    new SelectListItem{ Text="4.6", Value = "46" },
+                                    new SelectListItem{ Text="4.7", Value = "47" },
+                                    new SelectListItem{ Text="4.8", Value = "48" },
+                                    new SelectListItem{ Text="3.1", Value = "31" },
+                                    new SelectListItem{ Text="3.2", Value = "32" },
+                                    new SelectListItem{ Text="3.3", Value = "33" },
+                                    new SelectListItem{ Text="3.4", Value = "34" },
+                                    new SelectListItem{ Text="3.5", Value = "35" },
+                                    new SelectListItem{ Text="3.6", Value = "36" },
+                                    new SelectListItem{ Text="3.7", Value = "37" },
+                                    new SelectListItem{ Text="3.8", Value = "38" },
+                                
+                                    new SelectListItem{ Text="5.1", Value = "51" },
+                                    new SelectListItem{ Text="5.2", Value = "52" },
+                                    new SelectListItem{ Text="5.3", Value = "53" },
+                                    new SelectListItem{ Text="5.4", Value = "54" },
+                                    new SelectListItem{ Text="5.5", Value = "55" },                                
+                                    new SelectListItem{ Text="6.1", Value = "61" },
+                                    new SelectListItem{ Text="6.2", Value = "62" },
+                                    new SelectListItem{ Text="6.3", Value = "63" },
+                                    new SelectListItem{ Text="6.4", Value = "64" },
+                                    new SelectListItem{ Text="6.5", Value = "65" },
+                                   
+                                    new SelectListItem{ Text="7.1", Value = "71" },
+                                    new SelectListItem{ Text="7.2", Value = "72" },
+                                    new SelectListItem{ Text="7.3", Value = "73" },
+                                    new SelectListItem{ Text="7.4", Value = "74" },
+                                    new SelectListItem{ Text="7.5", Value = "75" },                                 
+                                    new SelectListItem{ Text="8.1", Value = "81" },
+                                    new SelectListItem{ Text="8.2", Value = "82" },
+                                    new SelectListItem{ Text="8.3", Value = "83" },
+                                    new SelectListItem{ Text="8.4", Value = "84" },
+                                    new SelectListItem{ Text="8.5", Value = "85" },
+                                   
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                                     }, new { @class = "form-control", @id = "drpNoDiente", @style = "cursor: pointer;"})
+                                @Html.ValidationMessageFor(model => model.IdDiente, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Cara, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">                           
+                            @Html.DropDownListFor(model => model.Cara, new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{ Text="Vestibular", Value = "Vestibular" },
+                                                        new SelectListItem{ Text="Lingual", Value = "Lingual" },
+                                                        new SelectListItem{ Text="Distal", Value = "Distal" },
+                                                        new SelectListItem{ Text="Incisal", Value = "Incisal" },
+                                                        new SelectListItem{ Text="Mesial", Value = "Mesial" },
+                                                        new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
+                                                        }, new { @class = "form-control", @id = "drpCarasDiente", @style = "cursor: pointer;" })
+                            @Html.ValidationMessageFor(model => model.Cara, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Observaciones, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Observaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Observaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div>
+                <a href="@Url.Action("Edit", "Records", new { id = Model.IdPaciente })" class="btn btn-warning">Volver al Expediente</a>                                                                      
             </div>
         </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/js/select2.min.js")
+    <link href="~/css/select2.min.css" rel="stylesheet" />
+   
+}

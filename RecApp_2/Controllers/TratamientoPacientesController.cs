@@ -77,6 +77,11 @@ namespace RecApp_2.Controllers
             {
                 return HttpNotFound();
             }
+            Record record1 = new Record();
+            record1=await db1.Records.FindAsync(tratamientoPaciente.IdPaciente);
+
+            tratamientoPaciente.NombrePaciente = record1.Nombre + " " + record1.Apellido1 + " " + record1.Apellido2;
+            tratamientoPaciente.ListTratamiento = db1.Tratamiento.ToList();
             return View(tratamientoPaciente);
         }
 
@@ -87,11 +92,13 @@ namespace RecApp_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
+      
             if (ModelState.IsValid)
             {
                 db.Entry(tratamientoPaciente).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                TempData["tratamientoEditando"]="true";
+                return RedirectToAction("Edit", "Records", new { id = tratamientoPaciente.IdPaciente});
             }
             return View(tratamientoPaciente);
         }
