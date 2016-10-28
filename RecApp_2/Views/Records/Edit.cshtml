@@ -9,9 +9,43 @@
     <!--Funciones del JQuery / JavaScript expediente. -->
     <script>
 
-       
 
-        $(document).ready(function () {                       
+
+        $(document).ready(function () {
+
+            var bandera = @TempData["AgregoTratamiento"].ToString();
+            var tratamientoEditando = @TempData["tratamientoEditando"].ToString();
+            var mayorEdad = @TempData["mayorEdad"].ToString();
+            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();
+
+            if (mensajeError == true) {
+                $("#mensajeError").html('Tratamiento agregado correctamente.');
+
+            }else {
+                $('#mensajeError').css("display","none");
+            }
+            if (bandera == true)
+            {
+                $('.nav-tabs a[href="#tab4default"]').tab('show');
+            }
+            /*Cuando esta editando el tratameindo del paciente*/
+            if (tratamientoEditando == true)
+            {
+                $('.nav-tabs a[href="#tab5default"]').tab('show');
+            }
+
+            /*para mostrar encargado*/
+            if (mayorEdad == true) {
+                $('#encargado').css("display","none");
+                $('#divMenorEdad').css("display","none");
+          
+            }else {
+                $('#encargado').css("display","block");
+                $('#divMenorEdad').css("display","block");
+                $('#lblMenorEdad').html('Sí');
+                $('#MenorEdadH').val(1);
+            }
+
             //Configuración DateRangePicker
             moment.locale('es', {
                 months : "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre".split(","),
@@ -89,21 +123,6 @@
                 document.getElementById('divMenorEdad').style.display = 'none';
                 document.getElementById('divEdad').style.display = 'none';
             }
-
-            var bandera = @TempData["AgregoTratamiento"].ToString();
-            var mensajeError = @TempData["MensajeErrorAgregarTratamiento"].ToString();
-
-            if (mensajeError == true) {
-                $("#mensajeError").html('Tratamiento agregado correctamente.');
-
-            }else {
-                document.getElementById('mensajeError').style.display = 'none';
-            }
-            if (bandera == true)
-            {
-                $('.nav-tabs a[href="#tab4default"]').tab('show');
-            }
-
         });
 
 
@@ -153,7 +172,7 @@
             }
 
         }
-       
+
         function cambiarOdontograma() {
 
             if(document.getElementById('decidua').checked){
@@ -577,15 +596,14 @@
 
                                                         </div>
                                                     </div>
+                                                
                                                 </div>
                                             </div>
-
-
-
-
+                            
                                         </div>
+                                      
                                     </div>
-
+                            
                                     @*Datos personales*@
                                     <div class="tab-pane" id="tab2default">
                                         <div class="form-horizontal">
@@ -812,7 +830,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
+                                 
                                         <a class="btn btn-primary pull-right" href="#tab3default" id="btnNext" data-toggle="tab">Continuar</a>
                                     </div>
 
@@ -1008,7 +1026,7 @@
                                                 </div>
                                                 <br /><br /><br />
                                                 <div class="row">
-                                                    <a class="btn btn-primary" href="#tab2default" id="btnPrevious" data-toggle="tab">Regresar</a>
+                                                    <a class="btn btn-primary" href="#tab2default" id="btnPrevious" data-toggle="tab">Volver al listado</a>
                                                     <input type="submit" value="Guardar cambios" class="btn btn-success" />
                                                 </div>
                                             </div>
@@ -1243,7 +1261,7 @@
                                                             @Html.DisplayFor(modelItem => item.Observaciones)
                                                         </td>
                                                         <td>
-                                                            @Html.DisplayFor(modelItem => item.FechaTratamiento)
+                                                            @Html.DisplayFor(modelItem => item.FechaTratamiento, "{dd-MM-yyyy}")
                                                         </td>
                                                         <td>
                                                            <a href="@Url.Action("Edit", "TratamientoPacientes", new { id = item.Id })" class="btn btn-primary">Editar</a>                                                        
@@ -1257,8 +1275,9 @@
                                     </div>
 
                                 </div>
+                                @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                             </div>
-
+                      
                         </div><!-- Fin del Panel -->
                     </div><!-- Fin del Form -->
                 }

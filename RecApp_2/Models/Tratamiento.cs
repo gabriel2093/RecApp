@@ -21,6 +21,7 @@ namespace RecApp_2.Models
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
+        [Required(ErrorMessage = "Campo requerido*")]
         public decimal? PrecioBase { get; set; }
     }
 }

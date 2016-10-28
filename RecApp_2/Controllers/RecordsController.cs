@@ -19,7 +19,7 @@ namespace RecApp_2.Controllers
         // GET: Records
         public async Task<ActionResult> Index(string search)
         {
-            return   View(await db.Records.Where(x => x.Nombre.StartsWith(search) || x.Apellido1.StartsWith(search) || x.Apellido2.StartsWith(search) || x.Cedula.ToString() == search || search == null).ToListAsync());         
+            return View(await db.Records.Where(x => x.Nombre.StartsWith(search) || x.Apellido1.StartsWith(search) || x.Apellido2.StartsWith(search) || x.Cedula.ToString() == search || search == null).ToListAsync());
         }
 
         // GET: Records/Details/5
@@ -40,7 +40,7 @@ namespace RecApp_2.Controllers
             return View(record);
         }
 
-       
+
         // GET: Records/Create
         public ActionResult Create()
         {
@@ -100,10 +100,14 @@ namespace RecApp_2.Controllers
             {
                 TempData["MensajeErrorAgregarTratamiento"] = "false";
             }
+            if (TempData["tratamientoEditando"] == null)
+            {
+                TempData["tratamientoEditando"] = "false";
+            }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
             ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
-            TempData["MensajeErrorEditarExpediente"] = "true";            
+            TempData["MensajeErrorEditarExpediente"] = "true";
             record.Edad = CalculateAge(record.FechaNacimiento);
             record.ListTratamientoPaciente = from tP in
                                            db.TratamientoPaciente.ToList()
@@ -118,8 +122,22 @@ namespace RecApp_2.Controllers
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
             }
 
+            if (TempData["mayorEdad"] == null)
+            {
+                if (record.Edad >= 18)
+                {
+                    TempData["mayorEdad"] = "true";
+                }
+                else
+                {
+                    TempData["mayorEdad"] = "false";
+                }
+
+
+            }
+
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
-            return View(tuple);           
+            return View(tuple);
         }
 
         // POST: Records/Edit/5
@@ -133,11 +151,11 @@ namespace RecApp_2.Controllers
             {
                 db.Entry(record).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                TempData["MessageRegistroModificado"] = "El Expediente fue modificado  correctamente.";               
+                TempData["MessageRegistroModificado"] = "El Expediente fue modificado  correctamente.";
                 return RedirectToAction("Edit", "Records", new { id = record.id });
             }
 
-             ViewBag.MessageErrorEdit = "Debe verificar los datos del Expediente.";
+            ViewBag.MessageErrorEdit = "Debe verificar los datos del Expediente.";
             if (TempData["AgregoTratamiento"] == null)
             {
                 TempData["AgregoTratamiento"] = "false";
@@ -148,8 +166,8 @@ namespace RecApp_2.Controllers
                 TempData["MensajeErrorAgregarTratamiento"] = "false";
             }
             record.ListCivilStatus = db.Civil_Status.ToList();
-           // ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
-            TempData["MensajeErrorEditarExpediente"] = "true";         
+            // ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
+            TempData["MensajeErrorEditarExpediente"] = "true";
             record.Edad = CalculateAge(record.FechaNacimiento);
             record.ListTratamientoPaciente = from tP in
                                            db.TratamientoPaciente.ToList()
@@ -169,7 +187,7 @@ namespace RecApp_2.Controllers
             //return View(tuple);
             return PartialView(tuple);
         }
-               
+
         // GET: Records/Edit/5
         [HttpGet]
         public ActionResult GetTratamientosDiente(int? idDiente, int? idPaciente_1)
@@ -199,8 +217,8 @@ namespace RecApp_2.Controllers
         [HttpGet]
         public ActionResult FiltrarTratamientosPorDiente(int idDiente, int idPaciente_1)
         {
-           
-            Record record =  db.Records.Find(idPaciente_1);
+
+            Record record = db.Records.Find(idPaciente_1);
             record.ListCivilStatus = db.Civil_Status.ToList();
             record.Edad = CalculateAge(record.FechaNacimiento);
             record.ListTratamientoPaciente = from tP in
@@ -218,9 +236,9 @@ namespace RecApp_2.Controllers
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
             }
 
-            
+
             return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
-          
+
         }
 
 
@@ -258,7 +276,7 @@ namespace RecApp_2.Controllers
         // GET: Records/FiltrarTratamientosPorTratamiento/5
         [HttpGet]
         public ActionResult FiltrarTratamientosPorTratamiento(int idTratamiento_1, int idPaciente_1)
-        {            
+        {
             Record record = db.Records.Find(idPaciente_1);
             record.ListCivilStatus = db.Civil_Status.ToList();
             record.Edad = CalculateAge(record.FechaNacimiento);
@@ -309,7 +327,7 @@ namespace RecApp_2.Controllers
             return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
 
         }
-           
+
 
         // GET: Records/Delete/5
         public async Task<ActionResult> Delete(int? id)
