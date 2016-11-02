@@ -7,25 +7,25 @@ using System.Web;
 
 namespace RecApp_2.Models
 {
-    public class Tratamiento
+    public class PaymentDetails
     {
-        public int id { get; set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Nombre")]
-        public string Nombre { set; get; }
+        [Display(Name = "Cobro por Tratamiento")]
+        public int IdCobro { get; set; }
 
+        [Display(Name = "Fecha de Abono")]
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Descripción")]
-        public string Descripcion { set; get; }
+        public DateTime FechaAbono{ get; set; } = DateTime.Now;
 
-        
         [NotMapped]
-        public string NombreCompuesto { set; get; }
+        [Display(Name = "Estado Pago")]
+        public int Estado { get; set; }
+
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Campo requerido*")]
-        public decimal? PrecioBase { get; set; }
+        public decimal? Abono { get; set; }
     }
 }

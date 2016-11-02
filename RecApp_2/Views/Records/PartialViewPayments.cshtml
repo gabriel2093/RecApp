@@ -1,0 +1,37 @@
+﻿@model IEnumerable<RecApp_2.Models.Payment>
+
+
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MontoAdicional)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPagar)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>       
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaRegistro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MontoAdicional)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPagar)
+        </td>
+       
+        <td>
+            @Html.ActionLink("Abonar", "Create", "")
+            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@            
+        </td>
+    </tr>
+}
+
+</table>

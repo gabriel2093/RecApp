@@ -23,5 +23,7 @@ namespace RecApp_2.Models
         public virtual DbSet<CivilStatus> Civil_Status { get; set; }
         public virtual DbSet<Tratamiento> Tratamiento { get; set; }
         public virtual DbSet<TratamientoPaciente> TratamientoPaciente { get; set; }
+
+        public System.Data.Entity.DbSet<RecApp_2.Models.Payment> Payments { get; set; }
     }
 }

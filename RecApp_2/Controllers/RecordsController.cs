@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using RecApp_2.Models;
 using System.Globalization;
+using System.Collections;
 
 namespace RecApp_2.Controllers
 {
@@ -108,6 +109,7 @@ namespace RecApp_2.Controllers
             }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
+
             ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
             TempData["MensajeErrorEditarExpediente"] = "true";
             record.Edad = CalculateAge(record.FechaNacimiento);
@@ -116,14 +118,31 @@ namespace RecApp_2.Controllers
                                              where tP.IdPaciente.Equals(id)
                                              select tP;
 
+
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
             tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            foreach (var item in db.TratamientoPaciente.ToList())
+            List<Payment> listaTemporal = new List<Payment>();
+            var tratamientosPorPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(record.id));
+            foreach (var item in tratamientosPorPaciente)
             {
-                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.Tratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                var payment = db.Payments.ToList().SingleOrDefault(p => p.IdTratamientoPaciente.Equals(item.Id));                
+                if (payment != null)
+                {
+                    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                    payment.Tratamiento = nombreTratamiento;
+                    listaTemporal.Add(payment);
+                }
+
             }
 
+            foreach (var item in tratamientoPaciente.ListTratamiento)
+            {
+                item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
+            }
+
+            record.ListPayment = listaTemporal;
             if (TempData["mayorEdad"] == null)
             {
                 if (record.Edad >= 18)
@@ -137,6 +156,10 @@ namespace RecApp_2.Controllers
 
 
             }
+
+
+
+            // Payment tratamientoPacientePago = new Payment();
 
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
             return View(tuple);

@@ -76,6 +76,9 @@ namespace RecApp_2.Models
         [NotMapped]
         public IEnumerable<TratamientoPaciente> ListTratamientoPaciente { get; set; }
 
+        [NotMapped]
+        public IEnumerable<Payment> ListPayment { get; set; }
+
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]
         public string Domicilio { set; get; }
