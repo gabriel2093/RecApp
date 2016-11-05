@@ -127,13 +127,7 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
-                var payment = db.Payments.ToList().SingleOrDefault(p => p.IdTratamientoPaciente.Equals(item.Id));                
-                if (payment != null)
-                {
-                    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
-                    payment.Tratamiento = nombreTratamiento;
-                    listaTemporal.Add(payment);
-                }
+           
 
             }
 
@@ -142,7 +136,16 @@ namespace RecApp_2.Controllers
                 item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
             }
 
-            record.ListPayment = listaTemporal;
+         
+           record.ListPayment= db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id));
+
+            //foreach (var item in record.ListPayment)
+            //{
+            //    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+            //    payment.Tratamiento = nombreTratamiento;
+            //    listaTemporal.Add(payment);
+            //}
+
             if (TempData["mayorEdad"] == null)
             {
                 if (record.Edad >= 18)
@@ -353,6 +356,33 @@ namespace RecApp_2.Controllers
 
         }
 
+        // GET: Records/FiltrarTratamientos/5
+        [HttpGet]
+        public ActionResult FiltrarFacturaPorEstado(int id_Estado, int id_Paciente)
+        {
+
+            Record record = db.Records.Find(id_Paciente);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListPayment= from P in
+                                           db.Payments.ToList()
+                                             where P.IdRecord.Equals(id_Paciente) && P.Estado.Equals(id_Estado)
+                                             select P;
+            record.ListTratamientoPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(id_Paciente));
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewPayments", record.ListPayment);
+
+        }
 
         // GET: Records/Delete/5
         public async Task<ActionResult> Delete(int? id)

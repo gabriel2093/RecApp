@@ -11,15 +11,15 @@ namespace RecApp_2.Models
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Tratamiento del Paciente")]
-        public int IdTratamientoPaciente { get; set; }
+        [Display(Name = "Paciente")]
+        public int IdRecord { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Fecha de Registro Cobro")]
+        [Display(Name = "Fecha de Facturación")]
         public DateTime FechaRegistro { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Estado Cobro")]
+        [Display(Name = "Estado Factura")]
         public int Estado { get; set; }
 
         [NotMapped]

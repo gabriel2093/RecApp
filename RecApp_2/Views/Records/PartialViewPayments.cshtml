@@ -1,37 +1,54 @@
 ﻿@model IEnumerable<RecApp_2.Models.Payment>
 
-
-<table class="table">
+<table class="table" id="PartialViewPayments">
     <tr>
-        
         <th>
-            @Html.DisplayNameFor(model => model.FechaRegistro)
+            N. Factura
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MontoAdicional)
+            Fecha
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TotalPagar)
+            Costos adicionales
+        </th>
+        <th>
+            Total a pagar
         </th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>       
-        <td>
-            @Html.DisplayFor(modelItem => item.FechaRegistro)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.MontoAdicional)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalPagar)
-        </td>
-       
-        <td>
-            @Html.ActionLink("Abonar", "Create", "")
-            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@            
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Id.ToString())
+            </td>
+            <td>
+                @Html.DisplayName(item.FechaRegistro.ToShortDateString())
+            </td>
+            <td>
+                @string.Format("{0:C}", item.MontoAdicional)
+            </td>
+            <td>
+                @string.Format("{0:C}", item.TotalPagar)
+            </td>
+
+            <td>
+
+                @if (item.Estado.Equals(1))
+                {
+                    @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger" })
+                }
+                else if (item.Estado.Equals(2))
+                {
+                    @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning" })
+                }
+
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            </td>
+        </tr>
+    }
+
 
 </table>
+
