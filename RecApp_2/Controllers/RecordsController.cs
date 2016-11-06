@@ -241,10 +241,9 @@ namespace RecApp_2.Controllers
             //  return View(record);
         }
 
-
         // GET: Records/Edit/5
         [HttpGet]
-        public ActionResult GetPaymentDetailsByPayment(int id_Payment, int id_Paciente)
+        public PartialViewResult PartialViewTratamientoPacienteFactura(int id_Payment, int id_Paciente)
         {
 
             var tratamientos = (from t in db.TratamientoPaciente.ToList()
@@ -257,30 +256,17 @@ namespace RecApp_2.Controllers
                 {
                     item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
                     item.Total += item.Costo;
+                    item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 }
             }
 
             Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
             tratamientos.ToList()[tratamientos.ToList().Count - 1].Total = _Payment.TotalPagar;
-            Record record = db.Records.Find(id_Paciente);
-            record.ListCivilStatus = db.Civil_Status.ToList();
-            record.Edad = CalculateAge(record.FechaNacimiento);
-            record.ListTratamientoPaciente = tratamientos;
-
-            //Devolver tupla de tipo TratamientoPaciente
-            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
-
-            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            foreach (var item in record.ListTratamientoPaciente)
-            {
-                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
-                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
-            }
-
-
-            return PartialView("PartialViewTratamientoPacienteFactura", record.ListTratamientoPaciente);
-
+            tratamientos.ToList()[tratamientos.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
+            return PartialView(tratamientos);
         }
+
+      
 
 
         // GET: Records/FiltrarTratamientos/5

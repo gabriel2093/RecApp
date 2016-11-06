@@ -50,6 +50,10 @@ namespace RecApp_2.Models
         public decimal Costo { get; set; }
 
         [NotMapped]
+        [Display(Name = "Monto(s) Adicional(es)")]
+        public decimal MontoAdicional { get; set; }
+
+        [NotMapped]
         [Display(Name = "Total")]
         public decimal? Total { get; set; }
 

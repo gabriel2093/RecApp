@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -28,7 +29,8 @@ namespace RecApp_2.Models
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
-        public decimal? MontoAdicional { get; set; }
+        [DefaultValue(0)]
+        public decimal MontoAdicional { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
