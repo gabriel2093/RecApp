@@ -1,0 +1,19 @@
+estado de fACTURA
+1-activo
+2-facturada
+3-cancelado
+
+
+estado de Detalle fACTURA
+1-aplicado
+2-anulado
+
+
+
+
+borrar tratamiento
+
+
+drpEstadoFactura
+
+GetPaymentDetailsByPayment

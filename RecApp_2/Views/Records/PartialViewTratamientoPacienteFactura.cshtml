@@ -1,0 +1,43 @@
+﻿@model IEnumerable<RecApp_2.Models.TratamientoPaciente>
+
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Tratamiento)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FechaTratamiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Costo)
+        </th>
+        
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tratamiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaTratamiento)
+            </td>
+            <td>
+                @string.Format("{0:C}", item.Costo)
+            </td>
+            
+        </tr>
+        
+    }   
+    <tr>
+        <td colspan="3" style="text-align:right;">
+            <strong>Monto total:</strong> @string.Format("{0:C}", @Model.ToList()[Model.ToList().Count() - 1].Total)
+        </td>
+    </tr>
+</table>
+
+

@@ -109,6 +109,11 @@ h4 {
     border-color: #d43f3a;
     margin-left: 18px;
 }
+btn-custom-azul{
+    color: #fff;
+    background-color: #46a9be;
+    border-color: #46a9be;
+}
  
 .btn-custom-danger:hover{
     background-color: gray;

@@ -36,12 +36,14 @@
 
                 @if (item.Estado.Equals(1))
                 {
-                    @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
                 }
                 else if (item.Estado.Equals(2))
                 {
-                    @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-primary" })
-                    @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
                 }
 
                 @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
