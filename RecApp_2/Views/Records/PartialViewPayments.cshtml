@@ -1,0 +1,56 @@
+﻿@model IEnumerable<RecApp_2.Models.Payment>
+
+<table class="table" id="PartialViewPayments">
+    <tr>
+        <th>
+            N. Factura
+        </th>
+        <th>
+            Fecha
+        </th>
+        <th>
+            Costos adicionales
+        </th>
+        <th>
+            Total a pagar
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayName(item.Id.ToString())
+            </td>
+            <td>
+                @Html.DisplayName(item.FechaRegistro.ToShortDateString())
+            </td>
+            <td>
+                @string.Format("{0:C}", item.MontoAdicional)
+            </td>
+            <td>
+                @string.Format("{0:C}", item.TotalPagar)
+            </td>
+
+            <td>
+
+                @if (item.Estado.Equals(1))
+                {
+                    @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                }
+                else if (item.Estado.Equals(2))
+                {
+                    @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })
+                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                }
+
+                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+            </td>
+        </tr>
+    }
+
+
+</table>
+

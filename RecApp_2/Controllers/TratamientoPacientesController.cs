@@ -16,6 +16,7 @@ namespace RecApp_2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private RecordsContext db1 = new RecordsContext();
 
+
         // GET: TratamientoPacientes
         public async Task<ActionResult> Index()
         {
@@ -50,10 +51,38 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Prefix = "Item2", Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
+        public async Task<ActionResult> Create([Bind(Prefix = "Item2", Include = "Id,IdPayment,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
             if (ModelState.IsValid)
             {
+                var idFactura = db1.Payments.ToList().Where(p => p.IdRecord.Equals(tratamientoPaciente.IdPaciente) && p.Estado.Equals(1));
+
+                if (idFactura.ToList().Count == 0)
+                {
+                    Payment newPayment = new Payment();
+                    newPayment.Estado = 1;
+                    newPayment.FechaRegistro = DateTime.Now;
+                    newPayment.IdRecord = tratamientoPaciente.IdPaciente;
+                    newPayment.MontoAdicional = 0;
+                    var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
+
+                    var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
+                    newPayment.TotalPagar = newPayment.MontoAdicional + (decimal)costoTratamientoActual;
+                    db1.Payments.Add(newPayment);
+                    await db1.SaveChangesAsync();
+                    tratamientoPaciente.IdPayment = newPayment.Id;
+
+                }
+                else {
+
+                    var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
+                    var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
+                    idFactura.ToList()[0].TotalPagar = idFactura.ToList()[0].TotalPagar + (decimal)costoTratamientoActual;
+                    db1.Entry(idFactura.ToList()[0]).State = EntityState.Modified;
+                    db1.SaveChanges();
+                    tratamientoPaciente.IdPayment = idFactura.ToList()[0].Id;
+
+                }
                 db.TratamientoPacientes.Add(tratamientoPaciente);
                 await db.SaveChangesAsync();
                 TempData["AgregoTratamiento"] = "true";

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using RecApp_2.Models;
 using System.Globalization;
+using System.Collections;
 
 namespace RecApp_2.Controllers
 {
@@ -108,6 +109,7 @@ namespace RecApp_2.Controllers
             }
 
             record.ListCivilStatus = db.Civil_Status.ToList();
+
             ViewBag.CivilStatus = db.Civil_Status.SingleOrDefault(cs => cs.Id.Equals(record.IdEstadoCivil)).Descripcion;
             TempData["MensajeErrorEditarExpediente"] = "true";
             record.Edad = CalculateAge(record.FechaNacimiento);
@@ -116,13 +118,33 @@ namespace RecApp_2.Controllers
                                              where tP.IdPaciente.Equals(id)
                                              select tP;
 
+
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
             tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            foreach (var item in db.TratamientoPaciente.ToList())
+            List<Payment> listaTemporal = new List<Payment>();
+            var tratamientosPorPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(record.id));
+            foreach (var item in tratamientosPorPaciente)
             {
-                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.Tratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+
+
             }
+
+            foreach (var item in tratamientoPaciente.ListTratamiento)
+            {
+                item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
+            }
+
+
+            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);
+
+            //foreach (var item in record.ListPayment)
+            //{
+            //    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+            //    payment.Tratamiento = nombreTratamiento;
+            //    listaTemporal.Add(payment);
+            //}
 
             if (TempData["mayorEdad"] == null)
             {
@@ -137,6 +159,10 @@ namespace RecApp_2.Controllers
 
 
             }
+
+
+
+            // Payment tratamientoPacientePago = new Payment();
 
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
             return View(tuple);
@@ -214,6 +240,48 @@ namespace RecApp_2.Controllers
 
             //  return View(record);
         }
+
+
+        // GET: Records/Edit/5
+        [HttpGet]
+        public ActionResult GetPaymentDetailsByPayment(int id_Payment, int id_Paciente)
+        {
+
+            var tratamientos = (from t in db.TratamientoPaciente.ToList()
+                                where t.IdPayment.Equals(id_Payment)
+                                select t).ToList();
+            var listaTratamientos = db.Tratamiento.ToList();
+            foreach (var item in tratamientos)
+            {
+                if (listaTratamientos != null)
+                {
+                    item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
+                    item.Total += item.Costo;
+                }
+            }
+
+            Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
+            tratamientos.ToList()[tratamientos.ToList().Count - 1].Total = _Payment.TotalPagar;
+            Record record = db.Records.Find(id_Paciente);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListTratamientoPaciente = tratamientos;
+
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewTratamientoPacienteFactura", record.ListTratamientoPaciente);
+
+        }
+
 
         // GET: Records/FiltrarTratamientos/5
         [HttpGet]
@@ -330,6 +398,33 @@ namespace RecApp_2.Controllers
 
         }
 
+        // GET: Records/FiltrarTratamientos/5
+        [HttpGet]
+        public ActionResult FiltrarFacturaPorEstado(int id_Estado, int id_Paciente)
+        {
+
+            Record record = db.Records.Find(id_Paciente);
+            record.ListCivilStatus = db.Civil_Status.ToList();
+            record.Edad = CalculateAge(record.FechaNacimiento);
+            record.ListPayment = from P in
+                                            db.Payments.ToList()
+                                 where P.IdRecord.Equals(id_Paciente) && P.Estado.Equals(id_Estado)
+                                 select P;
+            record.ListTratamientoPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(id_Paciente));
+            //Devolver tupla de tipo TratamientoPaciente
+            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
+
+            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
+            foreach (var item in record.ListTratamientoPaciente)
+            {
+                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+            }
+
+
+            return PartialView("PartialViewPayments", record.ListPayment);
+
+        }
 
         // GET: Records/Delete/5
         public async Task<ActionResult> Delete(int? id)

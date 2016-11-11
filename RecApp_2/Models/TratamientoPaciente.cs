@@ -10,6 +10,8 @@ namespace RecApp_2.Models
     public class TratamientoPaciente
     {
         public int Id { get; set; }
+        
+        public int IdPayment { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Tratamiento")]
@@ -36,13 +38,20 @@ namespace RecApp_2.Models
         [Display(Name = "Cara diente")]
         public string Cara { get; set; }
 
-        [Display(Name = "Observaciones")]
+        [Display(Name = "Detalles")]
         public string Observaciones { get; set; }
 
         [Display(Name = "Fecha del tratamiento")]
         [Required(ErrorMessage = "Campo requerido*")]        
         public DateTime FechaTratamiento { get; set; } =  DateTime.Now;
-       
+
+        [NotMapped]
+        [Display(Name = "Costo")]
+        public decimal Costo { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Total")]
+        public decimal? Total { get; set; }
 
         [NotMapped]
         public IEnumerable<Tratamiento> ListTratamiento { get; set; }

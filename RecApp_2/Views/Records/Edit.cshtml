@@ -38,7 +38,7 @@
             if (mayorEdad == true) {
                 $('#encargado').css("display","none");
                 $('#divMenorEdad').css("display","none");
-          
+
             }else {
                 $('#encargado').css("display","block");
                 $('#divMenorEdad').css("display","block");
@@ -231,6 +231,35 @@
 
         }
 
+        function buttonClickFactura(button){
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            var idPayment = button.value;
+            $.ajax({
+                url:'@Url.Action("GetPaymentDetailsByPayment", "Records")',
+                type: 'GET',
+                data: { id_Payment: idPayment, id_Paciente:idPaciente},
+                success: function (data) {
+                    $('#PartialViewTratamientoPacienteFactura').html(data)
+                },
+                error: function (data) {
+                    alert("error!"+ data);
+                }
+           @* $.ajax({
+                url:'@Url.Action("GetPaymentDetailsByPayment", "Records")',
+                type: 'GET',
+                data: { id_Payment: idPayment},
+                dataType: "json",
+                success: function (response) {
+
+                },
+                error: function (response) {
+                    alert("No se puede mostrar la factura");
+                }
+           *@
+            });
+
+        }
+
         function FiltrarTratamientoDiente(button) {
             var idDiente =button.value;
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
@@ -318,6 +347,23 @@
         }
 
 
+        function FiltrarFacturaPorEstado() {
+            var idEstado= Number($('#drpEstadoFactura').val());
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            $.ajax({
+                url:'@Url.Action("FiltrarFacturaPorEstado", "Records")',
+                type: 'GET',
+                data: { id_Estado: idEstado, id_Paciente: idPaciente},
+                success: function (data) {
+                    $('#PartialViewPayments').html(data)
+                },
+                error: function (data) {
+                    alert("error!"+ data);
+                }
+
+            });
+        }
+
         $(function() {
 
             var start = moment().subtract(29, 'days');
@@ -397,6 +443,7 @@
                                     <li><a href="#tab3default" data-toggle="tab">Condiciones Médicas / Enfermedades</a></li>
                                     <li><a href="#tab4default" data-toggle="tab">Odontograma</a></li>
                                     <li><a href="#tab5default" data-toggle="tab">Tratamientos Aplicados</a></li>
+                                    <li><a href="#tab6default" data-toggle="tab">Cobros</a></li>
                                 </ul>
                             </div>
                             <div class="panel-body">
@@ -1044,65 +1091,65 @@
                                             <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
 
                                             <div class="col-md-12 col-md-offset-0 text-center" id="adultoArriba" style="display:block;">
-                                                <button class="btn diente" type="button" value="18" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">18</button>
-                                                <button class="btn diente" type="button" value="17" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">17</button>
-                                                <button class="btn diente" type="button" value="16" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">16</button>
-                                                <button class="btn diente" type="button" value="15" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">15</button>
-                                                <button class="btn diente" type="button" value="14" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">14</button>
-                                                <button class="btn diente" type="button" value="13" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">13</button>
-                                                <button class="btn diente" type="button" value="12" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">12</button>
-                                                <button class="btn diente" type="button" value="11" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">11</button>
-                                                <button class="btn diente" type="button" value="21" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">21</button>
-                                                <button class="btn diente" type="button" value="22" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">22</button>
-                                                <button class="btn diente" type="button" value="23" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">23</button>
-                                                <button class="btn diente" type="button" value="24" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">24</button>
-                                                <button class="btn diente" type="button" value="25" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">25</button>
-                                                <button class="btn diente" type="button" value="26" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">26</button>
-                                                <button class="btn diente" type="button" value="27" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">27</button>
-                                                <button class="btn diente" type="button" value="28" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">28</button>
+                                                <button class="btn diente" type="button" value="18" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.8</button>
+                                                <button class="btn diente" type="button" value="17" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.7</button>
+                                                <button class="btn diente" type="button" value="16" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.6</button>
+                                                <button class="btn diente" type="button" value="15" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.5</button>
+                                                <button class="btn diente" type="button" value="14" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.4</button>
+                                                <button class="btn diente" type="button" value="13" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.3</button>
+                                                <button class="btn diente" type="button" value="12" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.2</button>
+                                                <button class="btn diente" type="button" value="11" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">1.1</button>
+                                                <button class="btn diente" type="button" value="21" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.1</button>
+                                                <button class="btn diente" type="button" value="22" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.2</button>
+                                                <button class="btn diente" type="button" value="23" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.3</button>
+                                                <button class="btn diente" type="button" value="24" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.4</button>
+                                                <button class="btn diente" type="button" value="25" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.5</button>
+                                                <button class="btn diente" type="button" value="26" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.6</button>
+                                                <button class="btn diente" type="button" value="27" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.7</button>
+                                                <button class="btn diente" type="button" value="28" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal">2.8</button>
                                             </div>
                                             <div class="col-md-12 col-md-offset-0 text-center" id="ninoArriba" style="display:none;">
                                                 <div class="clearfix"></div>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="55">55</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="54">54</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="53">53</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="52">52</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="51">51</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="61">61</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="62">62</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="63">63</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="64">64</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="65">65</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="55">5.5</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="54">5.4</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="53">5.3</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="52">5.2</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="51">5.1</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="61">6.1</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="62">6.2</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="63">6.3</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="64">6.4</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="65">6.5</button>
                                             </div>
                                             <div class="col-md-12 col-md-offset-0 text-center" id="ninoAbajo" style="display:none;">
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="85">85</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="84">84</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="83">83</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="82">82</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="81">81</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="71">71</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="72">72</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="73">73</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="74">74</button>
-                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="75">75</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="85">8.5</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="84">8.4</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="83">8.3</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="82">8.2</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="81">8.1</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="71">7.1</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="72">7.2</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="73">7.3</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="74">7.4</button>
+                                                <button class="btn diente_nino" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="75">7.5</button>
                                             </div>
                                             <div class="col-md-12 col-md-offset-0 text-center" id="adultoAbajo" style="display:block;">
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="48">48</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="47">47</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="46">46</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="45">45</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="44">44</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="43">43</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="42">42</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="41">41</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="31">31</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="32">32</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="33">33</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="34">34</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="35">35</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="36">36</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="37">37</button>
-                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="38">38</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="48">4.8</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="47">4.7</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="46">4.6</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="45">4.5</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="44">4.4</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="43">4.3</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="42">4.2</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="41">4.1</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="31">3.1</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="32">3.2</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="33">3.3</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="34">3.4</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="35">3.5</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="36">3.6</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="37">3.7</button>
+                                                <button class="btn diente" type="button" data-toggle="modal" onclick="return buttonClick(this)" data-target="#myModal" value="38">3.8</button>
                                             </div>
                                             <div class="clearfix"></div>
                                         </div>
@@ -1213,6 +1260,8 @@
                                                         new SelectListItem{ Text="Incisal", Value = "Incisal" },
                                                         new SelectListItem{ Text="Mesial", Value = "Mesial" },
                                                         new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
+                                                        new SelectListItem{ Text="Mixta", Value = "Mixta" },
+                                                        new SelectListItem{ Text="Dentadura Completa", Value = "Dentadura Completa" },
                                                         }, new { @class = "form-control", @id = "drpCarasDiente", @style = "cursor: pointer;" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-danger" id="btnFiltrarPorCaraDiente" onclick="return FiltrarTratamientoPorCaraDiente()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
@@ -1235,7 +1284,7 @@
                                                         @Html.DisplayNameFor(model => model.Item2.Cara)
                                                     </th>
                                                     <th>
-                                                        @Html.DisplayNameFor(model => model.Item2.Observaciones)
+                                                        Detalles
                                                     </th>
                                                     <th>
                                                         @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
@@ -1274,6 +1323,103 @@
                                         </div>
                                     </div>
 
+                                    @*Seccion de Cobros*@
+                                    <div class="tab-pane" id="tab6default">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-3">
+                                                    <label>Filtrar por rangos de fecha</label>
+                                                    <div class="input-group">
+                                                        <div id="reportrange" class="text-center" style="background: #fff; cursor: pointer; padding: 5px; height:34px;  border: 1px solid #ccc;">
+                                                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                                            <span></span> <b class="caret"></b>
+
+                                                        </div>
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-danger" id="btnFiltrarPorFechas" onclick="return FiltrarTratamientoPorFecha()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label>Filtrar por Estado Factura</label>
+                                                    <div class="input-group">
+                                                        @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{ Text="Activa", Value ="1"},
+                                                        new SelectListItem{ Text="Facturada", Value = "2"},
+                                                        new SelectListItem{ Text="Cancelada", Value = "3"},
+                                                    
+                                                        }, new { @class = "form-control", @id = "drpEstadoFactura", @style = "cursor: pointer;" })
+                                                        <span class="input-group-btn">
+                                                            <button class="btn btn-danger" id="btnFiltrarPorEstadoFactura" onclick="return FiltrarFacturaPorEstado()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+
+                                           
+
+                                           
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 table table-responsive">
+                                            <table class="table" id="PartialViewPayments">
+                                                <tr>
+                                                    <th>
+                                                        N. Factura
+                                                    </th>
+                                                    <th>
+                                                       Fecha   
+                                                    </th>
+                                                    <th>
+                                                        Costos adicionales
+                                                    </th>
+                                                    <th>
+                                                        Total a pagar
+                                                    </th>
+                                                </tr>
+
+                                               @foreach (var item in Model.Item1.ListPayment)
+                                               {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayName(item.Id.ToString())
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayName(item.FechaRegistro.ToShortDateString())
+                                                    </td>
+                                                    <td>                                                       
+                                                        @string.Format("{0:C}", item.MontoAdicional)
+                                                    </td>
+                                                    <td>
+                                                        @string.Format("{0:C}", item.TotalPagar)                                                        
+                                                    </td>
+
+                                                    <td>
+
+                                                       @if (item.Estado.Equals(1))
+                                                       {
+                                                        @Html.ActionLink("Facturar", "Create",null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })                                                        
+                                                        <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFactura(this)" data-target="#verFactura">Ver Factura</button>
+                                                       }
+                                                       else if (item.Estado.Equals(2))
+                                                       {
+                                                        @Html.ActionLink("Abonar", "Create",null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
+                                                        @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })  
+                                                        @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                                                       }
+
+                                                        @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                                                    </td>
+                                                </tr>
+                                               }
+
+
+                                            </table>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                             </div>
@@ -1302,13 +1448,13 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label" for="eventTitle">Tratamiento</label>
                                 <div class="col-sm-10">
-                                    @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "Nombre"), "--Elija una opción--", new { @class = "form-control" })
+                                    @Html.DropDownListFor(Model => Model.Item2.IdTratamiento, new SelectList(Model.Item2.ListTratamiento, "Id", "NombreCompuesto"), "--Elija una opción--", new { @class = "form-control" })
                                     @Html.ValidationMessageFor(model => model.Item2.IdTratamiento, "", new { @class = "text-danger" })
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label" for="eventTitle">Cara del diente</label>
+                                <label class="col-sm-2 control-label" for="eventTitle">Cara Diente</label>
                                 <div class="col-sm-10">
                                     @Html.DropDownListFor(Model => Model.Item2.Cara, new List<SelectListItem>
 
@@ -1319,6 +1465,8 @@
                                         new SelectListItem{ Text="Incisal", Value = "Incisal" },
                                         new SelectListItem{ Text="Mesial", Value = "Mesial" },
                                         new SelectListItem{ Text="Oclusal", Value = "Oclusal" },
+                                        new SelectListItem{ Text="Mixta", Value = "Mixta" },
+                                        new SelectListItem{ Text="Dentadura Completa", Value = "Dentadura Completa" },
 
 
                                         }, "--Elija una opción--", new { @class = "form-control" })
@@ -1357,6 +1505,66 @@
                 </div>
             </div>
         }
+    </div>
+    <!-- Fin del Modal -->
+
+    <!-- Modal Detalle Factura-->
+    <div class="modal fade" id="verFactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Detalle de Factura</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                        
+                            <div class="col-md-12 table table-responsive">
+                                <table class="table"  id="PartialViewTratamientoPacienteFactura">
+                                    <tr>
+                                        <th>
+                                            Tratamiento
+                                        </th>
+                                        <th>
+                                            Fecha de Aplicación
+                                        </th>
+                                        <th>
+                                            Costo Tratamiento
+                                        </th>
+                                      
+                                    </tr>
+
+                                    @foreach (var item in Model.Item1.ListTratamientoPaciente)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayName(item.Tratamiento)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayName(item.FechaTratamiento.ToShortDateString())
+                                            </td>
+                                        
+                                            <td>
+                                                @string.Format("{0:C}", item.Costo)
+                                            </td>
+                                            
+                                        </tr>
+                                    }
+
+
+                                </table>
+                                <div class="clearfix"></div>
+                            </div>
+                           
+                        </div><!-- Fin del form -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>                       
+                    </div>
+                </div>
+            </div>
+            
     </div>
     <!-- Fin del Modal -->
 
