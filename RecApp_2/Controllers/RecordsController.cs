@@ -15,6 +15,7 @@ namespace RecApp_2.Controllers
 {
     public class RecordsController : Controller
     {
+        //Instancia del Contexto para acceso a datos 
         private RecordsContext db = new RecordsContext();
 
         // GET: Records
@@ -241,7 +242,7 @@ namespace RecApp_2.Controllers
             //  return View(record);
         }
 
-        // GET: Records/Edit/5
+        // GET: Records/Tratamiento Factura Vista Parcial
         [HttpGet]
         public PartialViewResult PartialViewTratamientoPacienteFactura(int id_Payment, int id_Paciente)
         {
@@ -265,8 +266,6 @@ namespace RecApp_2.Controllers
             tratamientos.ToList()[tratamientos.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
             return PartialView(tratamientos);
         }
-
-      
 
 
         // GET: Records/FiltrarTratamientos/5
@@ -443,6 +442,34 @@ namespace RecApp_2.Controllers
         {
             return View();
 
+        }
+
+        // GET: Records/PartialViewFacturar/
+        [HttpGet]
+        public PartialViewResult PartialViewFacturar(int id_Payment, int id_Paciente)
+        {
+
+            var _ListaTratamientosPacientes = (from t in db.TratamientoPaciente.ToList()
+                                where t.IdPayment.Equals(id_Payment)
+                                select t).ToList();
+            var listaTratamientos = db.Tratamiento.ToList();
+            foreach (var item in _ListaTratamientosPacientes)
+            {
+                if (listaTratamientos != null)
+                {
+                    item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
+                    item.Total += item.Costo;
+                    item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                }
+            }
+
+            Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = _Payment.TotalPagar;
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
+            _Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
+
+            //var tuple = new Tuple<Payment, List<TratamientoPaciente>>(_Payment, tratamientos);
+            return PartialView(_Payment);
         }
 
         public JsonResult IsUserExists(int cedula)

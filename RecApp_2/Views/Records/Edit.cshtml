@@ -13,6 +13,13 @@
 
         $(document).ready(function () {
 
+           
+
+                $("montoAdicional").keyup(function(){
+                    calculateSum();
+                });
+            
+
             var bandera = @TempData["AgregoTratamiento"].ToString();
             var tratamientoEditando = @TempData["tratamientoEditando"].ToString();
             var mayorEdad = @TempData["mayorEdad"].ToString();
@@ -96,24 +103,7 @@
                 }
                 else if (mm == myBDM && dd < myBDD) {
                     age = age - 1;
-                }
-
-                //if (age < 18) {
-                //    document.getElementById('encargado').style.display = 'block';
-                //    document.getElementById('divMenorEdad').style.display = 'block';
-                //    $('#lblMenorEdad').html('Sí');
-                //    $('#MenorEdadH').val(1);
-                //    document.getElementById('ninoArriba').style.display = 'block';
-                //    document.getElementById('ninoAbajo').style.display = 'block';
-
-                //} else {
-
-                //    $('#MenorEdadH').val(0);
-                //    document.getElementById('encargado').style.display = 'none';
-                //    document.getElementById('divMenorEdad').style.display = 'block';
-                //    $('#lblMenorEdad').html('No');
-
-                //}
+                }       
 
                 $('#EdadH').val(age);
                 $('#lblEdad').html(age + ' años');
@@ -202,8 +192,7 @@
             $("#popup").modal();
         }
 
-
-        //Función JQuery
+        /*Mostrar los tratamientos asignados al diente*/
         function buttonClick(button){
 
             document.getElementById('IdDiente').value = button.value;
@@ -231,34 +220,41 @@
 
         }
 
-        function buttonClickFactura(button){
+        //Ver detalle de la factura
+        function buttonClickDetalleFactura(button){
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             var idPayment = button.value;
             $.ajax({
                 url:'@Url.Action("PartialViewTratamientoPacienteFactura", "Records")',
                 type: 'GET',
                 data: { id_Payment: idPayment, id_Paciente:idPaciente},
-                success: function (data) {
-                   // $('#PartialViewTratamientoPacienteFactura').html(data)
+                success: function (data) {                  
                     $(".custom_1").html(data)
                     $("#verFactura").modal('show')
                 },
                 error: function (data) {
                     alert("error!"+ data);
-                }
-                @* $.ajax({
-                url:'@Url.Action("GetPaymentDetailsByPayment", "Records")',
-                type: 'GET',
-                data: { id_Payment: idPayment},
-                dataType: "json",
-                success: function (response) {
-
-                },
-                error: function (response) {
-                    alert("No se puede mostrar la factura");
-                }
-           *@
+                }                
             });
+
+        }
+
+        //Cerrar la factura
+        function buttonClickFacturar(button){
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            var idPayment = button.value;
+            $.ajax({
+                url:'@Url.Action("PartialViewFacturar", "Records")',
+                type: 'GET',
+                data: { id_Payment: idPayment, id_Paciente:idPaciente},
+                success: function (data) {                   
+                    $(".custom_2").html(data)
+                    $("#Facturar").modal('show')
+                },
+                error: function (data) {
+                    alert("Ocurrió un eror al cargar la Factura, por favor intente de nuevo."+ data);
+                }               
+                    });
 
         }
 
@@ -411,6 +407,35 @@
             $('.nav-tabs > .active').prev('li').find('a').trigger('click');
         });
 
+        ///*Sumarizacion del Monto a pagar por factura*/
+        //function calcularTotalPagar() {
+        //    var montoAdicional = $("montoAdicional").val;
+        //    var total = $("totalPagar").val;
+        //    if (montoAdicional >= 0) {
+        //        var totalizado = montoAdiconal + total;
+
+
+        //        $('#TotalPagar').val(totalizado);
+
+        //    }
+        //}
+
+        function calculateSum() {
+
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $(".txt").each(function() {
+
+                //add only if the value is number
+                if(!isNaN(this.value) && this.value.length!=0) {
+                    sum += parseFloat(this.value);
+                }
+
+            });
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#sum").html(sum.toFixed(2));
+        }
+
     </script>
 
     <meta charset="UTF-8">
@@ -546,6 +571,7 @@
                                                                 </div>
                                                             </div>
 
+                                                            @*Tabla Condiciones Medicas*@
                                                             <div class="tab-pane fade" id="tab4default_4">
                                                                 <div class="col-md-8 table-responsive">
                                                                     <h3> </h3>
@@ -741,7 +767,7 @@
 
 
                                                 <div class="form-group" id="divMenorEdad" style="display:none;">
-                                                    @Html.Label("Menor de Edad", htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    @Html.Label("Menor de edad", htmlAttributes: new { @class = "control-label col-md-2" })
                                                     <div class='col-md-6'>
                                                         <div class='form-group internal input-group'>
                                                             <span class='input-group-addon'>
@@ -1338,7 +1364,7 @@
 
                                                         </div>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-danger" id="btnFiltrarPorFechas" onclick="return FiltrarTratamientoPorFecha()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                            <button class="btn btn-danger" id="btnFiltrarPorFechaFactura" onclick="" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1358,9 +1384,6 @@
                                                         </span>
                                                     </div>
                                                 </div>
-
-
-
 
                                             </div>
                                         </div>
@@ -1398,17 +1421,19 @@
                                                         </td>
 
                                                         <td>
-
+                                                            @*Si aún no esta facturada que solo pueda facturar o ver lo que lleva hasta el momento*@
                                                             @if (item.Estado.Equals(1))
-                                                            {
-                                                                @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })
-                                                                <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFactura(this)" data-target="#verFactura">Ver Factura</button>
+                                                            {                                                              
+                                                                <button class="btn btn-danger" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFacturar(this)" >Facturar</button>
+                                                                <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
+                                                                
                                                             }
+                                                            @*si ya está facturada que se pueda abonar a la factura o anularla*@
                                                             else if (item.Estado.Equals(2))
                                                             {
                                                                 @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
                                                                 @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })
-                                                                @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                                                                <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
                                                             }
 
                                                             @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
@@ -1509,6 +1534,8 @@
         }
     </div>
     <!-- Fin del Modal -->
+
+
     <!-- Modal Detalle Factura-->
     <div class="modal fade" id="verFactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
 
@@ -1572,6 +1599,39 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fin del Modal -->
+
+
+    <!-- Modal  Facturar-->
+    <div class="modal fade" id="Facturar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Facturar</h4>
+                </div>
+                <div class="modal-body custom_2">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewFacturar">
+                                                              
+                            </table>
+                            @*<label for="number" id="=lblMontoAdicional"></label>
+                            <input type="number" id="txtMontoAdicional" value="0.00" class="form-control" />*@
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Facturar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
             </div>
         </div>

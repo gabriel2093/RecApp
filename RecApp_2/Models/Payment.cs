@@ -29,7 +29,10 @@ namespace RecApp_2.Models
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
-        [DefaultValue(0)]
+        [DefaultValue(0)]       
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "El monto no puede tener más de dos decimales.")]
+        [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "Monto adicional")]       
         public decimal MontoAdicional { get; set; }
 
 
