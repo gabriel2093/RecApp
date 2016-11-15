@@ -685,6 +685,7 @@
     <Content Include="Views\Records\PartialViewPayments.cshtml" />
     <Content Include="Views\Records\PartialViewTratamientoPacienteFactura.cshtml" />
     <Content Include="Views\Records\PartialViewFacturar.cshtml" />
+    <Content Include="Views\Records\PartialViewCerrarFactura.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

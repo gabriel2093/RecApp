@@ -10,15 +10,11 @@
     <script>
 
 
-
         $(document).ready(function () {
+                //$("montoAdicional").keyup(function(){
+                //    calculateSum();
+                //});
 
-           
-
-                $("montoAdicional").keyup(function(){
-                    calculateSum();
-                });
-            
 
             var bandera = @TempData["AgregoTratamiento"].ToString();
             var tratamientoEditando = @TempData["tratamientoEditando"].ToString();
@@ -103,7 +99,7 @@
                 }
                 else if (mm == myBDM && dd < myBDD) {
                     age = age - 1;
-                }       
+                }
 
                 $('#EdadH').val(age);
                 $('#lblEdad').html(age + ' años');
@@ -228,18 +224,18 @@
                 url:'@Url.Action("PartialViewTratamientoPacienteFactura", "Records")',
                 type: 'GET',
                 data: { id_Payment: idPayment, id_Paciente:idPaciente},
-                success: function (data) {                  
+                success: function (data) {
                     $(".custom_1").html(data)
                     $("#verFactura").modal('show')
                 },
                 error: function (data) {
                     alert("error!"+ data);
-                }                
+                }
             });
 
         }
 
-        //Cerrar la factura
+        // Ver detalles para Cerrar la factura
         function buttonClickFacturar(button){
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             var idPayment = button.value;
@@ -247,16 +243,44 @@
                 url:'@Url.Action("PartialViewFacturar", "Records")',
                 type: 'GET',
                 data: { id_Payment: idPayment, id_Paciente:idPaciente},
-                success: function (data) {                   
+                success: function (data) {
                     $(".custom_2").html(data)
                     $("#Facturar").modal('show')
                 },
                 error: function (data) {
                     alert("Ocurrió un eror al cargar la Factura, por favor intente de nuevo."+ data);
-                }               
+                }
                     });
 
         }
+
+        // Ver detalles para Cerrar la factura
+        function buttonClickCerrarFactura(button){
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+
+            if ($("#montoAdic").val() != '') {
+                var montoAdic = parseFloat($("#montoAdic").val());
+            }else {
+                var montoAdic = 0;
+            }
+            
+
+            $.ajax({
+                url:'@Url.Action("PartialViewCerrarFactura", "Records")',
+                type: 'GET',
+                data: {  id_Paciente:idPaciente, montoAdicional:montoAdic},
+                success: function (data) {
+                    $(".custom_3").html(data)
+                    $("#DetalleCierreFactura").modal('show')
+                },
+                error: function (data) {
+                    alert("Ocurrió un eror al cancelar la Factura, por favor intente de nuevo."+ data);
+                }
+            });
+
+        }
+
+
 
         function FiltrarTratamientoDiente(button) {
             var idDiente =button.value;
@@ -1629,9 +1653,37 @@
 
                     </div><!-- Fin del form -->
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Facturar</button>
+                <div class="modal-footer">                    
+                    <button class="btn btn-success" type="button" value='@Model.Item1.id' onclick="return buttonClickCerrarFactura(this)">Facturar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fin del Modal -->
+
+
+    <!-- Modal Cierre Factura -->
+    <div class="modal fade" id="DetalleCierreFactura" tabindex="-1" role="dialog" aria-labelledby="DetalleCierreFacturaLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="DetalleCierreFacturaLabel">Detalle Cierre Factura</h4>
+                </div>
+                <div class="modal-body custom_3">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewCerrarFactura"></table>                          
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Regresar</button>                                        
                 </div>
             </div>
         </div>

@@ -472,6 +472,37 @@ namespace RecApp_2.Controllers
             return PartialView(_Payment);
         }
 
+
+          // GET: Records/PartialViewFacturar/
+        [HttpGet]
+        public PartialViewResult PartialViewCerrarFactura(int id_Paciente, decimal montoAdicional)
+        {
+            //FALTA CAMBIAR ESTADO FACTURA
+            Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.IdRecord.Equals(id_Paciente) && p.Estado.Equals(1));
+            var _ListaTratamientosPacientes = (from t in db.TratamientoPaciente.ToList()
+                                where t.IdPayment.Equals(_Payment.Id)
+                                select t).ToList();
+            var listaTratamientos = db.Tratamiento.ToList();
+            foreach (var item in _ListaTratamientosPacientes)
+            {
+                if (listaTratamientos != null)
+                {
+                    item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
+                    item.Total += item.Costo;
+                    item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                }
+            }
+
+           
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = _Payment.TotalPagar;
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
+            _Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
+            _Payment.MontoAdicional = montoAdicional;
+            _Payment.TotalPagar += _Payment.MontoAdicional;
+                        
+            return PartialView(_Payment);
+        }
+
         public JsonResult IsUserExists(int cedula)
         {
             //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
