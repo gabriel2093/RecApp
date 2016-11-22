@@ -123,30 +123,23 @@ namespace RecApp_2.Controllers
 
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
             tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            List<Payment> listaTemporal = new List<Payment>();
+            List<String> ListaIdDientes = new List<string>(); 
             var tratamientosPorPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(record.id));
             foreach (var item in tratamientosPorPaciente)
             {
                 item.Tratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
-
-
+                ListaIdDientes.Add(item.IdDiente.ToString());
             }
+
+            //Lista de dientes para cambiar el background
+            ViewBag.ListaIdDientes = ListaIdDientes;
 
             foreach (var item in tratamientoPaciente.ListTratamiento)
             {
                 item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
             }
-
-
-            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);
-
-            //foreach (var item in record.ListPayment)
-            //{
-            //    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
-            //    payment.Tratamiento = nombreTratamiento;
-            //    listaTemporal.Add(payment);
-            //}
+            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);          
 
             if (TempData["mayorEdad"] == null)
             {
@@ -161,11 +154,6 @@ namespace RecApp_2.Controllers
 
 
             }
-
-
-
-            // Payment tratamientoPacientePago = new Payment();
-
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
             return View(tuple);
         }

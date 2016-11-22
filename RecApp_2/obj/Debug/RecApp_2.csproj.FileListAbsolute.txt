@@ -418,3 +418,4 @@ C:\Users\Andres\Documents\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Microso
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache

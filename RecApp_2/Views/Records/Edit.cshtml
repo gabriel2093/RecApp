@@ -11,9 +11,16 @@
 
 
         $(document).ready(function () {
-                //$("montoAdicional").keyup(function(){
-                //    calculateSum();
-                //});
+
+            //Cambiar background color de los dientes
+            var myArray = [];
+            @foreach (var link in ViewBag.ListaIdDientes)
+                    {
+                        @:myArray.push("@link");
+                    }          
+            for (index = 0; index < myArray.length; ++index) {                                                
+                $("[value="+myArray[index]+"]").css("background-color", "#600");
+            }
 
 
             var bandera = @TempData["AgregoTratamiento"].ToString();
@@ -250,7 +257,7 @@
                 error: function (data) {
                     alert("Ocurrió un eror al cargar la Factura, por favor intente de nuevo."+ data);
                 }
-                    });
+            });
 
         }
 
@@ -263,7 +270,7 @@
             }else {
                 var montoAdic = 0;
             }
-            
+
 
             $.ajax({
                 url:'@Url.Action("PartialViewCerrarFactura", "Records")',
@@ -1447,10 +1454,10 @@
                                                         <td>
                                                             @*Si aún no esta facturada que solo pueda facturar o ver lo que lleva hasta el momento*@
                                                             @if (item.Estado.Equals(1))
-                                                            {                                                              
-                                                                <button class="btn btn-danger" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFacturar(this)" >Facturar</button>
+                                                            {
+                                                                <button class="btn btn-danger" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFacturar(this)">Facturar</button>
                                                                 <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
-                                                                
+
                                                             }
                                                             @*si ya está facturada que se pueda abonar a la factura o anularla*@
                                                             else if (item.Estado.Equals(2))
@@ -1558,8 +1565,6 @@
         }
     </div>
     <!-- Fin del Modal -->
-
-
     <!-- Modal Detalle Factura-->
     <div class="modal fade" id="verFactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
 
@@ -1573,47 +1578,47 @@
                     <div class="form-horizontal">
 
                         <div class="col-md-12 table table-responsive">
-                            <table class="table" id="PartialViewTratamientoPacienteFactura" >
+                            <table class="table" id="PartialViewTratamientoPacienteFactura">
                                 @*<tr>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Item2.Tratamiento)
-                                    </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Item2.Tratamiento)
+                                        </th>
 
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Item2.Costo)
-                                    </th>
-
-                                </tr>
-
-                                @foreach (var item in Model.Item1.ListTratamientoPaciente)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Tratamiento)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.FechaTratamiento)
-                                        </td>
-                                        <td>
-                                            @string.Format("{0:C}", item.Costo)
-                                        </td>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Item2.Costo)
+                                        </th>
 
                                     </tr>
 
-                                }
-                                <tr>
-                                    <td colspan="3" style="text-align:right;">
-                                        <strong>Montos Adicionales:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].MontoAdicional)
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" style="text-align:right;">
-                                        <strong>Monto total:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].Total)
-                                    </td>
-                                </tr>*@
+                                    @foreach (var item in Model.Item1.ListTratamientoPaciente)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Tratamiento)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FechaTratamiento)
+                                            </td>
+                                            <td>
+                                                @string.Format("{0:C}", item.Costo)
+                                            </td>
+
+                                        </tr>
+
+                                    }
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            <strong>Montos Adicionales:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].MontoAdicional)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            <strong>Monto total:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].Total)
+                                        </td>
+                                    </tr>*@
 
                             </table>
                             <div class="clearfix"></div>
@@ -1629,8 +1634,6 @@
 
     </div>
     <!-- Fin del Modal -->
-
-
     <!-- Modal  Facturar-->
     <div class="modal fade" id="Facturar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         <div class="modal-dialog" role="document">
@@ -1643,17 +1646,15 @@
                     <div class="form-horizontal">
 
                         <div class="col-md-12 table table-responsive">
-                            <table class="table" id="PartialViewFacturar">
-                                                              
-                            </table>
+                            <table class="table" id="PartialViewFacturar"></table>
                             @*<label for="number" id="=lblMontoAdicional"></label>
-                            <input type="number" id="txtMontoAdicional" value="0.00" class="form-control" />*@
+                                <input type="number" id="txtMontoAdicional" value="0.00" class="form-control" />*@
                             <div class="clearfix"></div>
                         </div>
 
                     </div><!-- Fin del form -->
                 </div>
-                <div class="modal-footer">                    
+                <div class="modal-footer">
                     <button class="btn btn-success" type="button" value='@Model.Item1.id' onclick="return buttonClickCerrarFactura(this)">Facturar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                 </div>
@@ -1662,8 +1663,6 @@
 
     </div>
     <!-- Fin del Modal -->
-
-
     <!-- Modal Cierre Factura -->
     <div class="modal fade" id="DetalleCierreFactura" tabindex="-1" role="dialog" aria-labelledby="DetalleCierreFacturaLabel" data-backdrop="static">
         <div class="modal-dialog" role="document">
@@ -1676,14 +1675,14 @@
                     <div class="form-horizontal">
 
                         <div class="col-md-12 table table-responsive">
-                            <table class="table" id="PartialViewCerrarFactura"></table>                          
+                            <table class="table" id="PartialViewCerrarFactura"></table>
                             <div class="clearfix"></div>
                         </div>
 
                     </div><!-- Fin del form -->
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Regresar</button>                                        
+                    <button type="submit" class="btn btn-success">Regresar</button>
                 </div>
             </div>
         </div>

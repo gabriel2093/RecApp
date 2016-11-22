@@ -33,11 +33,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Expedientes Clínicos", "Index", "Records")</li>
-                    <li>@Html.ActionLink("Calendario de Citas", "Index", "Calendar")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li>@Html.ActionLink(" Inicio", "Index", "Home", new { @class = "glyphicon glyphicon-home" })</li>
+                    <li>@Html.ActionLink(" Expedientes Clínicos", "Index", "Records", new { @class = "glyphicon glyphicon-folder-open" })</li>
+                    <li>@Html.ActionLink(" Calendario de Citas", "Index", "Calendar", new { @class = "glyphicon glyphicon-calendar" })</li>
+                    <li>@Html.ActionLink(" Acerca de", "About", "Home", new { @class = "glyphicon glyphicon-alert" })</li>
+                    <li>@Html.ActionLink(" Ayuda", "Help", "Home", new { @class = "glyphicon glyphicon-question-sign" })</li>
+                    <li>@Html.ActionLink(" Contacto", "Contact", "Home", new { @class = "glyphicon glyphicon-phone" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -48,7 +49,7 @@
 
         <div class="col-md-12">
             @if (Request.IsAuthenticated)
-            {
+                        {
                 <div class="breadcrumb">
                     <strong> Usted se encuentra aquí: <u>@Html.MvcSiteMap().SiteMapPath()</u> </strong>
                 </div>

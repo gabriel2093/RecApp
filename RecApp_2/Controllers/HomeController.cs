@@ -34,5 +34,12 @@ namespace RecApp_2.Controllers
 
             return View();
         }
+
+        public ActionResult Help()
+        {
+            //ViewBag.Message = "Para ayuda póngase en contacto con el administrador del sistema.";
+
+            return View();
+        }
     }
 }
