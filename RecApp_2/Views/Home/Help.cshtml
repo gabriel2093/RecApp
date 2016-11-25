@@ -3,6 +3,194 @@
     ViewBag.Title = "Help";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container col-md-12 center-block">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Ayuda de Uso</h2>
+        </div>      
+        <div class="panel-body">
 
-<h2>Help</h2>
+            <section class="page">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>Citas</h3>
+                            <ol>
+                                <li>
+                                    <a id="negrita" href="#crearCita">¿Cómo crear una cita nueva?</a>
+                                </li>
+                                <li>
+                                    <a href="#modificarCita">¿Cómo modificar una cita existente?</a>
+                                </li>
+                                <li>
+                                    <a href="#eliminarCita">¿Cómo eliminar una cita existente?</a>
+                                </li>
+                            </ol>
+                            <h3>Expedientes</h3>
+                            <ol>
+                                <li>
+                                    <a href="#crearExpediente">¿Cómo crear un expediente nuevo al paciente?</a>
+                                </li>
+                                <li>
+                                    <a href="#modificarExpediente">¿Cómo modificar un expediente existente?</a>
+                                </li>
+                                <li>
+                                    <a href="#agregarTrata">¿Cómo agregar tratamientos al odontograma del paciente?</a>
+                                </li>
+                                <li>
+                                    <a href="#filtrarTrata">¿Cómo filtrar los tratamientos aplicados al paciente?</a>
+                                </li>
+                            </ol>
+                            <h3>Cobros</h3>
+                            <ol>
+                                <li>
+                                    <a href="#agregarTrataFact">¿Cómo agregar tratamientos a una factura activa?</a>
+                                </li>
+                                <li>
+                                    <a href="#montoExtra">¿Cómo agregar un monto extra/adicional a una factura activa?</a>
+                                </li>
+                                <li>
+                                    <a href="#abonarFact">¿Cómo agregar abonos a una factura?</a>
+                                </li>
+                                <li>
+                                    <a href="#anularFact">¿Cómo anular una factura?</a>
+                                </li>                            
+                            </ol>
+                            <h3>Tratamientos</h3>
+                            <ol>
+                                <li>
+                                    <a href="#crearTrata">¿Cómo crear un tratamiento nuevo?</a>
+                                </li>
+                                <li>
+                                    <a href="#editarTrata">¿Cómo editar un tratamiento existente?</a>
+                                </li>
+                            </ol>
+                            <h3>Usuarios</h3>
+                            <ol>
+                                <li>
+                                    <a href="#crearUsuario">¿Cómo crear un nuevo usuario?</a>
+                                </li>
+                                <li>
+                                    <a href="#modificarUsuario">¿Cómo cambiar el rol de un usuario existente?</a>
+                                </li>
+                                <li>
+                                    <a href="#estadoUsuario">¿Cómo activar/inactivar un usuario específico?</a>
+                                </li>
+                            </ol>
 
+                            <hr/>
+                          
+                            <h3>Citas</h3>
+                            <ol>
+                                <li>
+                                    <p id="crearCita" class="question">¿Cómo crear una cita nueva?</p>
+                                    <p>Desde el <a href="/Calendar">menú principal de citas</a> y seleccionando la vista tipo semana o día, desde la esquina superior derecha, ubique el día correspondiente 
+                                    y la hora pactada con el cliente (siempre y cuando esa fecha no esté ocupada) dando un click, esto abrirá una nueva ventana para llenarla con el nombre del paciente y la duración de la cita en minutos.
+                                    <strong>Importante:</strong> @*<img  class="img-responsive" src="~/Images/Calendar2.jpg"/>*@
+                                    <ul>
+                                        <li>Siempre agregar este valor en minutos. Ejemplo: 60, para indicar que la duración es de una hora.</li>
+                                        <li>No es posible agregar citas a una fecha en el pasado.</li>
+                                        <li>La primar cita es a las 8:00 AM y la última a las 5:30 PM.</li>
+                                        <li>Los Domingos no se pueden crear citas.</li></ul>
+                                    </p>
+                                </li>
+                                <li>
+                                    <p id="modificarCita" class="question">¿Cómo modificar una cita existente?</p>
+                                    <p>Dando click en el margen inferior de la cita, es posible modificar el tiempo de la misma, así como con un click sin soltar y arrastre es posible cambiarla de día/hora.</p>
+                                </li>
+                                <li>
+                                    <p id="eliminarCita" class="question">¿Cómo eliminar una cita existente?</p>
+                                    <p>ejecute doble click sobre la cita a eliminar, esta desplegará una nueva ventana modal, donde se muestra la opción de eliminar, dando click sobre esta, la cita se eliminará del sistema o si se da click sobre cancelar, esta seguirá sin cambio alguno.</p>
+                                </li>
+                            </ol>
+                            <h3>Expedientes</h3>
+                            <ol>
+                                <li>
+                                    <p id="crearExpediente" class="question">¿Cómo crear un expediente nuevo al paciente?</p>
+                                    <p>
+                                        Desde el <a href="Index">menu principal</a> seleccione la opción "Expedientes", ahora de click sobre el botón "Crear nuevo expediente", llene todos los campos que se le presentan en esta pantalla y de click sobre el botón "Continuar",
+                                        de nuevo llene los campos que sean necesarios y que se ajustan al perfil médico del paciente. En el campo de "Comentarios" agrege lo información que sea pertinente. Finalmente de click sobre el botón "Guardar todo" para salvar los cambios.   
+                                    </p>
+                                </li>
+                                <li>
+                                    <p id="modificarExpediente" class="question">¿Cómo modificar un expediente existente?</p>
+                                    <p>
+                                        Desde la vista de <a href="../Records">lista de expedientes</a> seleccione el expediente a modificar, puede hacer uso del buscador para facilitar la búsqueda del expediente, de click sobre el botón "Abrir Expediente". Ahora
+                                        en la pestaña "Datos Personales" ejecute un click para ver los datos del paciente y modificar lo que sea necesario. En la pestaña siguiente puede modificar las condicones médicas de paciente. Para salvar los cambios
+                                        de click sobre el botón "Guardar cambios".
+                                    </p>
+                                </li>
+                                <li>
+                                    <p id="agregarTrata" class="question">¿Cómo agregar tratamientos al odontograma del paciente?</p>
+                                    <p>
+                                        Desde la pestaña "Odontograma", seleccione el tipo de dentadura, según sea el caso: <strong>Permanente</strong> para Adultos y <strong>Decidua</strong> para "Niños", en caso de que el paciente presente dentadura mixta, puede intercambiar entre las 2 opciones para
+                                        realizar tratamentos en el diente que corresponda. Para agregrar un tratamiento, de click sobre el diente a realizar el tratamiento y seleccion de la ventana modal que se despliega el tratamento a realizar, la cara del diente y en "Detalles" una breve descripción 
+                                        sobre el proceso a realizar.<strong>Importante:</strong> si selecciona en "Cara Diente" las opción "Mixta" indicar en el detalle los dientes que se ven involucrados.
+                                    </p>
+                                </li>
+                                <li>
+                                    <p id="filtrarTrata" class="question">¿Cómo filtrar los tratamientos aplicados al paciente?</p>
+                                    <p>
+                                       Desde la pestaña "Tratamientos Aplicados", es posible filtrarlo por fecha, tratamiento, diente y por cara del diente. Seleccione una de estas opciones del encabezado de la pantalla para realizar una búsqueda por el combo seleccionado.
+                                    </p>
+                                </li>
+                            </ol>
+                            <h3>Cobros</h3>
+                            <ol>
+                                <li>
+                                    <p id="agregarTrataFact" class="question">¿Cómo agregar tratamientos a una factura activa?</p>
+                                    <p>Los tratamientos que se le aplican al paciente se agregan de manera automática a la factura activa, no es necesario realizar un proceso adicional</p>
+                                </li>
+                                <li>
+                                    <p id="montoExtra" class="question">¿Cómo agregar un monto extra/adicional a una factura activa?</p>
+                                    <p>Desde la pestaña "Cobros" de click sobre el botón "Facturar" de la factura activa, para que se muestre una ventana modal, donde se visualiza los detalles de la factura y un espacio para agregar un monto adicional.
+                                    <strong>Este monto es opcional</strong> y solo si el caso lo requiere, si no desea agregar ningún monto, puede dejar el valor en blanco.</p>
+                                </li>
+                                <li>
+                                    <p id="abonarFact" class="question">¿Cómo agregar abonos a una factura?</p>
+                                    <p>En la pestaña "Cobros", seleccione la factura a la que desea realizar un abono mediante el botón "Abonar". Este botón solo aparecerá a aquellas facturas que se encuentren finalizadas y no se le puedan agregar más tratamientos. En la nueva ventana modal, ingreso el monto 
+                                    a abonar, para que se aplique a la factura. Este proceso se puede repetir hasta que el saldo de la factura sea cero.</p>
+                                </li>
+                                <li>
+                                    <p id="anularFact" class="question">¿Cómo anular una factura?</p>
+                                    <p>En la pestaña "Cobros", click sobre el botón "Anular", para descartar la factura seleccionada.</p>
+                                </li>
+                            </ol>
+                            <h3>Tratamientos</h3>
+                            <ol>
+                                <li>
+                                    <p id="crearTrata" class="question">¿Cómo crear un tratamiento nuevo?</p>
+                                    <p>Desde el menú principal de <a href="../Tratamientoes">Tratamientos</a> click en el botón "Nuevo registro" para crear un nuevo tratamiento, llene los campos requeridos: <strong>nombre, descripción y precio</strong> del tratamiento. Concluido de click en el botón de "Crear" para agregar el nuevo registro al sistema.</p>
+                                </li>
+                                <li>
+                                    <p id="editarTrata" class="question">¿Cómo editar un tratamiento existente?</p>
+                                    <p>Desde el menú principal de <a href="../Tratamientoes">Tratamientos</a> click en el botón "Editar" para modificar el tratamiento seleccionado, se puede coambari el nombre, descripción y el precio de tratamiento. Para salvar los cambios click en el botón "Guardar".</p>
+                                </li>
+                            </ol>
+                            <h3>Usuarios</h3>
+                            <ol>
+                                <li>
+                                    <p id="crearUsuario" class="question">¿Cómo crear un nuevo usuario?</p>
+                                    <p>Desde el menú de <a href="/Manage/MantUsuarios"> Usuarios</a> click en el botón "Nuevo usuario" para agregar un nuevo registro, intoduzca el <strong>correo</strong> de registro, la <strong>contraseña</strong> y el <strong>rol</strong> que desempeñará el usuario. 
+                                    Click en el botón "Registrar" para guardar los cambios.</p>
+                                </li>
+                                <li>
+                                    <p id="modificarUsuario" class="question">¿Cómo cambiar el rol de un usuario existente?</p>
+                                    <p>Desde el menú de <a href="/Manage/MantUsuarios"> Usuarios</a> click en el botón "Editar" para modificar el rol del usuario seleccionado, en el campo "Rol de usuario" seleccione el nuevo rol. Finalmente click en el botón "Guardar" para salvar los cambios.</p>
+                                </li>
+                                <li>
+                                    <p id="estadoUsuario" class="question">¿Cómo activar/inactivar un usuario específico?</p>
+                                    <p>Desde el menú de <a href="/Manage/MantUsuarios"> Usuarios</a> click en el botón "Activar" ó "Inactivar" según sea el caso para el usuario.</p>
+                                </li>
+                            </ol>
+                            <hr />
+
+                            <h3>Para más detalles del funcionamiento del Sistema RecApp, realice sus consultas en el <a href="/Home/Contact">contacto</a>.</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+</div>
