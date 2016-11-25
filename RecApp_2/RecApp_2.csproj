@@ -192,6 +192,7 @@
     <Compile Include="Controllers\CivilStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaymentDetailsController.cs" />
     <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -360,6 +361,7 @@
     <Content Include="Images\mantenimiento.jpg" />
     <Content Include="Images\MedicalRecords.png" />
     <Content Include="Images\records.jpg" />
+    <Content Include="Images\spinner.gif" />
     <Content Include="img\dentist-icons\01.jpg" />
     <Content Include="img\dentist-icons\02.png" />
     <Content Include="img\dentist-icons\03.png" />
@@ -687,6 +689,12 @@
     <Content Include="Views\Records\PartialViewFacturar.cshtml" />
     <Content Include="Views\Records\PartialViewCerrarFactura.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\PaymentDetails\Create.cshtml" />
+    <Content Include="Views\PaymentDetails\Delete.cshtml" />
+    <Content Include="Views\PaymentDetails\Details.cshtml" />
+    <Content Include="Views\PaymentDetails\Edit.cshtml" />
+    <Content Include="Views\PaymentDetails\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewAbonar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
