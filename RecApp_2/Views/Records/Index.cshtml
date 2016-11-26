@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RecApp_2.Models.Record>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Especialidades Odontológicas | Expediente Clínico";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -15,15 +15,15 @@
         </div>
         <div class="panel-body table-responsive">
             <p>
-                @Html.ActionLink(" Nuevo registro ", "Create", null, new { @class = "btn btn-success glyphicon glyphicon-plus" })
+                @Html.ActionLink("Crear nuevo expediente", "Create", null, new { @class = "btn btn-success glyphicon glyphicon-plus" })
             </p>
              @using (Html.BeginForm("Index", "Records", FormMethod.Get))
             {
                 <div class="form-group">
                     <div class="col-md-6">
+                        @*Buscar registro*@
                         <span class="glyphicon glyphicon-search"></span> @Html.TextBox("search")
-                        <input type="submit" value="Buscar por nombre" class="btn-custom-danger"/>
-                       @* <input type="text" class="form-control" id="search" placeholder="Búsqueda por nombre" />*@
+                        <input type="submit" value="Buscar" class="btn-custom-danger"/>                   
                     </div>
                 </div>           
              }
@@ -64,7 +64,7 @@
                 @if (Model.Count() == 0) 
                 {
                     <tr>
-                        <td colspan="10">Ningún registro coincide con la búsqueda</td>
+                        <td colspan="10">Ningún registro coincide con la búsqueda. Intente nuevamente.</td>
                     </tr>
                 }
                        
@@ -102,14 +102,14 @@
                         </td>
 
                         <td>
-                            @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
-                            @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-primary glyphicon glyphicon-plus" }) 
-                           
+                            @Html.ActionLink("Abrir Expediente", "Edit", new { id = item.id }, new { @class = "btn btn-warning glyphicon glyphicon-book" })                                                      
                         </td>
                     </tr>
                 }
                 
-            </table>
+            </table><br/>
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
         </div>
+      
     </div>
 </div>

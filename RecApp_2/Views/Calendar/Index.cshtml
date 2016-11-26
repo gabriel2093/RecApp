@@ -3,7 +3,7 @@
 }
 
 @Styles.Render("~/Content/fullcalendar.min.css")
-<link href="~/Content/themes/base/jquery-ui.css" rel="stylesheet" />
+@*<link href="~/css/jquery-ui.css" rel="stylesheet" />*@
 <br /><br />
 <div class="container">
 
@@ -13,6 +13,7 @@
     <script type="text/javascript">
         //Configuración de los parametros del calendario de citas
         $(document).ready(function () {
+
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
@@ -53,13 +54,6 @@
                         eventLimit: 6
                     }
                 },
-                //select: function (start, end, jsEvent, view) {
-                //    if (moment().diff(start, 'days') > 0) {
-                //        $('#calendar').fullCalendar('unselect');
-                //        // or display some sort of alert
-                //        $("#FechaInvalida").modal("show");
-                //    }
-                //},
 
                 hiddenDays: [0],
                 lang: 'es',
@@ -70,11 +64,11 @@
                     next: 'fa fa-caret-right',
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
-                    var now = new moment().format('DD/MM/YYYY HH:mm');                    
+                    var now = new moment().format('DD/MM/YYYY HH:mm');
                     var dateEvent = moment(date).format('DD/MM/YYYY HH:mm');
                     var HourDateEvent = moment().format('LL');
 
-                    var day  = moment().format('dddd');
+                    var day = moment().format('dddd');
                     var GetView = $('#calendar').fullCalendar('getView');
                     if (dateEvent < now || GetView.name == 'month' || (day == 'Saturday') && HourDateEvent < '14:00') {
                         $("#FechaInvalida").modal("show");
@@ -91,29 +85,57 @@
 
                 eventDrop: function (event, delta, revertFunc) {
                     if (moment().diff(event.start, 'days') > 0) {
-                       // $('#calendar').fullCalendar('unselect');
-                        // or display some sort of alert
                         $("#FechaInvalida").modal("show");
                         revertFunc();
                     } else {
-                        if (confirm("¿Desea mover la cita de " + event.title + " a las: " + moment(event.start).format('HH:mm'))) {
-                            UpdateEvent(event.id, event.start, event.end);
-                        } else {
-
-                            revertFunc();
-                        }
+                        bootbox.confirm({
+                            message: event.title + " ¿Desea mover la cita a la(s): " + moment(event.start).format('HH:mm'),
+                            buttons: {
+                                confirm: {
+                                    label: 'Sí',
+                                    className: 'btn-success'
+                                },
+                                cancel: {
+                                    label: 'No',
+                                    className: 'btn-danger'
+                                }
+                            },
+                            callback: function (result) {
+                                if (result) {
+                                    UpdateEvent(event.id, event.start, event.end);
+                                } else {
+                                    revertFunc();
+                                }
+                            }
+                        });
+                        //revertFunc();
                     }
+
 
 
                 },
 
                 eventResize: function (event, delta, revertFunc) {
-                    if (confirm("¿Desea expadir el tiempo de duración de la cita?")) {
-                        UpdateEvent(event.id, event.start, event.end);
-                    }
-                    else {
-                        revertFunc();
-                    }
+                    bootbox.confirm({
+                        message: "¿Desea expadir el tiempo de duración de la cita?",
+                        buttons: {
+                            confirm: {
+                                label: 'Sí',
+                                className: 'btn-success'
+                            },
+                            cancel: {
+                                label: 'No',
+                                className: 'btn-danger'
+                            }
+                        },
+                        callback: function (result) {
+                            if (result) {
+                                UpdateEvent(event.id, event.start, event.end);
+                            } else {
+                                revertFunc();
+                            }
+                        }
+                    });
                 },
 
                 eventClick: function (calEvent, jsEvent, view) {
@@ -159,11 +181,12 @@
                     success: function (response) {
                         if (response == 'True') {
                             $('#calendar').fullCalendar('refetchEvents');
-                            alert('Cita guardada correctamente');
+                            bootbox.alert("La cita fue guardada correctamente.");
                             ClearPopupFormValues();
                         }
                         else {
-                            alert('Ocurrió un error al guardar la cita');
+                            bootbox.alert("Ocurrió un error al guardar la cita. Vuelva a intentarlo.");
+                            //alert('Ocurrió un error al guardar la cita');
                         }
                     }
                 });
@@ -247,28 +270,10 @@
 
         //Función autocompletar busqueda paciente
 
-        $(function () {
-            $("#eventTitle").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: "/Calendar/getData",
-                        type: "POST",
-                        dataType: "json",
-                        data: { term: request.term },
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return { value: item.tvid, label: item.agentName };
-                            }))
-                        }
-                    })
-                },
-                messages: {
-                    noResults: "", results: ""
-                }
-            });
-        });
+      
     </script>
-
+    <br/>
+    <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
 </div>
 
 
@@ -288,33 +293,21 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     <h3 class="modal-title" id="myModalLabel">Nueva cita</h3>
                 </div>
-
-
                 <div class="modal-body">
-
-
                     <div class="form-horizontal">
                         <div class="form-group">
                             <label class="col-sm-2 control-label"
                                    for="eventTitle">@Html.DisplayNameFor(model => model.title)</label>
                                 <div class="col-sm-10">
-                                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", @id = "eventTitle", @onkeyup = "CheckInfo()" } })
+                                    @Html.EditorFor(model => model.title, new { htmlAttributes = new { @class = "form-control", @id = "eventTitle" } })
                                     @Html.ValidationMessageFor(model => model.title, "", new { @class = "text-danger" })
                                 </div>
-                                <input name="BossId" id="BossId" type="hidden"
-                                       value="4" data-val-required="The BossId field is required."
-                                       data-val-number="The field BossId must be a number." data-val="true">
-                                <span class="field-validation-valid"
-                                      data-valmsg-replace="true" data-valmsg-for="BossLastName"></span>
                             </div>
-
-
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"
                                        for="eventTitle">@Html.DisplayNameFor(model => model.start)</label>
                                     <div class="col-sm-10">
-
-                                        @Html.EditorFor(model => model.start, new { htmlAttributes = new { @class = "form-control", @id = "eventDate", @readonly = "readonly", @placeholder = "Nombre del paciente"} })
+                                        @Html.EditorFor(model => model.start, new { htmlAttributes = new { @class = "form-control", @id = "eventDate", @readonly = "readonly", @placeholder = "Nombre del paciente" } })
                                         @Html.ValidationMessageFor(model => model.start, "", new { @class = "text-danger" })
                                     </div>
 
@@ -362,7 +355,7 @@
                 Elija una vista y una fecha válida para crear una cita.
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn-danger">Regresar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-danger">Volver al listado</button>
             </div>
         </div>
     </div>
@@ -381,7 +374,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnPopupDelete" class="btn btn-danger">Eliminar cita</button>
-                <button id="btnPopupCancelDetails" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+                <button id="btnPopupCancelDetails" data-dismiss="modal" class="btn btn-primary">Volver al listado</button>
             </div>
         </div>
     </div>
@@ -397,7 +390,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" id="btnDeleteEvent">Eliminar</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary">Regresar</button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">Volver al listado</button>
             </div>
         </div>
     </div>
@@ -411,11 +404,10 @@
 @Scripts.Render("~/Scripts/moment.min.js")
 @Scripts.Render("~/Scripts/fullcalendar.min.js")
 @Scripts.Render("~/Scripts/lang-all.js")
-
+@Scripts.Render("~/js/bootbox.min.js")
 @Scripts.Render("~/Scripts/jquery.validate.min.js")
 @Scripts.Render("~/Scripts/jquery.validate.unobtrusive.min.js")
 @Scripts.Render("~/Scripts/jquery.validate.date.js")
-
 
 
 

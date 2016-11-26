@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<RecApp_2.Models.Tratamiento>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Especialidades Odontológicas | Tratamientos";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -51,6 +51,8 @@
                 }
 
             </table>
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
         </div>
+
     </div>
 </div>

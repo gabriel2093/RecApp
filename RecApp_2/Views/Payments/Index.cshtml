@@ -1,0 +1,99 @@
+﻿@model IEnumerable<RecApp_2.Models.Payment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IdTratamientoPaciente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MontoAdicional)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalPagar)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdTratamientoPaciente)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaRegistro)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MontoAdicional)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalPagar)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
+
+<div class="container col-md-12 center-block">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Cobros por Tratamientos Clínicos</h2>
+        </div>
+        <div class="panel-body table-responsive">
+       
+            @using (Html.BeginForm("Index", "Payments", FormMethod.Get))
+            {
+                <div class="form-group">
+                    <div class="col-md-6">
+                        <span class="glyphicon glyphicon-search"></span> @Html.TextBox("search")
+                        <input type="submit" value="Buscar" class="btn-custom-danger" />
+                        @* <input type="text" class="form-control" id="search" placeholder="Búsqueda por nombre" />*@
+                    </div>
+                </div>
+            }
+
+            <table class="table table-responsive table-bordered">
+                <tr>   
+                    <td>
+
+                    </td>        
+                    <th></th>
+                </tr>
+                @*Si no se encuenta coincidencia en la búsqueda ,muestre el mensaje*@
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td colspan="10">Ningún registro coincide con la búsqueda. Intente nuevamente.</td>
+                    </tr>
+                }
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                      
+                        <td>
+                            @Html.ActionLink("Agregar Abono", "Edit", new { id = item.Id}, new { @class = "btn btn-warning glyphicon glyphicon-book" })
+                        </td>
+                    </tr>
+                }
+
+            </table><br />
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
+        </div>
+
+    </div>
+</div>
+
