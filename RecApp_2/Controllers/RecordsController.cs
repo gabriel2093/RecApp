@@ -10,11 +10,13 @@ using System.Web.Mvc;
 using RecApp_2.Models;
 using System.Globalization;
 using System.Collections;
+using System.Data.Entity.Validation;
 
 namespace RecApp_2.Controllers
 {
     public class RecordsController : Controller
     {
+        //Instancia del Contexto para acceso a datos 
         private RecordsContext db = new RecordsContext();
 
         // GET: Records
@@ -121,30 +123,23 @@ namespace RecApp_2.Controllers
 
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
             tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            List<Payment> listaTemporal = new List<Payment>();
+            List<String> ListaIdDientes = new List<string>(); 
             var tratamientosPorPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(record.id));
             foreach (var item in tratamientosPorPaciente)
             {
                 item.Tratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
-
-
+                ListaIdDientes.Add(item.IdDiente.ToString());
             }
+
+            //Lista de dientes para cambiar el background
+            ViewBag.ListaIdDientes = ListaIdDientes;
 
             foreach (var item in tratamientoPaciente.ListTratamiento)
             {
                 item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
             }
-
-
-            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);
-
-            //foreach (var item in record.ListPayment)
-            //{
-            //    var nombreTratamiento = db.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
-            //    payment.Tratamiento = nombreTratamiento;
-            //    listaTemporal.Add(payment);
-            //}
+            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);          
 
             if (TempData["mayorEdad"] == null)
             {
@@ -159,11 +154,6 @@ namespace RecApp_2.Controllers
 
 
             }
-
-
-
-            // Payment tratamientoPacientePago = new Payment();
-
             var tuple = new Tuple<Record, TratamientoPaciente>(record, tratamientoPaciente);
             return View(tuple);
         }
@@ -241,10 +231,9 @@ namespace RecApp_2.Controllers
             //  return View(record);
         }
 
-
-        // GET: Records/Edit/5
+        // GET: Records/Tratamiento Factura Vista Parcial
         [HttpGet]
-        public ActionResult GetPaymentDetailsByPayment(int id_Payment, int id_Paciente)
+        public PartialViewResult PartialViewTratamientoPacienteFactura(int id_Payment, int id_Paciente)
         {
 
             var tratamientos = (from t in db.TratamientoPaciente.ToList()
@@ -257,29 +246,14 @@ namespace RecApp_2.Controllers
                 {
                     item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
                     item.Total += item.Costo;
+                    item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 }
             }
 
             Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
             tratamientos.ToList()[tratamientos.ToList().Count - 1].Total = _Payment.TotalPagar;
-            Record record = db.Records.Find(id_Paciente);
-            record.ListCivilStatus = db.Civil_Status.ToList();
-            record.Edad = CalculateAge(record.FechaNacimiento);
-            record.ListTratamientoPaciente = tratamientos;
-
-            //Devolver tupla de tipo TratamientoPaciente
-            TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
-
-            tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            foreach (var item in record.ListTratamientoPaciente)
-            {
-                item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
-                item.NombrePaciente = record.Nombre + " " + record.Apellido1;
-            }
-
-
-            return PartialView("PartialViewTratamientoPacienteFactura", record.ListTratamientoPaciente);
-
+            tratamientos.ToList()[tratamientos.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
+            return PartialView(tratamientos);
         }
 
 
@@ -457,6 +431,134 @@ namespace RecApp_2.Controllers
         {
             return View();
 
+        }
+
+        // GET: Records/PartialViewFacturar/
+        [HttpGet]
+        public PartialViewResult PartialViewFacturar(int id_Payment, int id_Paciente)
+        {
+
+            var _ListaTratamientosPacientes = (from t in db.TratamientoPaciente.ToList()
+                                               where t.IdPayment.Equals(id_Payment)
+                                               select t).ToList();
+            var listaTratamientos = db.Tratamiento.ToList();
+            foreach (var item in _ListaTratamientosPacientes)
+            {
+                if (listaTratamientos != null)
+                {
+                    item.Costo = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase;
+                    item.Total += item.Costo;
+                    item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                }
+            }
+
+            Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = _Payment.TotalPagar;
+            _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = _Payment.MontoAdicional;
+            _Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
+
+            //var tuple = new Tuple<Payment, List<TratamientoPaciente>>(_Payment, tratamientos);
+            return PartialView(_Payment);
+        }
+
+
+        // GET: Records/PartialViewFacturar/
+        [HttpGet]
+        public PartialViewResult PartialViewCerrarFactura(int id_Paciente, decimal montoAdicional)
+        {            
+            try
+            {
+                Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.IdRecord.Equals(id_Paciente) && p.Estado.Equals(1));
+                var _ListaTratamientosPacientes = (from t in db.TratamientoPaciente.ToList()
+                                                   where t.IdPayment.Equals(_Payment.Id)
+                                                   select t).ToList();
+                var listaTratamientos = db.Tratamiento.ToList();
+                foreach (var item in _ListaTratamientosPacientes)
+                {
+                    if (listaTratamientos != null)
+                    {
+                        item.Costo = decimal.Round(listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase, 2, MidpointRounding.AwayFromZero);
+                        item.Total += decimal.Round(item.Costo, 2, MidpointRounding.AwayFromZero);
+                        item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                    }
+                }
+
+                montoAdicional = montoAdicional == 0 ? 0.00m : montoAdicional;
+                _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
+                _ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = decimal.Round(_Payment.MontoAdicional, 2, MidpointRounding.AwayFromZero);
+                _Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
+                _Payment.MontoAdicional = decimal.Round(montoAdicional, 2, MidpointRounding.AwayFromZero);
+                _Payment.TotalPagar = decimal.Round((_Payment.MontoAdicional + _Payment.TotalPagar), 2, MidpointRounding.AwayFromZero);
+                _Payment.Estado = 2;
+                db.Entry(_Payment).State = EntityState.Modified;
+                db.SaveChanges();
+                return PartialView(_Payment);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errores = "";
+                foreach (var error in ex.EntityValidationErrors)
+                {
+                    errores += error.Entry.Entity.GetType().Name + error.Entry.State;
+                    foreach (var item in error.ValidationErrors)
+                    {
+                        errores += item.PropertyName + "  " + item.ErrorMessage;
+                    }
+                }
+                return PartialView();
+            }
+        }
+
+
+        // GET: Records/PartialViewAbonar/
+        [HttpGet]
+        public PartialViewResult PartialViewAbonar(int id_Factura)
+        {
+            
+            try
+            {
+                //Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Factura) && p.Estado.Equals(2));
+
+                //var _ListaTratamientosPacientes = (from t in db.TratamientoPaciente.ToList()
+                //                                   where t.IdPayment.Equals(_Payment.Id)
+                //                                   select t).ToList();
+                //var listaTratamientos = db.Tratamiento.ToList();
+                //foreach (var item in _ListaTratamientosPacientes)
+                //{
+                //    if (listaTratamientos != null)
+                //    {
+                //        item.Costo = decimal.Round(listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).PrecioBase, 2, MidpointRounding.AwayFromZero);
+                //        item.Total += decimal.Round(item.Costo, 2, MidpointRounding.AwayFromZero);
+                //        item.Tratamiento = listaTratamientos.SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
+                //    }
+                //}
+                PaymentDetails _PaymentDetails = new PaymentDetails();
+                _PaymentDetails.IdPayment = id_Factura;
+                // montoAdicional = montoAdicional == 0 ? 0.00m : montoAdicional;
+                //_ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
+                //_ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = decimal.Round(_Payment.MontoAdicional, 2, MidpointRounding.AwayFromZero);
+                //_Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
+                //_Payment.MontoAdicional = decimal.Round(montoAdicional, 2, MidpointRounding.AwayFromZero);
+                //_Payment.TotalPagar = decimal.Round((_Payment.MontoAdicional + _Payment.TotalPagar), 2, MidpointRounding.AwayFromZero);
+                //_Payment.Estado = 2;
+                // db.Entry(_Payment).State = EntityState.Added;
+                // db.SaveChanges();
+               // System.Threading.Thread.Sleep(15000);
+                return PartialView(_PaymentDetails);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errores = "";
+                foreach (var error in ex.EntityValidationErrors)
+                {
+                    errores += error.Entry.Entity.GetType().Name + error.Entry.State;
+                    foreach (var item in error.ValidationErrors)
+                    {
+                        errores += item.PropertyName + "  " + item.ErrorMessage;
+                    }
+                }
+                return PartialView();
+            }
         }
 
         public JsonResult IsUserExists(int cedula)

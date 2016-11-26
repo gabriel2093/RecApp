@@ -10,8 +10,18 @@
     <script>
 
 
-
         $(document).ready(function () {
+
+            //Cambiar background color de los dientes
+            var myArray = [];
+            @foreach (var link in ViewBag.ListaIdDientes)
+                    {
+                        @:myArray.push("@link");
+                                }
+            for (index = 0; index < myArray.length; ++index) {
+                $("[value="+myArray[index]+"]").css("background-color", "#5cb85c");
+            }
+
 
             var bandera = @TempData["AgregoTratamiento"].ToString();
             var tratamientoEditando = @TempData["tratamientoEditando"].ToString();
@@ -97,23 +107,6 @@
                 else if (mm == myBDM && dd < myBDD) {
                     age = age - 1;
                 }
-
-                //if (age < 18) {
-                //    document.getElementById('encargado').style.display = 'block';
-                //    document.getElementById('divMenorEdad').style.display = 'block';
-                //    $('#lblMenorEdad').html('Sí');
-                //    $('#MenorEdadH').val(1);
-                //    document.getElementById('ninoArriba').style.display = 'block';
-                //    document.getElementById('ninoAbajo').style.display = 'block';
-
-                //} else {
-
-                //    $('#MenorEdadH').val(0);
-                //    document.getElementById('encargado').style.display = 'none';
-                //    document.getElementById('divMenorEdad').style.display = 'block';
-                //    $('#lblMenorEdad').html('No');
-
-                //}
 
                 $('#EdadH').val(age);
                 $('#lblEdad').html(age + ' años');
@@ -202,8 +195,7 @@
             $("#popup").modal();
         }
 
-
-        //Función JQuery
+        /*Mostrar los tratamientos asignados al diente*/
         function buttonClick(button){
 
             document.getElementById('IdDiente').value = button.value;
@@ -231,34 +223,103 @@
 
         }
 
-        function buttonClickFactura(button){
+        //Ver detalle de la factura
+        function buttonClickDetalleFactura(button){
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
             var idPayment = button.value;
             $.ajax({
-                url:'@Url.Action("GetPaymentDetailsByPayment", "Records")',
+                url:'@Url.Action("PartialViewTratamientoPacienteFactura", "Records")',
                 type: 'GET',
                 data: { id_Payment: idPayment, id_Paciente:idPaciente},
                 success: function (data) {
-                    $('#PartialViewTratamientoPacienteFactura').html(data)
+                    $(".custom_1").html(data)
+                    $("#verFactura").modal('show')
                 },
                 error: function (data) {
                     alert("error!"+ data);
                 }
-           @* $.ajax({
-                url:'@Url.Action("GetPaymentDetailsByPayment", "Records")',
-                type: 'GET',
-                data: { id_Payment: idPayment},
-                dataType: "json",
-                success: function (response) {
-
-                },
-                error: function (response) {
-                    alert("No se puede mostrar la factura");
-                }
-           *@
             });
 
         }
+
+        // Ver detalles para Cerrar la factura
+        function buttonClickFacturar(button){
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+            var idPayment = button.value;
+            $.ajax({
+                url:'@Url.Action("PartialViewFacturar", "Records")',
+                type: 'GET',
+                data: { id_Payment: idPayment, id_Paciente:idPaciente},
+                success: function (data) {
+                    $(".custom_2").html(data)
+                    $("#Facturar").modal('show')
+                },
+                error: function (data) {
+                    alert("Ocurrió un eror al cargar la Factura, por favor intente de nuevo."+ data);
+                }
+            });
+
+        }
+
+        // Ver detalles para Cerrar la factura
+        function buttonClickCerrarFactura(button){
+            var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
+
+            if ($("#montoAdic").val() != '') {
+                var montoAdic = parseFloat($("#montoAdic").val());
+            }else {
+                var montoAdic = 0;
+            }
+
+
+            $.ajax({
+                url:'@Url.Action("PartialViewCerrarFactura", "Records")',
+                type: 'GET',
+                data: {  id_Paciente:idPaciente, montoAdicional:montoAdic},
+                success: function (data) {
+                    $(".custom_3").html(data)
+                    $("#DetalleCierreFactura").modal('show')
+                },
+                error: function (data) {
+                    alert("Ocurrió un eror al cancelar la Factura, por favor intente de nuevo."+ data);
+                }
+            });
+
+        }
+
+      
+
+        // Ver realizar abono a factura
+        function buttonClickAbonarFactura(button){
+            showProgress();           
+            var idFactura = button.value;
+            
+            //if ($("#montoAbo").val() != '') {
+            //    var montoAbo = parseFloat($("#montoAbo").val());
+            //}else {
+            //    var montoAbo = 0;
+            //}
+            //$("button[type=button]").attr("disabled", "disabled");
+            $.ajax({
+                url:'@Url.Action("PartialViewAbonar", "Records")',
+                type: 'GET',
+                data: {  id_Factura:idFactura},
+                success: function (data) {
+                    $(".custom_4").html(data);
+                    $("#AbonarFactura").modal('show');
+                    hideProgress();
+                    $('button[id^="Abonar"]').removeAttr("disabled");
+                },
+                error: function (data) {
+                    alert("Ocurrió un eror al mostrar la información para realizar el abono, por favor intente de nuevo."+ data);
+                    hideProgress();
+                  //  $("button[type=button]").removeAttr("disabled");
+                }
+            });
+
+        }
+
+
 
         function FiltrarTratamientoDiente(button) {
             var idDiente =button.value;
@@ -401,13 +462,39 @@
 
         });
 
-        $('#btnNext').click(function () {
-            $('.nav-tabs > .active').next('li').find('a').trigger('click');
-        });
 
-        $('#btnPrevious').click(function () {
-            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
-        });
+        ///*Sumarizacion del Monto a pagar por factura*/
+        function calculateSum() {
+
+            var sum = 0;
+            //iterate through each textboxes and add the values
+            $(".txt").each(function() {
+
+                //add only if the value is number
+                if(!isNaN(this.value) && this.value.length!=0) {
+                    sum += parseFloat(this.value);
+                }
+
+            });
+            //.toFixed() method will roundoff the final sum to 2 decimal places
+            $("#sum").html(sum.toFixed(2));
+        }
+
+        var spinnerVisible = false;
+        function showProgress() {
+            if (!spinnerVisible) {
+                $("div#spinner").fadeIn("fast");
+                spinnerVisible = true;
+            }
+        };
+        function hideProgress() {
+            if (spinnerVisible) {
+                var spinner = $("div#spinner");
+                spinner.stop();
+                spinner.fadeOut("fast");
+                spinnerVisible = false;
+            }
+        };
 
     </script>
 
@@ -452,10 +539,10 @@
                                     <div class="tab-pane active" id="tab1default">
                                         @if (TempData["MessageRegistroModificado"] != null)
                                         {
-                                        <div class="alert alert-success">
-                                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                                            <strong><label class="control-label center-block" id="mensajeErrorEditarExp">@TempData["MessageRegistroModificado"].ToString()</label></strong> 
-                                        </div>
+                                            <div class="alert alert-success">
+                                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                                <strong><label class="control-label center-block" id="mensajeErrorEditarExp">@TempData["MessageRegistroModificado"].ToString()</label></strong>
+                                            </div>
 
                                         }
                                         <div class="row">
@@ -489,7 +576,7 @@
                                                             <li class="active"><a href="#tab2default_2" data-toggle="tab">Información Personal</a></li>
                                                             @if (Model.Item1.Edad < 18)
                                                             {
-                                                            <li><a href="#tab1default_1" data-toggle="tab">Datos del Encargado</a></li>
+                                                                <li><a href="#tab1default_1" data-toggle="tab">Datos del Encargado</a></li>
                                                             }
 
                                                             <li><a href="#tab4default_4" data-toggle="tab">Condición Médica</a></li>
@@ -500,26 +587,26 @@
                                                         <div class="tab-content">
                                                             @if (Model.Item1.Edad < 18)
                                                             {
-                                                            <div class="tab-pane fade" id="tab1default_1">
+                                                                <div class="tab-pane fade" id="tab1default_1">
 
-                                                                <h3> </h3>
-                                                                <label>
-                                                                    @Html.DisplayNameFor(model => model.Item1.NombreEncargado)
-                                                                </label>
-                                                                @Html.DisplayFor(model => model.Item1.NombreEncargado) @Html.DisplayFor(model => model.Item1.Apellido1Encargado) @Html.DisplayFor(model => model.Item1.Apellido2Encargado)
-                                                                <br />
+                                                                    <h3> </h3>
+                                                                    <label>
+                                                                        @Html.DisplayNameFor(model => model.Item1.NombreEncargado)
+                                                                    </label>
+                                                                    @Html.DisplayFor(model => model.Item1.NombreEncargado) @Html.DisplayFor(model => model.Item1.Apellido1Encargado) @Html.DisplayFor(model => model.Item1.Apellido2Encargado)
+                                                                    <br />
 
-                                                            </div>
+                                                                </div>
                                                             }
                                                             <div class="tab-pane active" id="tab2default_2">
                                                                 <div class="col-md-6">
                                                                     <h3> </h3>
                                                                     @if (Model.Item1.Edad < 18)
                                                                     {
-                                                                    <label>
-                                                                        @Html.DisplayNameFor(model => model.Item1.MenorEdad)
-                                                                    </label>
-                                                                    <br />
+                                                                        <label>
+                                                                            @Html.DisplayNameFor(model => model.Item1.MenorEdad)
+                                                                        </label>
+                                                                        <br />
                                                                     }
                                                                     <label>
                                                                         @Html.DisplayNameFor(model => model.Item1.IdEstadoCivil)
@@ -544,6 +631,7 @@
                                                                 </div>
                                                             </div>
 
+                                                            @*Tabla Condiciones Medicas*@
                                                             <div class="tab-pane fade" id="tab4default_4">
                                                                 <div class="col-md-8 table-responsive">
                                                                     <h3> </h3>
@@ -643,14 +731,14 @@
 
                                                         </div>
                                                     </div>
-                                                
+
                                                 </div>
                                             </div>
-                            
+
                                         </div>
-                                      
+
                                     </div>
-                            
+
                                     @*Datos personales*@
                                     <div class="tab-pane" id="tab2default">
                                         <div class="form-horizontal">
@@ -661,9 +749,9 @@
                                                         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                                                         <label class="control-label center-block" id="mensajeErrorEditarExp">@ViewBag.MessageErrorEdit</label>
                                                     </div>
-                                                        <script>
-                                                            $('.nav-tabs a[href="#tab2default"]').tab('show');
-                                                        </script>
+                                                    <script>
+                                                        $('.nav-tabs a[href="#tab2default"]').tab('show');
+                                                    </script>
 
                                                 }
 
@@ -739,7 +827,7 @@
 
 
                                                 <div class="form-group" id="divMenorEdad" style="display:none;">
-                                                    @Html.Label("Menor de Edad", htmlAttributes: new { @class = "control-label col-md-2" })
+                                                    @Html.Label("Menor de edad", htmlAttributes: new { @class = "control-label col-md-2" })
                                                     <div class='col-md-6'>
                                                         <div class='form-group internal input-group'>
                                                             <span class='input-group-addon'>
@@ -877,7 +965,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                 
+
                                         <a class="btn btn-primary pull-right" href="#tab3default" id="btnNext" data-toggle="tab">Continuar</a>
                                     </div>
 
@@ -1073,7 +1161,7 @@
                                                 </div>
                                                 <br /><br /><br />
                                                 <div class="row">
-                                                    <a class="btn btn-primary" href="#tab2default" id="btnPrevious" data-toggle="tab">Volver al listado</a>
+                                                    <a class="btn btn-primary" href="#tab2default" id="btnPrevious" data-toggle="tab">Anterior</a>
                                                     <input type="submit" value="Guardar cambios" class="btn btn-success" />
                                                 </div>
                                             </div>
@@ -1084,9 +1172,9 @@
                                     <div class="tab-pane" id="tab4default">
                                         <div class="col-md-12">
                                             @*<div class="alert alert-success">
-                                                <label class="control-label center-block " id="mensajeError"></label>
-                                            </div>*@
-                                            <label class="control-label">Seleccione el tipo </label><hr />                                          
+                                                    <label class="control-label center-block " id="mensajeError"></label>
+                                                </div>*@
+                                            <label class="control-label">Seleccione el tipo </label><hr />
                                             <input type="radio" id="permanente" name="tipo" onchange="cambiarOdontograma();" checked />Permanente <br />
                                             <input type="radio" id="decidua" name="tipo" onchange="cambiarOdontograma();" />Decidua
 
@@ -1313,7 +1401,7 @@
                                                             @Html.DisplayFor(modelItem => item.FechaTratamiento, "{dd-MM-yyyy}")
                                                         </td>
                                                         <td>
-                                                           <a href="@Url.Action("Edit", "TratamientoPacientes", new { id = item.Id })" class="btn btn-primary">Editar</a>                                                        
+                                                            <a href="@Url.Action("Edit", "TratamientoPacientes", new { id = item.Id })" class="btn btn-primary">Editar</a>
                                                         </td>
                                                     </tr>
                                                 }
@@ -1336,7 +1424,7 @@
 
                                                         </div>
                                                         <span class="input-group-btn">
-                                                            <button class="btn btn-danger" id="btnFiltrarPorFechas" onclick="return FiltrarTratamientoPorFecha()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+                                                            <button class="btn btn-danger" id="btnFiltrarPorFechaFactura" onclick="" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -1349,7 +1437,7 @@
                                                         new SelectListItem{ Text="Activa", Value ="1"},
                                                         new SelectListItem{ Text="Facturada", Value = "2"},
                                                         new SelectListItem{ Text="Cancelada", Value = "3"},
-                                                    
+
                                                         }, new { @class = "form-control", @id = "drpEstadoFactura", @style = "cursor: pointer;" })
                                                         <span class="input-group-btn">
                                                             <button class="btn btn-danger" id="btnFiltrarPorEstadoFactura" onclick="return FiltrarFacturaPorEstado()" type="button"><span class="glyphicon glyphicon-search"></span> Buscar</button>
@@ -1357,9 +1445,6 @@
                                                     </div>
                                                 </div>
 
-                                           
-
-                                           
                                             </div>
                                         </div>
                                         <div class="col-md-12 table table-responsive">
@@ -1369,7 +1454,7 @@
                                                         N. Factura
                                                     </th>
                                                     <th>
-                                                       Fecha   
+                                                        Fecha
                                                     </th>
                                                     <th>
                                                         Costos adicionales
@@ -1379,40 +1464,42 @@
                                                     </th>
                                                 </tr>
 
-                                               @foreach (var item in Model.Item1.ListPayment)
-                                               {
-                                                <tr>
-                                                    <td>
-                                                        @Html.DisplayName(item.Id.ToString())
-                                                    </td>
-                                                    <td>
-                                                        @Html.DisplayName(item.FechaRegistro.ToShortDateString())
-                                                    </td>
-                                                    <td>                                                       
-                                                        @string.Format("{0:C}", item.MontoAdicional)
-                                                    </td>
-                                                    <td>
-                                                        @string.Format("{0:C}", item.TotalPagar)                                                        
-                                                    </td>
+                                                @foreach (var item in Model.Item1.ListPayment)
+                                                {
+                                                    <tr>
+                                                        <td>
+                                                            @Html.DisplayName(item.Id.ToString())
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayName(item.FechaRegistro.ToShortDateString())
+                                                        </td>
+                                                        <td>
+                                                            @string.Format("{0:C}", item.MontoAdicional)
+                                                        </td>
+                                                        <td>
+                                                            @string.Format("{0:C}", item.TotalPagar)
+                                                        </td>
 
-                                                    <td>
+                                                        <td>
+                                                            @*Si aún no esta facturada que solo pueda facturar o ver lo que lleva hasta el momento*@
+                                                            @if (item.Estado.Equals(1))
+                                                            {
+                                                                <button class="btn btn-danger" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFacturar(this)">Facturar</button>
+                                                                <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
 
-                                                       @if (item.Estado.Equals(1))
-                                                       {
-                                                        @Html.ActionLink("Facturar", "Create",null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })                                                        
-                                                        <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFactura(this)" data-target="#verFactura">Ver Factura</button>
-                                                       }
-                                                       else if (item.Estado.Equals(2))
-                                                       {
-                                                        @Html.ActionLink("Abonar", "Create",null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
-                                                        @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })  
-                                                        @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
-                                                       }
+                                                            }
+                                                            @*si ya está facturada que se pueda abonar a la factura o anularla*@
+                                                            else if (item.Estado.Equals(2))
+                                                            {
+                                                                <button class="btn btn-success" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickAbonarFactura(this)" data-target="#AbonarFactura">Abonar</button>                                                                
+                                                                @*@Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })*@
+                                                                <button class="btn btn-primary" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
+                                                            }
 
-                                                        @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
-                                                    </td>
-                                                </tr>
-                                               }
+                                                            @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                                                        </td>
+                                                    </tr>
+                                                }
 
 
                                             </table>
@@ -1423,7 +1510,7 @@
                                 </div>
                                 @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                             </div>
-                      
+
                         </div><!-- Fin del Panel -->
                     </div><!-- Fin del Form -->
                 }
@@ -1435,7 +1522,7 @@
     <!-- Modal Diente-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
         @using (Html.BeginForm("Create", "TratamientoPacientes"))
-            {
+        {
             @Html.AntiForgeryToken()
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -1507,64 +1594,160 @@
         }
     </div>
     <!-- Fin del Modal -->
-
     <!-- Modal Detalle Factura-->
     <div class="modal fade" id="verFactura" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Detalle de Factura</h4>
+                </div>
+                <div class="modal-body custom_1">
+                    <div class="form-horizontal">
 
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Detalle de Factura</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-horizontal">
-                        
-                            <div class="col-md-12 table table-responsive">
-                                <table class="table"  id="PartialViewTratamientoPacienteFactura">
-                                    <tr>
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewTratamientoPacienteFactura">
+                                @*<tr>
                                         <th>
-                                            Tratamiento
+                                            @Html.DisplayNameFor(model => model.Item2.Tratamiento)
+                                        </th>
+
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
                                         </th>
                                         <th>
-                                            Fecha de Aplicación
+                                            @Html.DisplayNameFor(model => model.Item2.Costo)
                                         </th>
-                                        <th>
-                                            Costo Tratamiento
-                                        </th>
-                                      
+
                                     </tr>
 
                                     @foreach (var item in Model.Item1.ListTratamientoPaciente)
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayName(item.Tratamiento)
+                                                @Html.DisplayFor(modelItem => item.Tratamiento)
                                             </td>
                                             <td>
-                                                @Html.DisplayName(item.FechaTratamiento.ToShortDateString())
+                                                @Html.DisplayFor(modelItem => item.FechaTratamiento)
                                             </td>
-                                        
                                             <td>
                                                 @string.Format("{0:C}", item.Costo)
                                             </td>
-                                            
+
                                         </tr>
+
                                     }
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            <strong>Montos Adicionales:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].MontoAdicional)
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;">
+                                            <strong>Monto total:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].Total)
+                                        </td>
+                                    </tr>*@
 
+                            </table>
+                            <div class="clearfix"></div>
+                        </div>
 
-                                </table>
-                                <div class="clearfix"></div>
-                            </div>
-                           
-                        </div><!-- Fin del form -->
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>                       
-                    </div>
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
-            
+        </div>
+
+    </div>
+    <!-- Fin del Modal -->
+    
+    <!-- Modal  Facturar-->
+    <div class="modal fade" id="Facturar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Facturar</h4>
+                </div>
+                <div class="modal-body custom_2">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewFacturar"></table>
+                            @*<label for="number" id="=lblMontoAdicional"></label>
+                                <input type="number" id="txtMontoAdicional" value="0.00" class="form-control" />*@
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" type="button" value='@Model.Item1.id' onclick="return buttonClickCerrarFactura(this)">Facturar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fin del Modal -->
+
+    <!-- Modal  Abonar-->
+    <div class="modal fade" id="AbonarFactura" tabindex="-1" role="dialog" aria-labelledby="AbonarFacturaLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Aplicar abono</h4>
+                </div>
+                <div class="modal-body custom_4">
+                    <div class="form-horizontal">
+                        <div id="spinner">                           
+                        </div>
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewAbonar"></table>
+                            @*<label for="number" id="=lblMontoAdicional"></label>
+                                <input type="number" id="txtMontoAdicional" value="0.00" class="form-control" />*@
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" id="Abonar" type="button" disabled="disabled" value='@Model.Item1.id' onclick="return buttonClickAplicarAbonoFactura(this)">Abonar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Fin del Modal -->
+   
+     <!-- Modal Cierre Factura -->
+    <div class="modal fade" id="DetalleCierreFactura" tabindex="-1" role="dialog" aria-labelledby="DetalleCierreFacturaLabel" data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="DetalleCierreFacturaLabel">Detalle Cierre Factura</h4>
+                </div>
+                <div class="modal-body custom_3">
+                    <div class="form-horizontal">
+
+                        <div class="col-md-12 table table-responsive">
+                            <table class="table" id="PartialViewCerrarFactura"></table>
+                            <div class="clearfix"></div>
+                        </div>
+
+                    </div><!-- Fin del form -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Regresar</button>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!-- Fin del Modal -->
 
@@ -1578,7 +1761,26 @@
     @Scripts.Render("~/js/select2.min.js")
     <link href="~/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="~/css/daterangepicker.css" />
-   
+
+    @*Cambiar el tab activo*@
+    <script>
+        $(document).ready(function () {
+            var input = $('.input-validation-error:first');
+
+            if (input) {
+                input.focus();
+                return false;
+            }
+        });
+        $('#btnNext').click(function () {
+            $('.nav-tabs > .active').next('li').find('a').trigger('click');
+        });
+
+        $('#btnPrevious').click(function () {
+            $('.nav-tabs > .active').prev('li').find('a').trigger('click');
+        });
+    </script>
+
 }
 
 

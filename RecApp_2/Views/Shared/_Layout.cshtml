@@ -4,6 +4,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Especialista Dental" />
+    <meta name="keywords" content="Dentista, Heredia, Odontologa, Especialidades, Especialista" />
+    <link rel="apple-touch-icon" sizes="57x57" href="img/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="img/favicons/apple-touch-icon-60x60.png">
+    <link rel="icon" type="image/png" href="img/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="img/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="img/favicons/manifest.json">
+    <link rel="shortcut icon" href="img/favicons/favicon.ico">
 
     <title>@ViewBag.Title RecApp</title>
     @Styles.Render("~/Content/css")
@@ -33,11 +41,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Inicio", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Expedientes Clínicos", "Index", "Records")</li>
-                    <li>@Html.ActionLink("Calendario de Citas", "Index", "Calendar")</li>
-                    <li>@Html.ActionLink("Acerca de", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>
+                    <li>@Html.ActionLink(" Inicio", "Index", "Home", new { @class = "glyphicon glyphicon-home" })</li>
+                    <li>@Html.ActionLink(" Expedientes Clínicos", "Index", "Records", new { @class = "glyphicon glyphicon-folder-open" })</li>
+                    <li>@Html.ActionLink(" Calendario de Citas", "Index", "Calendar", new { @class = "glyphicon glyphicon-calendar" })</li>
+                    <li>@Html.ActionLink(" Acerca de", "About", "Home", new { @class = "glyphicon glyphicon-alert" })</li>
+                    <li>@Html.ActionLink(" Ayuda", "Help", "Home", new { @class = "glyphicon glyphicon-question-sign" })</li>
+                    <li>@Html.ActionLink(" Contacto", "Contact", "Home", new { @class = "glyphicon glyphicon-phone" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -48,7 +57,7 @@
 
         <div class="col-md-12">
             @if (Request.IsAuthenticated)
-            {
+                        {
                 <div class="breadcrumb">
                     <strong> Usted se encuentra aquí: <u>@Html.MvcSiteMap().SiteMapPath()</u> </strong>
                 </div>

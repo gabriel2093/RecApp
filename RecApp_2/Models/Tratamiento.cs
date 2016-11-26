@@ -25,7 +25,9 @@ namespace RecApp_2.Models
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "El precio no puede tener más de dos decimales.")]
         [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "Precio Base")]
         public decimal PrecioBase { get; set; }
     }
 }

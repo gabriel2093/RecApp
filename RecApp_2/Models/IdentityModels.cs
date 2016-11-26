@@ -41,6 +41,8 @@ namespace RecApp_2.Models
 
         public System.Data.Entity.DbSet<RecApp_2.Models.TratamientoPaciente> TratamientoPacientes { get; set; }
 
+        public System.Data.Entity.DbSet<RecApp_2.Models.PaymentDetails> PaymentDetails { get; set; }
+
         //public System.Data.Entity.DbSet<RecApp_2.Models.ApplicationUser> ApplicationUsers { get; set; }
 
         //public System.Data.Entity.DbSet<RecApp_2.Models.ApplicationUser> ApplicationUsers { get; set; }

@@ -1,0 +1,52 @@
+﻿@model RecApp_2.Models.Payment
+
+<div>
+    <h4>Payment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdRecord)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdRecord)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaRegistro)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaRegistro)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MontoAdicional)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MontoAdicional)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalPagar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalPagar)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

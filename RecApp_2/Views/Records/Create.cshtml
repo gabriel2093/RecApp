@@ -83,6 +83,7 @@
                         </div>
                         <div class="panel-body">
                             <div class="tab-content">
+                                @*Tabla datos personales*@
                                 <div class="tab-pane active" id="tab1default">
                                     <div class="form-horizontal">
                                         <div class="col-md-12">
@@ -299,9 +300,8 @@
                                     @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                                     <a class="btn btn-primary pull-right" href="#tab2default" id="btnNext" data-toggle="tab">Continuar</a>
                                 </div>
-
+                                @*Tabla de Condiciones médicas*@
                                 <div class="tab-pane" id="tab2default">
-                                    @*@Html.ValidationSummary(false, "", new { @class = "text-danger" })*@
                                     <div class="col-md-12">
                                         <div class="col-md-3">
                                             <div class="row">
@@ -491,17 +491,20 @@
                                             </div>
                                             <br /><br /><br />
                                             <div class="row">
-                                                <a class="btn btn-primary" href="#tab1default" id="btnPrevious" data-toggle="tab">Volver al listado</a>
+                                                <a class="btn btn-primary" href="#tab1default" id="btnPrevious" data-toggle="tab">Anterior</a>
                                                 <input type="submit" value="Guardar todo" class="btn btn-success" />
                                             </div>
                                         </div>
                                     </div>
+                                    @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary" })
                                 </div>
                             </div>
                         </div>
                     </div>
                 }
+               
             </div>
+           
         </div>
     </div>
 

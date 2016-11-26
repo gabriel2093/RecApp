@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -28,13 +29,20 @@ namespace RecApp_2.Models
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
-        public decimal? MontoAdicional { get; set; }
+        [DefaultValue(0.00)]       
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "El monto no puede tener más de dos decimales.")]
+        [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "Monto adicional")]       
+        public decimal MontoAdicional { get; set; }
 
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
-        [Display(Name = "Total a pagar")]
         [DataType(DataType.Currency)]
-        public decimal? TotalPagar { get; set; }
+        [DefaultValue(0.00)]
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "El monto no puede tener más de dos decimales.")]
+        [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "Total a pagar")]       
+        public decimal TotalPagar { get; set; }
 
         [NotMapped]
         [Display(Name = "Nombre del paciente")]

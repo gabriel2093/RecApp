@@ -1,0 +1,82 @@
+﻿@model RecApp_2.Models.Payment
+
+<script>    
+    $(document).ready(function () {
+        $('.montoAdicional').keyup(function () {
+            var val2 = 0;
+            var totalHidden = parseFloat($('.prueba').val());
+            $('.montoAdicional').each(function () {
+                val2 += (parseFloat($(this).val()) || 0);
+            });
+            
+            var totalFinal = totalHidden + val2;
+            var output = (totalFinal / 1000).toFixed(3);
+            $('#total').val(output);
+        });
+    });  
+</script>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        <input id="totalHidden" class="prueba" value="@Model.TotalPagar" style="visibility:hidden;"  />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        <table class="table table-responsive table-bordered">
+            <tr>
+
+                <th>
+                    Tratamiento
+                </th>
+
+                <th>
+                    Fecha Tratamiento
+                </th>
+                <th>
+                    Costo
+                </th>
+
+            </tr>
+
+            @foreach (var item1 in Model.ListTratamientoXPaciente)
+            {
+                <tr>
+                    <td>
+                        @item1.Tratamiento
+                    </td>
+                    <td>
+                        @item1.FechaTratamiento.ToShortDateString()
+                    </td>
+                    <td style="text-align:right;">
+                        @string.Format("{0:C}", item1.Costo)
+                    </td>
+
+                </tr>
+
+            }
+        </table>
+        <div class="form-group">
+            @Html.Label("Monto adicional", htmlAttributes: new { @class = "control-label col-md-3 col-md-offset-6" })
+            <div class="col-md-3">              
+                @Html.TextBoxFor(m => m.MontoAdicional, new { @class = "form-control montoAdicional", @id="montoAdic", type = "number", step = "100", max = "999999999999999.00", placeholder = "Monto", required = "required" })
+                @Html.ValidationMessageFor(model => model.MontoAdicional, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("Total a pagar ₡", htmlAttributes: new { @class = "control-label col-md-4 col-md-offset-5" })
+            <div class="col-md-3">
+                <div class="text-right">                    
+                    <input id="total" disabled="disabled" value="@string.Format("{0:N}", Model.TotalPagar)" class="form-control"/>                   
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

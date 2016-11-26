@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using RecApp_2.Models;
+using System.Data.Entity.Validation;
 
 namespace RecApp_2.Controllers
 {
@@ -53,45 +54,65 @@ namespace RecApp_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([Bind(Prefix = "Item2", Include = "Id,IdPayment,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var idFactura = db1.Payments.ToList().Where(p => p.IdRecord.Equals(tratamientoPaciente.IdPaciente) && p.Estado.Equals(1));
-
-                if (idFactura.ToList().Count == 0)
+                tratamientoPaciente.MontoAdicional = 0.00m;
+                if (ModelState.IsValid)
                 {
-                    Payment newPayment = new Payment();
-                    newPayment.Estado = 1;
-                    newPayment.FechaRegistro = DateTime.Now;
-                    newPayment.IdRecord = tratamientoPaciente.IdPaciente;
-                    newPayment.MontoAdicional = 0;
-                    var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
+                    var _Payment = db1.Payments.ToList().SingleOrDefault(p => p.IdRecord.Equals(tratamientoPaciente.IdPaciente) && p.Estado.Equals(1));
 
-                    var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
-                    newPayment.TotalPagar = newPayment.MontoAdicional + (decimal)costoTratamientoActual;
-                    db1.Payments.Add(newPayment);
-                    await db1.SaveChangesAsync();
-                    tratamientoPaciente.IdPayment = newPayment.Id;
+                    if (_Payment == null)
+                    {
+                        Payment newPayment = new Payment();
+                        newPayment.Estado = 1;
+                        newPayment.FechaRegistro = DateTime.Now;
+                        newPayment.IdRecord = tratamientoPaciente.IdPaciente;
+                        newPayment.MontoAdicional = 0.00m;                        
+                        var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
 
+                        var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
+                        newPayment.TotalPagar = decimal.Round(newPayment.MontoAdicional + (decimal)costoTratamientoActual, 2, MidpointRounding.AwayFromZero);
+                        db1.Payments.Add(newPayment);
+                        await db1.SaveChangesAsync();
+                        tratamientoPaciente.IdPayment = newPayment.Id;
+
+                    }
+                    else {
+
+                        var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
+                        var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
+                       
+                        _Payment.TotalPagar = _Payment.TotalPagar + (decimal)costoTratamientoActual;  
+                        _Payment.MontoAdicional = 0.00m;
+                        _Payment.TotalPagar = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
+                        db1.Entry(_Payment).State = EntityState.Modified;
+                        db1.SaveChanges();
+                        tratamientoPaciente.IdPayment = _Payment.Id;
+
+                    }
+                    db.TratamientoPacientes.Add(tratamientoPaciente);
+                    await db.SaveChangesAsync();
+                    TempData["AgregoTratamiento"] = "true";
+                    TempData["MensajeErrorAgregarTratamiento"] = "true";
+                    return RedirectToAction("Edit/" + tratamientoPaciente.IdPaciente, "Records");
                 }
-                else {
 
-                    var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
-                    var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
-                    idFactura.ToList()[0].TotalPagar = idFactura.ToList()[0].TotalPagar + (decimal)costoTratamientoActual;
-                    db1.Entry(idFactura.ToList()[0]).State = EntityState.Modified;
-                    db1.SaveChanges();
-                    tratamientoPaciente.IdPayment = idFactura.ToList()[0].Id;
-
-                }
-                db.TratamientoPacientes.Add(tratamientoPaciente);
-                await db.SaveChangesAsync();
-                TempData["AgregoTratamiento"] = "true";
-                TempData["MensajeErrorAgregarTratamiento"] = "true";
-                return RedirectToAction("Edit/"+ tratamientoPaciente.IdPaciente, "Records");
+                TempData["MensajeErrorAgregarTratamiento"] = "Ocurrió un error, intente agregando el tratamiento nuevamente.";
+                return RedirectToAction("Edit/" + tratamientoPaciente.IdPaciente, "Records");
             }
-
-            TempData["MensajeErrorAgregarTratamiento"] = "Ocurrió un error, intente agregando el tratamiento nuevamente.";
-            return RedirectToAction("Edit/" + tratamientoPaciente.IdPaciente, "Records");
+            catch (DbEntityValidationException ex)
+            {
+                string errores = "";
+                foreach (var error in ex.EntityValidationErrors)
+                {
+                    errores += error.Entry.Entity.GetType().Name + error.Entry.State;
+                    foreach (var item in error.ValidationErrors)
+                    {
+                        errores += item.PropertyName + "  " + item.ErrorMessage;
+                    }
+                }
+                return RedirectToAction("Edit/" + tratamientoPaciente.IdPaciente, "Records");
+            }
         }
 
         // GET: TratamientoPacientes/Edit/5
@@ -107,7 +128,7 @@ namespace RecApp_2.Controllers
                 return HttpNotFound();
             }
             Record record1 = new Record();
-            record1=await db1.Records.FindAsync(tratamientoPaciente.IdPaciente);
+            record1 = await db1.Records.FindAsync(tratamientoPaciente.IdPaciente);
 
             tratamientoPaciente.NombrePaciente = record1.Nombre + " " + record1.Apellido1 + " " + record1.Apellido2;
             tratamientoPaciente.ListTratamiento = db1.Tratamiento.ToList();
@@ -121,13 +142,13 @@ namespace RecApp_2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
-      
+
             if (ModelState.IsValid)
             {
                 db.Entry(tratamientoPaciente).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                TempData["tratamientoEditando"]="true";
-                return RedirectToAction("Edit", "Records", new { id = tratamientoPaciente.IdPaciente});
+                TempData["tratamientoEditando"] = "true";
+                return RedirectToAction("Edit", "Records", new { id = tratamientoPaciente.IdPaciente });
             }
             return View(tratamientoPaciente);
         }

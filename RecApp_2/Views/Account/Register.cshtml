@@ -1,6 +1,6 @@
 ﻿@model RecApp_2.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Registrarse";
+    ViewBag.Title = "Especialidades Odontológicas | Registrar Usuario";
 }
 
 
@@ -49,13 +49,14 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" class="btn btn-primary pull-right" value="Registrarse" />
-                        <a href="@Url.Action("MantUsuarios","Manage")" class="btn btn-primary"> Volver al listado</a>
+                        <input type="submit" class="btn btn-success" value="Registrar" />
+                       
                     </div>
                 </div>
             }
-        </div>
-    </div>
+            <a href="@Url.Action("MantUsuarios","Manage")" class="btn btn-primary"> Volver al listado</a>
+        </div>     
+    </div>  
 </div>
 
 @section Scripts {
