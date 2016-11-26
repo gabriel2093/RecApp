@@ -98,29 +98,10 @@ namespace RecApp_2.Controllers
 
 
 
-        public JsonResult getData(string term)
-        {
-            // We can get a list of MicrosoftProduct from the database, but
-            // for this example, I will populate a list with values.
-            List<string> MicrosoftProduct = new List<string>();
-            MicrosoftProduct.Add("Office");
-            MicrosoftProduct.Add(".NET");
-            MicrosoftProduct.Add("VS");
-            MicrosoftProduct.Add("sql server");
-            MicrosoftProduct.Add("Windows7");
-            MicrosoftProduct.Add("Window8");
-
-            // Select the tags that match the query, and get the
-            // number or tags specified by the limit.
-
-            List<string> getValues = MicrosoftProduct.Where(item => item.ToLower().StartsWith(term.ToLower())).ToList();
-
-            // Return the result set as JSON
-            return Json(getValues, JsonRequestBehavior.AllowGet);
-        }
+      
 
         [HttpPost]
-        public JsonResult SearchCustomer(string Prefix)
+        public JsonResult SearchPatient(string Prefix)
         {
             //Note : you can bind same list from database  
             List<PatientModel> ObjList = new List<PatientModel>()
@@ -141,6 +122,9 @@ namespace RecApp_2.Controllers
                             select new { N.Name });
             return Json(Name, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
     }
 }

@@ -1,0 +1,49 @@
+﻿@model RecApp_2.Models.PaymentDetails
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>PaymentDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaAbono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaAbono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abono)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

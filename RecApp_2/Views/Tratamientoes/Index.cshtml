@@ -1,0 +1,58 @@
+﻿@model IEnumerable<RecApp_2.Models.Tratamiento>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container col-md-12 center-block">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Mantenimiento de Tratamientos</h2>
+        </div>
+        <div class="panel-body">
+            <p>
+                @Html.ActionLink(" Nuevo registro ", "Create", null, new { @class = "btn btn-success glyphicon glyphicon-plus" })
+            </p>
+
+            <table class="table table-responsive table-bordered">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nombre)
+                    </th>
+                    <th class="hidden-xs">
+                        @Html.DisplayNameFor(model => model.Descripcion)
+                    </th>
+                    <th>
+                       Precio Base
+                    </th>
+                    <th></th>
+                </tr>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nombre)
+                        </td>
+                        <td class="hidden-xs">
+                            @Html.DisplayFor(modelItem => item.Descripcion)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PrecioBase)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
+                            @Html.ActionLink("Detalles", "Details", new { id = item.id }, new { @class = "btn btn-primary glyphicon glyphicon-plus" })
+                            @*@Html.ActionLink("Borrar", "Delete", new { id=item.id })*@
+                        </td>
+                    </tr>
+                }
+
+            </table>
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
+        </div>
+
+    </div>
+</div>

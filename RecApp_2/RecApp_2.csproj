@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -56,8 +56,8 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
@@ -129,7 +129,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
     <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
-      <HintPath>..\packages\WebActivatorEx.2.0.1\lib\net40\WebActivatorEx.dll</HintPath>
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -189,9 +189,15 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CalendarController.cs" />
+    <Compile Include="Controllers\CivilStatusController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaymentDetailsController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
     <Compile Include="Controllers\RecordsController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\TratamientoesController.cs" />
+    <Compile Include="Controllers\TratamientoPacientesController.cs" />
     <Compile Include="Diary.Context1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -212,18 +218,26 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CivilStatContext.cs" />
+    <Compile Include="Models\CivilStatus.cs" />
+    <Compile Include="Models\CustomAuthorize.cs" />
     <Compile Include="Models\DiaryEvents.cs" />
-    <Compile Include="Models\EstadoCivil.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PatientModel.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\PaymentDetails.cs" />
     <Compile Include="Models\Record.cs" />
+    <Compile Include="Models\Tratamiento.cs" />
+    <Compile Include="Models\RecordsContext.cs" />
+    <Compile Include="Models\TratamientoPaciente.cs" />
     <Compile Include="Models\Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shared.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\accordion.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -313,6 +327,15 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="css\animate.css" />
+    <Content Include="css\bootstrap.css" />
+    <Content Include="css\custom-styles.css" />
+    <Content Include="css\daterangepicker.css" />
+    <Content Include="css\et-icons.css" />
+    <Content Include="css\normalize.css" />
+    <Content Include="css\owl.carousel.min.css" />
+    <Content Include="css\owl.css" />
+    <Content Include="css\select2.min.css" />
     <Content Include="Diary.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Diary.Context1.cs</LastGenOutput>
@@ -322,6 +345,10 @@
       <LastGenOutput>Diary1.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
+    <Content Include="fonts\eleganticons\ElegantIcons.svg" />
+    <Content Include="fonts\eleganticons\et-icons.css" />
+    <Content Include="fonts\font-awesome-4.1.0\css\font-awesome.min.css" />
+    <Content Include="fonts\font-awesome-4.1.0\fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -332,7 +359,100 @@
     <Content Include="Images\expedientes.jpg" />
     <Content Include="Images\Logo_Hilda-Vilchez.png" />
     <Content Include="Images\mantenimiento.jpg" />
+    <Content Include="Images\MedicalRecords.png" />
     <Content Include="Images\records.jpg" />
+    <Content Include="Images\spinner.gif" />
+    <Content Include="img\dentist-icons\01.jpg" />
+    <Content Include="img\dentist-icons\02.png" />
+    <Content Include="img\dentist-icons\03.png" />
+    <Content Include="img\dentist-icons\04.png" />
+    <Content Include="img\dentist-icons\05.png" />
+    <Content Include="img\dentist-icons\06.jpg" />
+    <Content Include="img\dentist-icons\06.png" />
+    <Content Include="img\dentist-icons\License.txt" />
+    <Content Include="img\favicons\android-chrome-36x36.png" />
+    <Content Include="img\favicons\android-chrome-48x48.png" />
+    <Content Include="img\favicons\apple-touch-icon-57x57.png" />
+    <Content Include="img\favicons\apple-touch-icon-60x60.png" />
+    <Content Include="img\favicons\apple-touch-icon-precomposed.png" />
+    <Content Include="img\favicons\apple-touch-icon.png" />
+    <Content Include="img\favicons\browserconfig.xml" />
+    <Content Include="img\favicons\favicon-16x16.png" />
+    <Content Include="img\favicons\favicon-32x32.png" />
+    <Content Include="img\favicons\favicon.ico" />
+    <Content Include="img\favicons\mstile-150x150.png" />
+    <Content Include="img\favicons\mstile-310x150.png" />
+    <Content Include="img\favicons\mstile-70x70.png" />
+    <Content Include="img\favicons\Readme.txt" />
+    <Content Include="img\footer-1.jpg" />
+    <Content Include="img\footer-2.jpg" />
+    <Content Include="img\fotos\consultorio1.jpg" />
+    <Content Include="img\fotos\consultorio2.JPG" />
+    <Content Include="img\fotos\consultorio3.JPG" />
+    <Content Include="img\fotos\consultorio4.JPG" />
+    <Content Include="img\fotos\interior1.JPG" />
+    <Content Include="img\fotos\oficina.JPG" />
+    <Content Include="img\fotos\oficina2.jpg" />
+    <Content Include="img\fotos\recepcion1.jpg" />
+    <Content Include="img\fotos\recepcion1_arriba.JPG" />
+    <Content Include="img\fotos\recepcion1_atras.JPG" />
+    <Content Include="img\fotos\recepcion1_frontal.JPG" />
+    <Content Include="img\fotos\recepcion2_superior.JPG" />
+    <Content Include="img\header.jpg" />
+    <Content Include="img\home-0.jpg" />
+    <Content Include="img\home-1.jpg" />
+    <Content Include="img\home-2.jpg" />
+    <Content Include="img\home-3.jpg" />
+    <Content Include="img\home-5.jpg" />
+    <Content Include="img\loader.gif" />
+    <Content Include="img\logos\logo.png" />
+    <Content Include="img\logos\Logo_Hilda-Vilchez_large.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_100x38.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_240x92.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_260x110.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_300x100.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_700X270.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_circular.JPG" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_circular_150.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_circular_240.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente - copia.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente.png" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente_fondo_blanco.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente_tinte.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente_tinte2.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente_tinte3.jpg" />
+    <Content Include="img\logos\Logo_Hilda_Vilchez_diente_tinte4.jpg" />
+    <Content Include="img\oficina.jpg" />
+    <Content Include="img\oficina_800x890_tinte.jpg" />
+    <Content Include="img\recepcion1_1950x1400.jpg" />
+    <Content Include="img\recepcion1_frontal_g.jpg" />
+    <Content Include="img\recepcion2_1950x1400.jpg" />
+    <Content Include="img\team\team-cover1.jpg" />
+    <Content Include="img\team\team-cover2.jpg" />
+    <Content Include="img\team\team-cover3.jpg" />
+    <Content Include="img\team\team-cover4.jpg" />
+    <Content Include="img\team\team1.jpg" />
+    <Content Include="img\team\team2.jpg" />
+    <Content Include="img\team\team3.jpg" />
+    <Content Include="img\team\team5.jpg" />
+    <Content Include="js\bootbox.min.js" />
+    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\daterangepicker.js" />
+    <Content Include="js\funcionesExpediente.js" />
+    <Content Include="js\index.js" />
+    <Content Include="js\jquery-1.10.2.js" />
+    <Content Include="js\jquery-1.11.1.min.js" />
+    <Content Include="css\jquery-ui.css" />
+    <Content Include="js\jquery-ui.js" />
+    <Content Include="js\jquery.onepagenav.js" />
+    <Content Include="js\main.js" />
+    <Content Include="js\moment.min.js" />
+    <Content Include="js\owl.carousel.min.js" />
+    <Content Include="js\select2.min.js" />
+    <Content Include="js\tooltip.js" />
+    <Content Include="js\typed.js" />
+    <Content Include="js\typewriter.js" />
+    <Content Include="js\wow.min.js" />
     <Content Include="Scripts\bootstrap-modal.js" />
     <Content Include="Scripts\bootstrap-popover.js" />
     <Content Include="Scripts\bootstrap-tooltip.js" />
@@ -354,26 +474,41 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Mvc.sitemap" />
+    <Content Include="img\dentist-icons\01.eps" />
+    <Content Include="img\dentist-icons\06.ai" />
+    <Content Include="img\dentist-icons\06.eps" />
+    <Content Include="img\dentist-icons\2.eps" />
+    <Content Include="img\favicons\manifest.json" />
+    <Content Include="css\bootstrap.css.map" />
+    <Content Include="fonts\font-awesome-4.1.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\font-awesome-4.1.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\font-awesome-4.1.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\font-awesome-4.1.0\fonts\FontAwesome.otf" />
+    <Content Include="fonts\eleganticons\ElegantIcons.eot" />
+    <Content Include="fonts\eleganticons\ElegantIcons.ttf" />
+    <Content Include="fonts\eleganticons\ElegantIcons.woff" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
-    <None Include="Scripts\jquery-3.1.0.intellisense.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\fullcalendar.js" />
     <Content Include="Scripts\fullcalendar.min.js" />
     <Content Include="Scripts\gcal.js" />
-    <Content Include="Scripts\jquery-3.1.0.js" />
-    <Content Include="Scripts\jquery-3.1.0.min.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.js" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.js" />
-    <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.js" />
     <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
     <Content Include="Scripts\jquery-ui.custom.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.date.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -383,64 +518,7 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\lang-all.js" />
-    <Content Include="Scripts\lang\ar-ma.js" />
-    <Content Include="Scripts\lang\ar-sa.js" />
-    <Content Include="Scripts\lang\ar-tn.js" />
-    <Content Include="Scripts\lang\ar.js" />
-    <Content Include="Scripts\lang\bg.js" />
-    <Content Include="Scripts\lang\ca.js" />
-    <Content Include="Scripts\lang\cs.js" />
-    <Content Include="Scripts\lang\da.js" />
-    <Content Include="Scripts\lang\de-at.js" />
-    <Content Include="Scripts\lang\de.js" />
-    <Content Include="Scripts\lang\el.js" />
-    <Content Include="Scripts\lang\en-au.js" />
-    <Content Include="Scripts\lang\en-ca.js" />
-    <Content Include="Scripts\lang\en-gb.js" />
-    <Content Include="Scripts\lang\en-ie.js" />
-    <Content Include="Scripts\lang\en-nz.js" />
-    <Content Include="Scripts\lang\es.js" />
-    <Content Include="Scripts\lang\eu.js" />
-    <Content Include="Scripts\lang\fa.js" />
-    <Content Include="Scripts\lang\fi.js" />
-    <Content Include="Scripts\lang\fr-ca.js" />
-    <Content Include="Scripts\lang\fr-ch.js" />
-    <Content Include="Scripts\lang\fr.js" />
-    <Content Include="Scripts\lang\gl.js" />
-    <Content Include="Scripts\lang\he.js" />
-    <Content Include="Scripts\lang\hi.js" />
-    <Content Include="Scripts\lang\hr.js" />
-    <Content Include="Scripts\lang\hu.js" />
-    <Content Include="Scripts\lang\id.js" />
-    <Content Include="Scripts\lang\is.js" />
-    <Content Include="Scripts\lang\it.js" />
-    <Content Include="Scripts\lang\ja.js" />
-    <Content Include="Scripts\lang\ko.js" />
-    <Content Include="Scripts\lang\lb.js" />
-    <Content Include="Scripts\lang\lt.js" />
-    <Content Include="Scripts\lang\lv.js" />
-    <Content Include="Scripts\lang\nb.js" />
-    <Content Include="Scripts\lang\nl.js" />
-    <Content Include="Scripts\lang\nn.js" />
-    <Content Include="Scripts\lang\pl.js" />
-    <Content Include="Scripts\lang\pt-br.js" />
-    <Content Include="Scripts\lang\pt.js" />
-    <Content Include="Scripts\lang\ro.js" />
-    <Content Include="Scripts\lang\ru.js" />
-    <Content Include="Scripts\lang\sk.js" />
-    <Content Include="Scripts\lang\sl.js" />
-    <Content Include="Scripts\lang\sr-cyrl.js" />
-    <Content Include="Scripts\lang\sr.js" />
-    <Content Include="Scripts\lang\sv.js" />
-    <Content Include="Scripts\lang\th.js" />
-    <Content Include="Scripts\lang\tr.js" />
-    <Content Include="Scripts\lang\uk.js" />
-    <Content Include="Scripts\lang\vi.js" />
-    <Content Include="Scripts\lang\zh-cn.js" />
-    <Content Include="Scripts\lang\zh-tw.js" />
-    <Content Include="Scripts\lib\cupertino\images\animated-overlay.gif" />
     <Content Include="Scripts\lib\cupertino\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
-    <Content Include="Scripts\lib\cupertino\images\ui-bg_flat_15_cd0a0a_40x100.png" />
     <Content Include="Scripts\lib\cupertino\images\ui-bg_glass_100_e4f1fb_1x400.png" />
     <Content Include="Scripts\lib\cupertino\images\ui-bg_glass_50_3baae3_1x400.png" />
     <Content Include="Scripts\lib\cupertino\images\ui-bg_glass_80_d7ebf9_1x400.png" />
@@ -454,9 +532,69 @@
     <Content Include="Scripts\lib\cupertino\images\ui-icons_72a7cf_256x240.png" />
     <Content Include="Scripts\lib\cupertino\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Scripts\lib\cupertino\jquery-ui.min.css" />
-    <Content Include="Scripts\lib\jquery-ui.custom.min.js" />
+    <Content Include="Scripts\lib\jquery-ui.min.js" />
     <Content Include="Scripts\lib\jquery.min.js" />
     <Content Include="Scripts\lib\moment.min.js" />
+    <Content Include="Scripts\locale-all.js" />
+    <Content Include="Scripts\locale\ar-ma.js" />
+    <Content Include="Scripts\locale\ar-sa.js" />
+    <Content Include="Scripts\locale\ar-tn.js" />
+    <Content Include="Scripts\locale\ar.js" />
+    <Content Include="Scripts\locale\bg.js" />
+    <Content Include="Scripts\locale\ca.js" />
+    <Content Include="Scripts\locale\cs.js" />
+    <Content Include="Scripts\locale\da.js" />
+    <Content Include="Scripts\locale\de-at.js" />
+    <Content Include="Scripts\locale\de.js" />
+    <Content Include="Scripts\locale\el.js" />
+    <Content Include="Scripts\locale\en-au.js" />
+    <Content Include="Scripts\locale\en-ca.js" />
+    <Content Include="Scripts\locale\en-gb.js" />
+    <Content Include="Scripts\locale\en-ie.js" />
+    <Content Include="Scripts\locale\en-nz.js" />
+    <Content Include="Scripts\locale\es-do.js" />
+    <Content Include="Scripts\locale\es.js" />
+    <Content Include="Scripts\locale\eu.js" />
+    <Content Include="Scripts\locale\fa.js" />
+    <Content Include="Scripts\locale\fi.js" />
+    <Content Include="Scripts\locale\fr-ca.js" />
+    <Content Include="Scripts\locale\fr-ch.js" />
+    <Content Include="Scripts\locale\fr.js" />
+    <Content Include="Scripts\locale\gl.js" />
+    <Content Include="Scripts\locale\he.js" />
+    <Content Include="Scripts\locale\hi.js" />
+    <Content Include="Scripts\locale\hr.js" />
+    <Content Include="Scripts\locale\hu.js" />
+    <Content Include="Scripts\locale\id.js" />
+    <Content Include="Scripts\locale\is.js" />
+    <Content Include="Scripts\locale\it.js" />
+    <Content Include="Scripts\locale\ja.js" />
+    <Content Include="Scripts\locale\ko.js" />
+    <Content Include="Scripts\locale\lb.js" />
+    <Content Include="Scripts\locale\lt.js" />
+    <Content Include="Scripts\locale\lv.js" />
+    <Content Include="Scripts\locale\mk.js" />
+    <Content Include="Scripts\locale\ms-my.js" />
+    <Content Include="Scripts\locale\ms.js" />
+    <Content Include="Scripts\locale\nb.js" />
+    <Content Include="Scripts\locale\nl.js" />
+    <Content Include="Scripts\locale\nn.js" />
+    <Content Include="Scripts\locale\pl.js" />
+    <Content Include="Scripts\locale\pt-br.js" />
+    <Content Include="Scripts\locale\pt.js" />
+    <Content Include="Scripts\locale\ro.js" />
+    <Content Include="Scripts\locale\ru.js" />
+    <Content Include="Scripts\locale\sk.js" />
+    <Content Include="Scripts\locale\sl.js" />
+    <Content Include="Scripts\locale\sr-cyrl.js" />
+    <Content Include="Scripts\locale\sr.js" />
+    <Content Include="Scripts\locale\sv.js" />
+    <Content Include="Scripts\locale\th.js" />
+    <Content Include="Scripts\locale\tr.js" />
+    <Content Include="Scripts\locale\uk.js" />
+    <Content Include="Scripts\locale\vi.js" />
+    <Content Include="Scripts\locale\zh-cn.js" />
+    <Content Include="Scripts\locale\zh-tw.js" />
     <Content Include="Scripts\modalform.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment.min.js" />
@@ -465,13 +603,6 @@
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
@@ -501,12 +632,44 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Calendar\Index.cshtml" />
     <Content Include="Views\Shared\_LoginMenu.cshtml" />
-    <Content Include="Scripts\jquery-3.1.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.1.0.min.map" />
     <Content Include="Views\Manage\CargarUsuarios.cshtml" />
     <Content Include="Views\Manage\MantUsuarios.cshtml" />
+    <Content Include="Views\CivilStatus\Create.cshtml" />
+    <Content Include="Views\CivilStatus\Delete.cshtml" />
+    <Content Include="Views\CivilStatus\Details.cshtml" />
+    <Content Include="Views\CivilStatus\Edit.cshtml" />
+    <Content Include="Views\CivilStatus\Index.cshtml" />
+    <Content Include="Views\Records\Create.cshtml" />
+    <Content Include="Views\Records\Delete.cshtml" />
+    <Content Include="Views\Records\Details.cshtml" />
+    <Content Include="Views\Records\Edit.cshtml" />
+    <Content Include="Views\Records\Index.cshtml" />
+    <Content Include="Views\Tratamientoes\Create.cshtml" />
+    <Content Include="Views\Tratamientoes\Delete.cshtml" />
+    <Content Include="Views\Tratamientoes\Details.cshtml" />
+    <Content Include="Views\Tratamientoes\Edit.cshtml" />
+    <Content Include="Views\Tratamientoes\Index.cshtml" />
+    <Content Include="Views\Home\Mantenimientos.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Records\Odontogram.cshtml" />
+    <Content Include="Views\Validation\Create.cshtml" />
+    <Content Include="Views\Validation\Delete.cshtml" />
+    <Content Include="Views\Validation\Details.cshtml" />
+    <Content Include="Views\Validation\Edit.cshtml" />
+    <Content Include="Views\Validation\Index.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Manage\_Details.cshtml" />
-    <Content Include="Views\Manage\_Edit.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
+    <Content Include="Views\Manage\EditUser.cshtml" />
+    <Content Include="Views\TratamientoPacientes\Create.cshtml" />
+    <Content Include="Views\TratamientoPacientes\Delete.cshtml" />
+    <Content Include="Views\TratamientoPacientes\Details.cshtml" />
+    <Content Include="Views\TratamientoPacientes\Edit.cshtml" />
+    <Content Include="Views\TratamientoPacientes\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewTratamientosPaciente.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapTitleHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapPathHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\SiteMapNodeModelList.cshtml" />
@@ -515,11 +678,29 @@
     <Content Include="Views\Shared\DisplayTemplates\MetaRobotsHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\MenuHelperModel.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\CanonicalHelperModel.cshtml" />
-    <Content Include="Views\Records\Create.cshtml" />
-    <Content Include="Views\Records\Delete.cshtml" />
-    <Content Include="Views\Records\Details.cshtml" />
-    <Content Include="Views\Records\Edit.cshtml" />
-    <Content Include="Views\Records\Index.cshtml" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
+    <Content Include="Views\Payments\Create.cshtml" />
+    <Content Include="Views\Payments\Delete.cshtml" />
+    <Content Include="Views\Payments\Details.cshtml" />
+    <Content Include="Views\Payments\Edit.cshtml" />
+    <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewPayments.cshtml" />
+    <Content Include="Views\Records\PartialViewTratamientoPacienteFactura.cshtml" />
+    <Content Include="Views\Records\PartialViewFacturar.cshtml" />
+    <Content Include="Views\Records\PartialViewCerrarFactura.cshtml" />
+    <Content Include="Views\Home\Help.cshtml" />
+    <Content Include="Views\PaymentDetails\Create.cshtml" />
+    <Content Include="Views\PaymentDetails\Delete.cshtml" />
+    <Content Include="Views\PaymentDetails\Details.cshtml" />
+    <Content Include="Views\PaymentDetails\Edit.cshtml" />
+    <Content Include="Views\PaymentDetails\Index.cshtml" />
+    <Content Include="Views\Records\PartialViewAbonar.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -567,7 +748,7 @@
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.3.2\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.1\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.2\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

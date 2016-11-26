@@ -18,8 +18,14 @@
     <div class="panel-heading"><h3>Mantenimiento de Usuarios</h3></div>
 
     <div class="panel-body ">
+        @if (TempData["UserMessage"] != null)
+        {
+            <div class="alert alert-success">
+                <strong>@TempData["UserMessage"].ToString()</strong>
+            </div>
+        }
         <p>
-            <a class="btn btn-success glyphicon-plus" href='@Url.Action("RedirectNewUser", "Manage")'>
+            <a class="btn btn-success glyphicon-plus" href='@Url.Action("Register", "Account")'>
                 Nuevo usuario
             </a>
             <br />
@@ -32,16 +38,16 @@
                         <th>
                             Nombre de usuario
                         </th>
-                        <th>
-                            Correo confirmado
-                        </th>
-                        <th>
-                            Número de teléfono
-                        </th>
+                        @*<th>
+                                Correo confirmado
+                            </th>*@
+                        @*<th>
+                                Número de teléfono
+                            </th>
 
-                        <th>
-                            Accesos fallidos
-                        </th>
+                            <th>
+                                Accesos fallidos
+                            </th>*@
 
                         <th>Acciones</th>
                     </tr>
@@ -55,21 +61,30 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.UserName)
                             </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.EmailConfirmed)
-                            </td>
+                            @*<td>
+                                    @Html.DisplayFor(modelItem => item.EmailConfirmed)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.AccessFailedCount)
+                                </td>*@
 
                             <td>
-                                @Html.DisplayFor(modelItem => item.PhoneNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.AccessFailedCount)
-                            </td>
-
-                            <td>
-                                @Html.ActionLink("Editar ", "Edit", new { id = item.Id }, new { data_modal = "", @class = "btn btn-warning glyphicon glyphicon-edit" })
-                                @Html.ActionLink("Detalles ", "Details", new { id = item.Id }, new { data_modal = "", @class = "btn btn-info glyphicon glyphicon-th-list" })
-                                @Html.ActionLink("Inactivar ", "Delete", new { id = item.Id }, new { data_modal = "", @class = "btn btn-danger glyphicon glyphicon-ban-circle" })
+                                @*@Html.ActionLink("Edit", "EditUser", new { id = item.Id })*@
+                                @Html.ActionLink("Editar ", "EditUser", new { id = item.Id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
+                                @if (item.LockoutEnabled)
+                                {
+                                    @Html.ActionLink("Activar ", "DisableUser", new { id = item.Id }, new { @class = "btn btn-success glyphicon glyphicon-plus" })
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Inactivar ", "DisableUser", new { id = item.Id }, new { @class = "btn btn-danger glyphicon glyphicon-ban-circle" })
+                                }
+                               
+                                @Html.ActionLink("Detalles ", "Details", new { id = item.Id }, new { @class = "btn btn-primary glyphicon glyphicon-th-list" })
                             </td>
                         </tr>
                     }
@@ -77,8 +92,10 @@
                 </table>
 
             </div>
-
+            <a href="@Url.Action("Index","Home")" class="btn btn-primary"> <h5>Volver al inicio</h5></a>
     </div>
+ 
+
 </div>
 
 @section Scripts {

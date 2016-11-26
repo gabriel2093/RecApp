@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace RecApp_2.Models
 {
@@ -10,7 +12,7 @@ namespace RecApp_2.Models
     {
         public int id { get; set; }
 
-        [Required(ErrorMessage = "Campo requerido*")]        
+        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Nombre")]
         public string Nombre { set; get; }
 
@@ -23,50 +25,66 @@ namespace RecApp_2.Models
         [Display(Name = "Apellido 2")]
         public string Apellido2 { set; get; }
 
+        [Remote("IsUserExists", "Records", AdditionalFields = "Cedula", ErrorMessage = "La cédula que intenta ingresar ya se encuentra registrada.")]
         [Required(ErrorMessage = "Campo requerido*")]
         [DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]
-        [Display(Name = "Cédula de Identidad")]
+        [Display(Name = "Cédula de identidad")]
         public int Cedula { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
         //[DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida."), DisplayFormat(DataFormatString = "{0:dd.MM.yy}") ]
-        [DataType(DataType.DateTime, ErrorMessage = "Ingrese una fecha válida.")]
+        [DataType(DataType.Date, ErrorMessage = "Ingrese una fecha válida.")]
         [Display(Name = "Fecha de nacimiento")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        
+
+        // [DisplayFormat(DataFormatString = "{0:dd MMM yyyy}")]
         public DateTime FechaNacimiento { get; set; }
 
-        
+
         //[DataType(DataType.Duration, ErrorMessage = "Ingrese un número de identificación válida.")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = @"{0:hh\:mm}")]
+        [NotMapped]
         [Display(Name = "Edad")]
         public int Edad { get; set; }
 
+        [NotMapped]
         [Display(Name = "Menor de edad")]
         public int MenorEdad { get; set; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Encargado")]
         public string NombreEncargado { set; get; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Apellido 1")]
         public string Apellido1Encargado { set; get; }
 
-
-        [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Apellido 2")]
         public string Apellido2Encargado { set; get; }
 
-        [Required(ErrorMessage = "Campo requerido*")]
+        [Required(ErrorMessage = "Estado civil es requerido*")]
         [Display(Name = "Estado civil")]
-        public  int IdEstadoCivil { get; set; }
+        public int IdEstadoCivil { get; set; }
+
+        [NotMapped]
+        public IEnumerable<CivilStatus> ListCivilStatus { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Tratamiento> ListTratamiento{ get; set; }
+
+        [NotMapped]
+        public IEnumerable<TratamientoPaciente> ListTratamientoPaciente { get; set; }
+
+        [NotMapped]
+        public IEnumerable<Payment> ListPayment { get; set; }
 
         [Required(ErrorMessage = "Campo requerido*")]
         [Display(Name = "Domicilio")]
         public string Domicilio { set; get; }
 
         [Required(ErrorMessage = "Campo requerido*")]
-        [Display(Name = "Teléfono domicilio")]
+        [Display(Name = "Teléfonos")]
         public string Telefono1 { set; get; }
 
         [Required(ErrorMessage = "Campo requerido*")]
@@ -89,74 +107,75 @@ namespace RecApp_2.Models
 
         //Condiciones Medicas
         [Display(Name = "Esta bajo tratamiento médico")]
-        public int TratamientoMedico { get; set; }
-        
+        public bool TratamientoMedico { get; set; }
+
         [Display(Name = "Toma algún medicamento")]
-        public int Medicamento { get; set; }
+        public bool Medicamento { get; set; }
 
         [Display(Name = "Diabetes Mellitus")]
-        public int Diabetes { get; set; }
+        public bool Diabetes { get; set; }
 
         [Display(Name = "Artritis")]
-        public int Artritis{ get; set; }
+        public bool Artritis { get; set; }
 
         [Display(Name = "Enfermedades cardiacas")]
-        public int EnfermedadCardiaca { get; set; }
+        public bool EnfermedadCardiaca { get; set; }
 
         [Display(Name = "Hepatitis")]
-        public int Hepatitis { get; set; }
+        public bool Hepatitis { get; set; }
 
         [Display(Name = "Fiebre reumática")]
-        public int FiebreReumatica { get; set; }
+        public bool FiebreReumatica { get; set; }
 
         [Display(Name = "Úlceras")]
-        public int Ulcera { get; set; }
+        public bool Ulcera { get; set; }
 
         [Display(Name = "Presión arterial alta")]
-        public int PresionAlta { get; set; }
+        public bool PresionAlta { get; set; }
 
         [Display(Name = "Presión arterial baja")]
-        public int PresionBaja { get; set; }
+        public bool PresionBaja { get; set; }
 
-        [Display(Name = "Enfermedades Nerviosas")]
-        public int EnfermedadesNerviosas { get; set; }
+        [Display(Name = "Enfermedades nerviosas")]
+        public bool EnfermedadesNerviosas { get; set; }
 
 
-        [Display(Name = "Otras Enfermedades")]
-        public int OtrasEnfermedades { get; set; }
+        [Display(Name = "Otras enfermedades")]
+        public bool OtrasEnfermedades { get; set; }
 
 
         [Display(Name = "Sangrado prolongado")]
-        public int SangradoProlongado { get; set; }
+        public bool SangradoProlongado { get; set; }
 
-      
+
         [Display(Name = "Desmayos")]
-        public int Desmayos { get; set; }
+        public bool Desmayos { get; set; }
 
-        [Display(Name = "Intervención Quirúrgica")]
-        public int IntervencionQuirurgica { get; set; }
+        [Display(Name = "Intervención quirúrgica")]
+        public bool IntervencionQuirurgica { get; set; }
 
 
         [Display(Name = "Aspirina")]
-        public int Aspirina { get; set; }
+        public bool Aspirina { get; set; }
 
         [Display(Name = "Sulfas")]
-        public int Sulfas { get; set; }
+        public bool Sulfas { get; set; }
 
         [Display(Name = "Penicilina")]
-        public int Penicilina { get; set; }
-
-        [Display(Name = "Otros")]
-        public int Otros { get; set; }
+        public bool Penicilina { get; set; }
 
         [Display(Name = "Anomalías con anestesia dental")]
-        public int AnomaliasAnestesia { get; set; }
+        public bool AnomaliasAnestesia { get; set; }
 
         [Display(Name = "Está embaraza")]
-        public int Embarazo { get; set; }
+        public bool Embarazo { get; set; }
 
         [Display(Name = "Periodo lactancia")]
-        public int Lactancia { get; set; }
+        public bool Lactancia { get; set; }
+
+        [MaxLength(500, ErrorMessage= "Se permiten 500 caracteres como máximo.")]
+        [Display(Name = "Comentarios")]
+        public string Otros { get; set; }
 
     }
 }

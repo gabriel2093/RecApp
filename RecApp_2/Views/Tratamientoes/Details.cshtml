@@ -1,0 +1,51 @@
+﻿@model RecApp_2.Models.Tratamiento
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container col-md-12 center-block">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Detalle del tratamiento</h2>
+        </div>
+        <div class="panel-body">
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Descripcion)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PrecioBase)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PrecioBase)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="panel-footer">
+            <p>
+                @Html.ActionLink("Editar", "Edit", new { id = Model.id }, new { @class = "btn btn-warning glyphicon glyphicon-edit" })
+                @Html.ActionLink("Volver al listado", "Index", null, new { @class = "btn btn-primary " })
+            </p>
+        </div>
+
+    </div>
+</div>

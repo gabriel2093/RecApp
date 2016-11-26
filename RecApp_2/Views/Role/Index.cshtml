@@ -1,0 +1,42 @@
+﻿
+@model IEnumerable<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>
+@{
+    ViewBag.Title = "Roles de Usuario";
+}
+<div class="container col-md-12 center-block">
+
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h2>Roles de usuario</h2>
+        </div>
+        <div class="panel-body">
+            <table class="table table-responsive table-bordered">
+               
+
+                <tr>
+                    <td>
+                        <table id="tbrole" style="width:100%; border:dotted 1px; background-color:gainsboro; padding-left:10px;">
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td style="width:100%; border:dotted 1px;">
+                                        @item.Name
+                                    </td>
+                                </tr>}
+                        </table>
+                    </td>
+                    <td align="center" style="color:#FFFFFF;padding-right:10px;">
+                        <h3>   @Html.ActionLink("Nuevo rol", "Create", "Role", new { @class = "btn btn-primary" }) </h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
