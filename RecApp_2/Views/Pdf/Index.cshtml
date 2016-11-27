@@ -1,0 +1,65 @@
+﻿@model IEnumerable<RecApp_2.Models.TratamientoPaciente>
+@*@model RecApp_2.Models.TratamientoPaciente *@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_PdfLayout.cshtml";
+    var imagePath = Server.MapPath("~/Content/img");
+}
+<h1>Tratamientos Aplicados</h1>
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum a urna metus. In id magna eget sapien vehicula sollicitudin fermentum nec ante. Ut iaculis vehicula leo nec posuere. Duis ornare hendrerit sem, nec volutpat nisi placerat a. Nullam convallis vitae augue vitae fringilla. Nunc viverra commodo laoreet. Vivamus fermentum ligula eros, eget sagittis justo euismod eget. Donec dolor neque, scelerisque vel vulputate quis, tincidunt et odio. Duis eget est risus. Phasellus ut nulla accumsan, malesuada sapien non, ornare nibh.
+</p>
+<img src="@imagePath\home-1.jpg" alt="Clinica" /><br />
+<a href=""</a>
+
+<table class="table table-responsive table-bordered">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Tratamiento)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Observaciones)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FechaTratamiento)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Costo)
+        </th>
+
+    </tr>
+
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tratamiento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Observaciones)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaTratamiento)
+            </td>
+            <td>
+                @string.Format("{0:C}", item.Costo)
+            </td>
+
+        </tr>
+
+    }
+    <tr>
+        <td colspan="3" style="text-align:right;">
+            <strong>Montos Adicionales:</strong> @string.Format("{0:C}", @Model.ToList()[Model.ToList().Count - 1].MontoAdicional)
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:right;">
+            <strong>Monto total:</strong> @string.Format("{0:C}", @Model.ToList()[Model.ToList().Count() - 1].Total)
+        </td>
+    </tr>
+</table>

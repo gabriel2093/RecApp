@@ -526,3 +526,7 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xmlworker.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\MvcRazorToPdf.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xml
