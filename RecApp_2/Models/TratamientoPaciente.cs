@@ -57,6 +57,9 @@ namespace RecApp_2.Models
         [Display(Name = "Total")]
         public decimal? Total { get; set; }
 
+        [NotMapped]        
+        public Payment _Payment { get; set; }
+
         [NotMapped]
         public IEnumerable<Tratamiento> ListTratamiento { get; set; }
 

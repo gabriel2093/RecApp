@@ -123,7 +123,7 @@ namespace RecApp_2.Controllers
 
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
             tratamientoPaciente.ListTratamiento = db.Tratamiento.ToList();
-            List<String> ListaIdDientes = new List<string>(); 
+            List<String> ListaIdDientes = new List<string>();
             var tratamientosPorPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(record.id));
             foreach (var item in tratamientosPorPaciente)
             {
@@ -139,7 +139,7 @@ namespace RecApp_2.Controllers
             {
                 item.NombreCompuesto = item.Nombre + " | Precio base: " + String.Format("{0:C}", item.PrecioBase);
             }
-            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);          
+            record.ListPayment = db.Payments.ToList().Where(p => p.IdRecord.Equals(record.id)).OrderBy(e => e.Estado);
 
             if (TempData["mayorEdad"] == null)
             {
@@ -257,6 +257,7 @@ namespace RecApp_2.Controllers
         }
 
 
+        #region Filtros
         // GET: Records/FiltrarTratamientos/5
         [HttpGet]
         public ActionResult FiltrarTratamientosPorDiente(int idDiente, int idPaciente_1)
@@ -278,7 +279,9 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                item._Payment = db.Payments.SingleOrDefault(p => p.Estado.Equals(1) && p.IdRecord.Equals(item.IdPaciente));
             }
+
 
 
             return PartialView("PartialViewTratamientosPaciente", record.ListTratamientoPaciente);
@@ -309,6 +312,7 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                item._Payment = db.Payments.SingleOrDefault(p => p.Estado.Equals(1) && p.IdRecord.Equals(item.IdPaciente));
             }
 
 
@@ -337,6 +341,7 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                item._Payment = db.Payments.SingleOrDefault(p => p.Estado.Equals(1) && p.IdRecord.Equals(item.IdPaciente));
             }
 
 
@@ -365,6 +370,7 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                item._Payment = db.Payments.SingleOrDefault(p => p.Estado.Equals(1) && p.IdRecord.Equals(item.IdPaciente));
             }
 
 
@@ -384,6 +390,8 @@ namespace RecApp_2.Controllers
                                             db.Payments.ToList()
                                  where P.IdRecord.Equals(id_Paciente) && P.Estado.Equals(id_Estado)
                                  select P;
+
+
             record.ListTratamientoPaciente = db.TratamientoPaciente.ToList().Where(tp => tp.IdPaciente.Equals(id_Paciente));
             //Devolver tupla de tipo TratamientoPaciente
             TratamientoPaciente tratamientoPaciente = new TratamientoPaciente();
@@ -393,12 +401,16 @@ namespace RecApp_2.Controllers
             {
                 item.Tratamiento = tratamientoPaciente.ListTratamiento.ToList().SingleOrDefault(t => t.id.Equals(item.IdTratamiento)).Nombre;
                 item.NombrePaciente = record.Nombre + " " + record.Apellido1;
+                
             }
-
+          
 
             return PartialView("PartialViewPayments", record.ListPayment);
 
         }
+
+
+        #endregion
 
         // GET: Records/Delete/5
         public async Task<ActionResult> Delete(int? id)
@@ -465,7 +477,7 @@ namespace RecApp_2.Controllers
         // GET: Records/PartialViewFacturar/
         [HttpGet]
         public PartialViewResult PartialViewCerrarFactura(int id_Paciente, decimal montoAdicional)
-        {            
+        {
             try
             {
                 Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.IdRecord.Equals(id_Paciente) && p.Estado.Equals(1));
@@ -489,6 +501,7 @@ namespace RecApp_2.Controllers
                 _Payment.ListTratamientoXPaciente = _ListaTratamientosPacientes;
                 _Payment.MontoAdicional = decimal.Round(montoAdicional, 2, MidpointRounding.AwayFromZero);
                 _Payment.TotalPagar = decimal.Round((_Payment.MontoAdicional + _Payment.TotalPagar), 2, MidpointRounding.AwayFromZero);
+                _Payment.Saldo = _Payment.TotalPagar;
                 _Payment.Estado = 2;
                 db.Entry(_Payment).State = EntityState.Modified;
                 db.SaveChanges();
@@ -514,7 +527,7 @@ namespace RecApp_2.Controllers
         [HttpGet]
         public PartialViewResult PartialViewAbonar(int id_Factura)
         {
-            
+
             try
             {
                 //Payment _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Factura) && p.Estado.Equals(2));
@@ -534,6 +547,8 @@ namespace RecApp_2.Controllers
                 //}
                 PaymentDetails _PaymentDetails = new PaymentDetails();
                 _PaymentDetails.IdPayment = id_Factura;
+                var _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Factura));
+                _PaymentDetails.Saldo = decimal.Round(_Payment.Saldo, 2, MidpointRounding.AwayFromZero);
                 // montoAdicional = montoAdicional == 0 ? 0.00m : montoAdicional;
                 //_ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].Total = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
                 //_ListaTratamientosPacientes.ToList()[_ListaTratamientosPacientes.ToList().Count - 1].MontoAdicional = decimal.Round(_Payment.MontoAdicional, 2, MidpointRounding.AwayFromZero);
@@ -543,7 +558,7 @@ namespace RecApp_2.Controllers
                 //_Payment.Estado = 2;
                 // db.Entry(_Payment).State = EntityState.Added;
                 // db.SaveChanges();
-               // System.Threading.Thread.Sleep(15000);
+                // System.Threading.Thread.Sleep(15000);
                 return PartialView(_PaymentDetails);
             }
             catch (DbEntityValidationException ex)
@@ -559,6 +574,116 @@ namespace RecApp_2.Controllers
                 }
                 return PartialView();
             }
+        }
+
+        // GET: Records/PartialViewAbonar/
+        [HttpGet]
+        public PartialViewResult PartialViewAplicarAbonoFactura(int id_Payment, int id_Record, decimal monto_Abono)
+        {
+
+            try
+            {
+                PaymentDetails _PaymentDetails = new PaymentDetails();
+                _PaymentDetails.IdPayment = id_Payment;
+                _PaymentDetails.Abono = monto_Abono;
+                _PaymentDetails.Estado = 1;
+                var _Payment = db.Payments.ToList().SingleOrDefault(p => p.Id.Equals(id_Payment));
+                _PaymentDetails.Saldo = decimal.Round(_Payment.Saldo, 2, MidpointRounding.AwayFromZero);
+                if (_Payment != null)
+                {
+                    if (_PaymentDetails.Abono > _Payment.Saldo || _PaymentDetails.Abono < 0)
+                    {
+                        ModelState.AddModelError("", @"El monto del abono no puede ser mayor al saldo de la factura ni un número negativo. Ingrese un valor válido por favor.");
+                        Response.Headers["Error"] = "5";
+                        return PartialView("PartialViewAbonar", _PaymentDetails);
+                    }
+                    else
+                    {
+                        if (monto_Abono.Equals(0))
+                        {
+                            ModelState.AddModelError("", @"El monto del abono no puede estar incompleto ni tener como valor 0. Ingrese un valor válido por favor.");
+                            Response.Headers["Error"] = "5";
+                            return PartialView("PartialViewAbonar", _PaymentDetails);
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", @"Ocurrió un error cargando la información, intente de nuevo por favor.");
+                    return PartialView("PartialViewAbonar", _PaymentDetails);
+                }
+
+
+
+                if (_PaymentDetails.Abono.Equals(_Payment.Saldo))
+                {
+                    _Payment.Saldo = 0.00m;
+                    _Payment.Estado = 3;
+                }
+                else
+                {
+                    _Payment.Saldo = _Payment.Saldo - monto_Abono;
+                }
+
+                _Payment.MontoAdicional = decimal.Round(_Payment.MontoAdicional, 2, MidpointRounding.AwayFromZero);
+                _Payment.Saldo = decimal.Round(_Payment.Saldo, 2, MidpointRounding.AwayFromZero);
+                decimal saldo = _Payment.Saldo;
+                _PaymentDetails.Saldo = decimal.Round(saldo, 2, MidpointRounding.AwayFromZero);
+                _Payment.TotalPagar = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
+                _PaymentDetails.Abono = decimal.Round(_PaymentDetails.Abono, 2, MidpointRounding.AwayFromZero);
+                ViewBag.ErrorMsg = "";
+                db.Entry(_PaymentDetails).State = EntityState.Added;
+                db.Entry(_Payment).State = EntityState.Modified;
+                db.SaveChanges();
+                return PartialView("PartialViewPaymentDetails", _PaymentDetails);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errores = "";
+                foreach (var error in ex.EntityValidationErrors)
+                {
+                    errores += error.Entry.Entity.GetType().Name + error.Entry.State;
+                    foreach (var item in error.ValidationErrors)
+                    {
+                        errores += item.PropertyName + "  " + item.ErrorMessage;
+                    }
+                }
+
+                ModelState.AddModelError("", "@" + errores);
+
+                return PartialView();
+            }
+            //return PartialView();
+        }
+
+
+        // GET: Records/PartialViewAbonar/
+        [HttpGet]
+        public PartialViewResult PartialViewPaymentDetailsByPayment(int id_Payment)
+        {
+
+            try
+            {
+                var _PaymentDetailsList = db.PaymentDetails.ToList().Where(pd => pd.IdPayment.Equals(id_Payment));
+                return PartialView("PartialViewPaymentDetailsByPayment", _PaymentDetailsList);
+            }
+            catch (DbEntityValidationException ex)
+            {
+                string errores = "";
+                foreach (var error in ex.EntityValidationErrors)
+                {
+                    errores += error.Entry.Entity.GetType().Name + error.Entry.State;
+                    foreach (var item in error.ValidationErrors)
+                    {
+                        errores += item.PropertyName + "  " + item.ErrorMessage;
+                    }
+                }
+
+                ModelState.AddModelError("", "@" + errores);
+
+                return PartialView();
+            }
+            //return PartialView();
         }
 
         public JsonResult IsUserExists(int cedula)

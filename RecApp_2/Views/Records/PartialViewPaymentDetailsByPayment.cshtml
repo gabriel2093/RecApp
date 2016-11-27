@@ -1,0 +1,35 @@
+﻿@model IEnumerable<RecApp_2.Models.PaymentDetails>
+
+<strong>N. Factura</strong>
+@if (Model.ToList().Count > 0)
+{
+   // @Html.Label(Model.ToList()[0].IdPayment);
+    var value = Model.ToList()[0].IdPayment.ToString();
+    @Html.DisplayName(value);
+}
+
+<br /><br />
+<table class="table table-bordered">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FechaAbono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Abono)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAbono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Abono)
+            </td>
+        </tr>
+    }
+
+</table>

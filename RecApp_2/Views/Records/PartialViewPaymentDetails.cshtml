@@ -1,0 +1,39 @@
+﻿@model RecApp_2.Models.PaymentDetails
+
+<div>
+    <h5>Detalle del abono aplicado</h5>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdPayment)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdPayment)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaAbono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaAbono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Abono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Abono)
+        </dd>
+        <dt>
+           Saldo actual
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Saldo)
+        </dd>
+
+    </dl>
+</div>

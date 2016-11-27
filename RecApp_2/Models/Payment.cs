@@ -44,6 +44,15 @@ namespace RecApp_2.Models
         [Display(Name = "Total a pagar")]       
         public decimal TotalPagar { get; set; }
 
+       
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        [DataType(DataType.Currency)]
+        [DefaultValue(0.00)]
+        [RegularExpression(@"^\d+.\d{0,2}$", ErrorMessage = "El saldo no puede tener más de dos decimales.")]
+       // [Required(ErrorMessage = "Campo requerido*")]
+        [Display(Name = "Saldo")]
+        public decimal Saldo { get; set; }
+
         [NotMapped]
         [Display(Name = "Nombre del paciente")]
         public string NombrePaciente { get; set; }

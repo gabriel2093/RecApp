@@ -15,18 +15,24 @@ namespace RecApp_2.Models
         [Display(Name = "Num. Factura")]
         public int IdPayment { get; set; }
 
-        [Display(Name = "Fecha de Abono")]
+        [Display(Name = "Fecha de abono")]
         [Required(ErrorMessage = "Campo requerido*")]
         public DateTime FechaAbono{ get; set; } = DateTime.Now;
 
-        [NotMapped]
-        [Display(Name = "Estado Abono")]
+        
+        [Display(Name = "Estado del abono")]
         public int Estado { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:C0}")]
         [DataType(DataType.Currency)]
-        [Display(Name = "Monto Abonado")]
-        public decimal? Abono { get; set; }
+        [Display(Name = "Monto del abono")]       
+        public decimal Abono { get; set; }
+
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:C0}")]
+        [DataType(DataType.Currency)]
+        [Display(Name = "Saldo pendiente")]
+        public decimal Saldo { get; set; }
 
     }
 }
