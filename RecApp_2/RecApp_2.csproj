@@ -695,6 +695,8 @@
     <Content Include="Views\PaymentDetails\Edit.cshtml" />
     <Content Include="Views\PaymentDetails\Index.cshtml" />
     <Content Include="Views\Records\PartialViewAbonar.cshtml" />
+    <Content Include="Views\Records\PartialViewPaymentDetails.cshtml" />
+    <Content Include="Views\Records\PartialViewPaymentDetailsByPayment.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -67,11 +67,12 @@ namespace RecApp_2.Controllers
                         newPayment.Estado = 1;
                         newPayment.FechaRegistro = DateTime.Now;
                         newPayment.IdRecord = tratamientoPaciente.IdPaciente;
-                        newPayment.MontoAdicional = 0.00m;                        
+                        newPayment.MontoAdicional = 0.00m;                                            
                         var tratamientoActual = db1.Tratamiento.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento));
 
                         var costoTratamientoActual = ((Tratamiento)tratamientoActual).PrecioBase;
                         newPayment.TotalPagar = decimal.Round(newPayment.MontoAdicional + (decimal)costoTratamientoActual, 2, MidpointRounding.AwayFromZero);
+                        newPayment.Saldo = newPayment.TotalPagar;
                         db1.Payments.Add(newPayment);
                         await db1.SaveChangesAsync();
                         tratamientoPaciente.IdPayment = newPayment.Id;
@@ -85,6 +86,7 @@ namespace RecApp_2.Controllers
                         _Payment.TotalPagar = _Payment.TotalPagar + (decimal)costoTratamientoActual;  
                         _Payment.MontoAdicional = 0.00m;
                         _Payment.TotalPagar = decimal.Round(_Payment.TotalPagar, 2, MidpointRounding.AwayFromZero);
+                        _Payment.Saldo = decimal.Round(_Payment.Saldo+ (decimal)costoTratamientoActual, 2, MidpointRounding.AwayFromZero);
                         db1.Entry(_Payment).State = EntityState.Modified;
                         db1.SaveChanges();
                         tratamientoPaciente.IdPayment = _Payment.Id;
@@ -132,6 +134,7 @@ namespace RecApp_2.Controllers
 
             tratamientoPaciente.NombrePaciente = record1.Nombre + " " + record1.Apellido1 + " " + record1.Apellido2;
             tratamientoPaciente.ListTratamiento = db1.Tratamiento.ToList();
+            tratamientoPaciente.Tratamiento = db.Tratamientoes.ToList().SingleOrDefault(t => t.id.Equals(tratamientoPaciente.IdTratamiento)).Nombre;
             return View(tratamientoPaciente);
         }
 
@@ -140,7 +143,7 @@ namespace RecApp_2.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,IdTratamiento,IdPaciente,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,IdTratamiento,IdPaciente,IdPayment,IdDiente,Cara,Observaciones")] TratamientoPaciente tratamientoPaciente)
         {
 
             if (ModelState.IsValid)

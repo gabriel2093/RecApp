@@ -1,9 +1,9 @@
 ﻿@model RecApp_2.Models.Payment
 
 <div>
-    <h4>Payment</h4>
+    <h5>Detalle de Facturación</h5>
     <hr />
-    <dl class="dl-horizontal">
+    <dl class="dl-horizontal table table-bordered">
         <dt>
             @Html.DisplayNameFor(model => model.IdRecord)
         </dt>
@@ -46,7 +46,4 @@
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+

@@ -14,6 +14,9 @@
         <th>
             Total a pagar
         </th>
+        <th>
+            Saldo
+        </th>
     </tr>
 
     @if (Model.Count() == 0)
@@ -39,22 +42,32 @@
             <td>
                 @string.Format("{0:C}", item.TotalPagar)
             </td>
+            <td>
+                @string.Format("{0:C}", item.Saldo)
+            </td>
 
             <td>
 
                 @if (item.Estado.Equals(1))
                 {
-                    @Html.ActionLink("Facturar", "Create", null, new { @class = "btn btn-danger", @style = "margin-right:5px; width:105px;" })
-                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                    <button class="btn btn-danger btn_d" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickFacturar(this)">Facturar</button>
+                    @*@Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })*@
+                    <button class="btn btn-primary btn_p" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
                 }
+                @*si ya está facturada que se pueda abonar a la factura o anularla*@
                 else if (item.Estado.Equals(2))
                 {
-                    @Html.ActionLink("Abonar", "Create", null, new { @class = "btn btn-success", @style = "margin-right:5px; width:105px;" })
-                    @Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })
-                    @Html.ActionLink("Ver Factura", "Create", null, new { @class = "btn btn-primary", @style = "margin-right:5px; width:105px;" })
+                    <button class="btn btn-success" type="button" value='@item.Id' data-toggle="modal" onclick="return buttonClickAbonarFactura(this)" data-target="#AbonarFactura">Abonar</button>
+                    <button class="btn btn-warning btn_w" type="button" id="verAbonosInput" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleAbonosPorFactura(this)">Ver Abonos</button>
+                                                                <button class="btn btn-primary btn_p" type="button" id="verFacturaInput" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
                 }
+                else
+                {
+                    @*@Html.ActionLink("Anular", "Create", null, new { @class = "btn btn-warning", @style = "margin-right:5px; width:105px;" })*@
 
-                @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |*@
+                    <button class="btn btn-warning btn_w" type="button" id="verAbonosInput" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleAbonosPorFactura(this)">Ver Abonos</button>
+                    <button class="btn btn-primary btn_p" type="button" id="verFacturaInput" value='@item.Id' data-toggle="modal" onclick="return buttonClickDetalleFactura(this)" data-target="#verFactura">Ver Factura</button>
+                }
             </td>
         </tr>
     }

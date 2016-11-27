@@ -6,7 +6,13 @@
             var val2 = 0;
             var totalHidden = parseFloat($('.prueba').val());
             $('.montoAdicional').each(function () {
-                val2 += (parseFloat($(this).val()) || 0);
+                var montoAd = parseFloat($(this).val());
+                if (montoAd>0) {
+                    val2 += (parseFloat($(this).val()) || 0);
+                }
+                    
+               
+                
             });
             
             var totalFinal = totalHidden + val2;
@@ -62,7 +68,7 @@
         <div class="form-group">
             @Html.Label("Monto adicional", htmlAttributes: new { @class = "control-label col-md-3 col-md-offset-6" })
             <div class="col-md-3">              
-                @Html.TextBoxFor(m => m.MontoAdicional, new { @class = "form-control montoAdicional", @id="montoAdic", type = "number", step = "100", max = "999999999999999.00", placeholder = "Monto", required = "required" })
+                @Html.TextBoxFor(m => m.MontoAdicional, new { @class = "form-control montoAdicional", @id="montoAdic", type = "number", step = "100", max = "999999999999999.00", min = "0.00", placeholder = "Monto", required = "required" })
                 @Html.ValidationMessageFor(model => model.MontoAdicional, "", new { @class = "text-danger" })
             </div>
         </div>
