@@ -56,8 +56,8 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="itextsharp, Version=5.5.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
-      <HintPath>..\packages\iTextSharp.5.5.0\lib\itextsharp.dll</HintPath>
+    <Reference Include="itextsharp, Version=5.5.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.3\lib\itextsharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="itextsharp.xmlworker, Version=5.5.0.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
@@ -69,8 +69,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.QualityTools.Testing.Fakes, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="MvcRazorToPdf, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvcRazorToPdf.1.0.2\lib\40\MvcRazorToPdf.dll</HintPath>
+      <HintPath>..\packages\MvcRazorToPdf.1.0.1\lib\40\MvcRazorToPdf.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="MvcSiteMapProvider, Version=4.6.22.0, Culture=neutral, PublicKeyToken=1923abe4657913cc, processorArchitecture=MSIL">
@@ -501,6 +504,7 @@
     <Content Include="fonts\eleganticons\ElegantIcons.eot" />
     <Content Include="fonts\eleganticons\ElegantIcons.ttf" />
     <Content Include="fonts\eleganticons\ElegantIcons.woff" />
+    <Fakes Include="Fakes\itextsharp.xmlworker.fakes" />
     <None Include="MvcSiteMapSchema.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -713,7 +717,8 @@
     <Content Include="Views\Records\PartialViewPaymentDetailsByPayment.cshtml" />
     <Content Include="Views\Shared\_PdfLayout.cshtml" />
     <Content Include="Views\Index.cshtml" />
-    <Content Include="Views\Pdf\Index.cshtml" />
+    <Content Include="Views\Pdf\TratamientoPacientePdf.cshtml" />
+    <Content Include="Views\Pdf\SaveTratamientoPacientePdf.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -723,6 +728,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Files\Pdf\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

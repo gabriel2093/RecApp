@@ -41,12 +41,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink(" Inicio", "Index", "Home", new { @class = "glyphicon glyphicon-home" })</li>
-                    <li>@Html.ActionLink(" Expedientes Clínicos", "Index", "Records", new { @class = "glyphicon glyphicon-folder-open" })</li>
-                    <li>@Html.ActionLink(" Calendario de Citas", "Index", "Calendar", new { @class = "glyphicon glyphicon-calendar" })</li>
-                    <li>@Html.ActionLink(" Acerca de", "About", "Home", new { @class = "glyphicon glyphicon-alert" })</li>
-                    <li>@Html.ActionLink(" Ayuda", "Help", "Home", new { @class = "glyphicon glyphicon-question-sign" })</li>
-                    <li>@Html.ActionLink(" Contacto", "Contact", "Home", new { @class = "glyphicon glyphicon-phone" })</li>
+                    <li>@Html.ActionLink(" Inicio", "Index", "Home",null, new { @class = "glyphicon glyphicon-home" })</li>
+                    <li>@Html.ActionLink(" Expedientes Clínicos", "Index", "Records", null, new { @class = "glyphicon glyphicon-folder-open" })</li>
+                    <li>@Html.ActionLink(" Calendario de Citas", "Index", "Calendar", null, new { @class = "glyphicon glyphicon-calendar" })</li>
+                    <li>@Html.ActionLink(" Acerca de", "About", "Home", null, new { @class = "glyphicon glyphicon-alert" })</li>
+                    <li>@Html.ActionLink(" Ayuda", "Help", "Home", null, new { @class = "glyphicon glyphicon-question-sign" })</li>
+                    <li>@Html.ActionLink(" Contacto", "Contact", "Home", null, new { @class = "glyphicon glyphicon-phone" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

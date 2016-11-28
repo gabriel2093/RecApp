@@ -419,6 +419,10 @@ C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
 C:\Users\Andres\Documents\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xmlworker.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\MvcRazorToPdf.dll
+C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\roslyn\csc.exe
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\roslyn\csc.exe.config
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\roslyn\csc.rsp
@@ -448,9 +452,12 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\roslyn\VBCSCompiler.exe.con
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\RecApp_2.dll.config
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\RecApp_2.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\RecApp_2.pdb
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\itextsharp.xmlworker.5.5.0.0.Fakes.fakesconfig
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Antlr3.Runtime.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\EntityFramework.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\EntityFramework.SqlServer.dll
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\itextsharp.dll
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\itextsharp.xmlworker.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -464,7 +471,9 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.Goo
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.OAuth.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.QualityTools.Testing.Fakes.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\MvcRazorToPdf.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\MvcSiteMapProvider.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\MvcSiteMapProvider.WebActivator.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Newtonsoft.Json.dll
@@ -481,6 +490,7 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\WebGrease.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Antlr3.Runtime.pdb
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\EntityFramework.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\EntityFramework.SqlServer.xml
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\itextsharp.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\MvcSiteMapProvider.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\MvcSiteMapProvider.WebActivator.xml
@@ -506,6 +516,7 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.Twi
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\EntityFramework.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.QualityTools.Testing.Fakes.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\System.Web.Helpers.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\System.Web.Mvc.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\System.Web.Optimization.resources.dll
@@ -523,10 +534,6 @@ C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojResolveAssemblyReference.cache
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.dll
 C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.pdb
-C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.dll
-C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xmlworker.dll
-C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\MvcRazorToPdf.dll
-C:\PROYECTOS\RecApp_2 - Copy\RecApp_2\bin\itextsharp.xml
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\obj\Debug\RecApp_2.csprojFakesResolveAssemblyReference.cache
