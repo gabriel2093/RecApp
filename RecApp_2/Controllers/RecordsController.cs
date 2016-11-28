@@ -82,7 +82,7 @@ namespace RecApp_2.Controllers
         }
 
 
-        [CustomAuthorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador, Manager")]
         // GET: Records/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {

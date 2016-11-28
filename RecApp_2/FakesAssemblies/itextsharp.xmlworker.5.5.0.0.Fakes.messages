@@ -1,0 +1,39 @@
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.css.CSS: el tipo está sellado.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.css.apply.MaxLeadingAndSize: el tipo está sellado.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.parser.TagState: el tipo es un tipo de valor.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.css.CssUtils: el tipo no tiene constructores visibles de familia.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.html.HTMLUtils: el tipo está sellado.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para iTextSharp.tool.xml.XMLWorkerHelper: el tipo no tiene constructores visibles de familia.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar stub para <PrivateImplementationDetails>{BAD5937A-F092-4AF5-849E-00FAD82FE0A2}: no se admite el tipo debido a limitaciones internas.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.parser.IState: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.IElementHandler: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.ITagProcessor: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.CssAppliersAware: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.parser.IState: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.parser.io.IParserMonitor: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.ICssFile: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.pipeline.html.IFileMaker: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.parser.IXMLParserListener: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.net.IReadingProcessor: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.pipeline.html.ILinkProvider: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.IPipeline: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.pipeline.css.ICSSResolver: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.CssAppliers: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.apply.IMarginMemory: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.pipeline.html.IImageProvider: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.parser.TagState: el tipo es una enumeración.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.ICssInheritanceRules: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.ICssFiles: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.IWritable: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.IWorkerContext: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.head.Title+WriteTitle: el tipo no es visible para exported or assembly(itextsharp.xmlworker.5.5.0.0.Fakes).
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.parser.io.IAppender: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.ICustomContext: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.css.apply.IPageSizeContainable: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.pipeline.html.HtmlPipelineContext+CloneImageProvider: el tipo no es visible para exported or assembly(itextsharp.xmlworker.5.5.0.0.Fakes).
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.net.IFileRetrieve: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.ITagProcessorFactory: el tipo es una interfaz.
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.Header+WriteH: el tipo no es visible para exported or assembly(itextsharp.xmlworker.5.5.0.0.Fakes).
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.Anchor+WriteP: el tipo no es visible para exported or assembly(itextsharp.xmlworker.5.5.0.0.Fakes).
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para iTextSharp.tool.xml.html.DefaultTagProcessorFactory+FactoryObject: el tipo no es visible para exported or assembly(itextsharp.xmlworker.5.5.0.0.Fakes).
+C:\Users\Andres\Documents\GitHub\RecApp\RecApp_2\Fakes\itextsharp.xmlworker.fakes : warning : No se puede generar shim para <PrivateImplementationDetails>{BAD5937A-F092-4AF5-849E-00FAD82FE0A2}: no se admite el tipo debido a limitaciones internas.

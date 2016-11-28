@@ -242,7 +242,7 @@
                 data: { id_Payment: idPayment, id_Paciente:idPaciente},
                 success: function (data) {
                     $(".custom_1").html(data)
-                    $("#verFactura").modal('show')
+                    $("#verFactura").modal('show')                
                 },
                 error: function (data) {
                     alert("error!"+ data);
@@ -250,7 +250,24 @@
             });
 
         }
+        //Ver PDF de tratamientos del paciente
+        @*function GenerarPDF(button){     
+            var _idPayment = $('#idPaymentPdf').val();
+            $.ajax({
+                url:'@Url.Action("SaveTratamientoPacientePdf", "Pdf")',
+                type: 'GET',
+                data: { IdPayment: _idPayment},
+                success: function (data) {
+                    window.open(data);
+                },
+                error: function (data) {
+                    alert("error!"+ data);
+                }
+            });
 
+        }*@
+
+        
         // Ver detalles iniciar cierre de factura
         function buttonClickFacturar(button){
             var idPaciente = @Html.Raw(Json.Encode(Model.Item1.id));
@@ -1709,46 +1726,7 @@
 
                         <div class="col-md-12 table table-responsive">
                             <table class="table" id="PartialViewTratamientoPacienteFactura">
-                                @*<tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Item2.Tratamiento)
-                                        </th>
-
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Item2.FechaTratamiento)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Item2.Costo)
-                                        </th>
-
-                                    </tr>
-
-                                    @foreach (var item in Model.Item1.ListTratamientoPaciente)
-                                    {
-                                        <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Tratamiento)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.FechaTratamiento)
-                                            </td>
-                                            <td>
-                                                @string.Format("{0:C}", item.Costo)
-                                            </td>
-
-                                        </tr>
-
-                                    }
-                                    <tr>
-                                        <td colspan="3" style="text-align:right;">
-                                            <strong>Montos Adicionales:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].MontoAdicional)
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" style="text-align:right;">
-                                            <strong>Monto total:</strong> @string.Format("{0:C}", @Model.Item1.ListTratamientoPaciente.ToList()[Model.Item1.ListTratamientoPaciente.ToList().Count - 1].Total)
-                                        </td>
-                                    </tr>*@
+  
 
                             </table>
                             <div class="clearfix"></div>
@@ -1756,7 +1734,7 @@
 
                     </div><!-- Fin del form -->
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer">              
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>

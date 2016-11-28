@@ -114,7 +114,7 @@ namespace RecApp_2.Controllers
         public ActionResult MantUsuarios()
         {
 
-            var users = db.Users.ToList();
+            var users = db.Users.ToList().Where(u=> !u.Email.Equals("gjimenez.com@gmail.com"));
             return View(users);
         }
 

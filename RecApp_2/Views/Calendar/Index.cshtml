@@ -64,15 +64,26 @@
                     next: 'fa fa-caret-right',
                 },
                 dayClick: function (date, allDay, jsEvent, view) {
-                    var now = new moment().format('DD/MM/YYYY HH:mm');
-                    var dateEvent = moment(date).format('DD/MM/YYYY HH:mm');
-                    var HourDateEvent = moment().format('LL');
+                   // var now = new moment().format('DD/MM/YYYY HH:mm');
+                   // var dateEvent = moment(date).format('DD/MM/YYYY HH:mm');                  
 
-                    var day = moment().format('dddd');
+                   // var dayNow = moment().format('ddddd');
+                    //var monthNow = moment().format('mmmm')
+                    //var yearNow = moment().format('aaaa')
+                    //var HourNow = moment().format('HH:mm');
+
+                    var dayEvent = moment(date).format('dddd');              
+                    var HourDateEvent = moment(date).format('HH:mm');
+
                     var GetView = $('#calendar').fullCalendar('getView');
-                    if (dateEvent < now || GetView.name == 'month' || (day == 'Saturday') && HourDateEvent < '14:00') {
+
+                    var date = moment(date);
+                    var now = moment();
+
+
+                    if (date < now || GetView.name == 'month' || (dayEvent == 'sábado' && HourDateEvent >= '14:00')) {
                         $("#FechaInvalida").modal("show");
-                    }
+                    }              
                     else {
                         $('#eventTitle').val("");
                         $('#eventDate').val(moment(date).format('DD/MM/YYYY'));
@@ -83,8 +94,61 @@
 
                 },
 
+
+                eventRender: function (event, element) {
+                    $("#fullCalModal").modal("hide");
+                    // element.append( "<span class='closeon' style='font-size:14px;' >ELIMINAR X</span>" );
+                    element.find(".fc-bg").css("pointer-events", "none");
+                    element.append("<div style='position:absolute;bottom:0px;right:0px; z-index:500000;'><button type='button' id='btnDeleteEvent' class='btnDeleteEvent btn btn-block btn-danger btn-flat'>X</button></div>");
+                    element.find(".btnDeleteEvent").click(function () {
+                        
+                        var date = moment(event.start);
+                        var now = moment();
+                        if (date < now)
+                        {
+                            
+                            bootbox.alert("No se pueden elimanr citas pasadas" + "<br/>");
+                        }
+                        else
+                        {
+                            bootbox.confirm({
+                                message: event.title + " ¿Desea eliminar la cita?",
+                                id:'idButton',
+                                buttons: {
+                                    confirm: {
+                                        label: 'Sí',
+                                        className: 'btn-success'
+                                    },
+                                    cancel: {
+                                        label: 'No',
+                                        className: 'btn-danger'
+                                    }
+                                },
+                                callback: function (result) {
+                                    if (result) {
+                                        DeleteEvent(event._id);
+                                        $('#calendar').fullCalendar('removeEvents', event._id);
+                                    } else {
+                                        $('idButton').modal("hide");
+                                    }
+                                }
+                            });
+                           
+                         }
+                    });
+                },
+
                 eventDrop: function (event, delta, revertFunc) {
-                    if (moment().diff(event.start, 'days') > 0) {
+
+                    var dayEvent = moment(event.start).format('dddd');
+                    var HourDateEvent = moment(event.start).format('HH:mm');
+
+                    var GetView = $('#calendar').fullCalendar('getView');
+
+                    var date = moment(date);
+                    var now = moment();
+
+                    if (moment().diff(event.start, 'days') > 0 || date < now || GetView.name == 'month' || (dayEvent == 'sábado' && HourDateEvent >= '14:00')) {
                         $("#FechaInvalida").modal("show");
                         revertFunc();
                     } else {
@@ -213,12 +277,11 @@
         });
 
         //Función click borrar cita
-        $(function () {
-            $("#btnDeleteEvent").on('click', function () {
-                DeleteEvent();
-
-            });
-        });
+        //$(function () {
+        //    $("#btnDeleteEvent").on('click', function () {                          
+        //            DeleteEvent();                
+        //    });
+        //});
 
         //Función limpiar datos modal nueva cita
         function ClearPopupFormValues() {
@@ -230,9 +293,9 @@
         }
 
         //Función borrar cita
-        function DeleteEvent() {
+        function DeleteEvent(id) {
             var dataRow = {
-                'ID': $('#eventID').val(),
+                'ID': id,
             }
             $.ajax({
                 url: "/Calendar/DeleteEvent",
@@ -373,8 +436,8 @@
             <div id="modalBody" class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnPopupDelete" class="btn btn-danger">Eliminar cita</button>
-                <button id="btnPopupCancelDetails" data-dismiss="modal" class="btn btn-primary">Volver al listado</button>
+                @*<button type="button" id="btnPopupDelete" class="btn btn-danger">Eliminar cita</button>*@
+                <button id="btnPopupCancelDetails" data-dismiss="modal" class="btn btn-danger">Cerrar</button>
             </div>
         </div>
     </div>
@@ -389,8 +452,8 @@
                 ¿Está seguro que desea eliminar la cita?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="btnDeleteEvent">Eliminar</button>
-                <button type="button" data-dismiss="modal" class="btn btn-primary">Volver al listado</button>
+                <button type="button" class="btn btn-danger" id="btnDeleteEvent"><span class='closeon'>Eliminar</span></button>
+                <button type="button" data-dismiss="modal" class="btn btn-primary">Cancelar</button>
             </div>
         </div>
     </div>
