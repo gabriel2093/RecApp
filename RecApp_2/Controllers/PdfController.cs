@@ -120,48 +120,7 @@ namespace RecApp_2.Controllers
         
     }
 
-        //public static byte[] AddPageNumbers(byte[] pdf)
-        //{
-        //    SysIO.MemoryStream ms = new SysIO.MemoryStream();
-        //    ms.Write(pdf, 0, pdf.Length);
-        //   // we create a reader for a certain document
-
-        //    PdfReader reader = new PdfReader(pdf);
-        //   // we retrieve the total number of pages
-        //    int n = reader.NumberOfPages;
-        //   // we retrieve the size of the first page
-        //    Rectangle psize = reader.GetPageSize(1);
-
-        //   // step 1: creation of a document-object
-        //    Document document = new Document(psize, 50, 50, 50, 50);
-        //  //  step 2: we create a writer that listens to the document
-        //   PdfWriter writer = PdfWriter.GetInstance(document, ms);
-        //   // step 3: we open the document
-
-        //    document.Open();
-        //    //step 4: we add content
-        //   PdfContentByte cb = writer.DirectContent;
-
-        //    int p = 0;
-        //    Console.WriteLine("There are " + n + " pages in the document.");
-        //    for (int page = 1; page <= reader.NumberOfPages; page++)
-        //    {
-        //        document.NewPage();
-        //        p++;
-
-        //        PdfImportedPage importedPage = writer.GetImportedPage(reader, page);
-        //        cb.AddTemplate(importedPage, 0, 0);
-
-        //        BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-        //        cb.BeginText();
-        //        cb.SetFontAndSize(bf, 10);
-        //        cb.ShowTextAligned(PdfContentByte.ALIGN_LEFT, +p + "/" + n, 7, 44, 0);
-        //        cb.EndText();
-        //    }
-        //  //  step 5: we close the document
-        //    document.Close();
-        //    return ms.ToArray();
-        //}
+       
         public ActionResult Pdf(Payment payment)
         {
             var document = new Document(PageSize.A4, 50, 50, 25, 25);
@@ -214,10 +173,8 @@ namespace RecApp_2.Controllers
             tabFot.TotalWidth = 300F;
             cell = new PdfPCell(new Phrase("Firma paciente:_______________________________ "));
             cell.Border = 0;
-            tabFot.AddCell(cell);
-            // tabFot.WriteSelectedRows(0, -1, document.LeftMargin, document.BottomMargin, writer.DirectContent);
-            tabFot.DefaultCell.Border = 1;
-            tabFot.WriteSelectedRows(0, -1, 150, document.Bottom, writer.DirectContent);
+            tabFot.AddCell(cell);          
+            tabFot.DefaultCell.Border = 1;          
             tabFot.HorizontalAlignment = 0;
             document.Add(Chunk.NEWLINE);
             document.Add(Chunk.NEWLINE);
@@ -228,8 +185,7 @@ namespace RecApp_2.Controllers
             var logo = iTextSharp.text.Image.GetInstance(Server.MapPath("~/Img/logos/Logo_Hilda_Vilchez_300x100.png"));  
             logo.SetAbsolutePosition(300, 730);  
             document.Add(logo);  
-            document.Close();
-           // Response.AddHeader("Content-Disposition", "attachment;filename=Trascation.pdf");
+            document.Close();           
             //creating the output dynamically  
             return new BinaryResult(output.ToArray(), "application/pdf", "Tratamientos "+payment.NombrePaciente+".pdf");
 
